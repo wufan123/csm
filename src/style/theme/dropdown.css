@@ -578,7 +578,7 @@
     display: inline-block;
     position: relative;
     color: rgb(106, 84, 72);
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .el-dropdown .el-button-group{
@@ -665,7 +665,7 @@
   -------------------------- */
     /* Size
   -------------------------- */
-    /* z-index
+    /* z-tabs
   -------------------------- */
     /* Disable base
   -------------------------- */

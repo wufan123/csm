@@ -575,7 +575,7 @@
     margin: 0;
     text-align: center;
     color: #999;
-    font-size: 14px;
+    font-size: 12px;
 }
 .el-select-dropdown__wrap {
     max-height: 274px;
@@ -679,7 +679,7 @@
 }
 .el-input {
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     display: inline-block;
     width: 100%;
 }
@@ -864,7 +864,7 @@
     line-height: 1.5;
     box-sizing: border-box;
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(61, 40, 31);
     background-color: #fff;
     background-image: none;
@@ -1163,7 +1163,7 @@
 }
 .el-select-dropdown {}
 .el-select-dropdown__item {
-    font-size: 14px;
+    font-size: 12px;
     padding: 8px 10px;
     position: relative;
     white-space: nowrap;
@@ -1476,7 +1476,7 @@
     transition: 0s;
     width: 16px;
     height: 16px;
-    font-size: 14px;
+    font-size: 12px;
     right: 8px;
     text-align: center;
     transform: translateY(-50%) rotateZ(180deg);
@@ -1514,7 +1514,7 @@
     padding: 0;
     margin-left: 10px;
     color: #666;
-    font-size: 14px;
+    font-size: 12px;
     vertical-align: baseline;
     -webkit-appearance: none;
        -moz-appearance: none;
@@ -1550,7 +1550,7 @@
     display: inline-block;
     height: 24px;
     line-height: 24px;
-    font-size: 14px;
+    font-size: 12px;
     border-radius: 4px;
     color: #fff;
     background-color: #3e3a39;
@@ -2125,7 +2125,7 @@
 }
 .el-input {
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     display: inline-block;
     width: 100%;
 }
@@ -2310,7 +2310,7 @@
     line-height: 1.5;
     box-sizing: border-box;
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(61, 40, 31);
     background-color: #fff;
     background-image: none;
@@ -3203,7 +3203,7 @@
     display: inline-block;
     position: relative;
     color: rgb(106, 84, 72);
-    font-size: 14px;
+    font-size: 12px;
 }
 .el-dropdown .el-button-group {
     display: block;
@@ -3622,7 +3622,7 @@
 }
 .el-input {
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     display: inline-block;
     width: 100%;
 }
@@ -3807,7 +3807,7 @@
     line-height: 1.5;
     box-sizing: border-box;
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(61, 40, 31);
     background-color: #fff;
     background-image: none;
@@ -3925,7 +3925,7 @@
 }
 .el-input {
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     display: inline-block;
     width: 100%;
 }
@@ -4110,7 +4110,7 @@
     line-height: 1.5;
     box-sizing: border-box;
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(61, 40, 31);
     background-color: #fff;
     background-image: none;
@@ -5169,7 +5169,7 @@
 .el-switch {
     display: inline-block;
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 22px;
     height: 22px;
     vertical-align: middle;
@@ -5203,14 +5203,14 @@
     left: 0;
     top: 0;
     display: inline-block;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
 }
 .el-switch__label * {
     line-height: 1;
     top: 4px;
     position: absolute;
-    font-size: 14px;
+    font-size: 12px;
     display: inline-block;
     color: #fff;
 }
@@ -5471,7 +5471,7 @@
     margin: 0;
     text-align: center;
     color: #999;
-    font-size: 14px;
+    font-size: 12px;
 }
 .el-select-dropdown__wrap {
     max-height: 274px;
@@ -5575,7 +5575,7 @@
 }
 .el-input {
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     display: inline-block;
     width: 100%;
 }
@@ -5760,7 +5760,7 @@
     line-height: 1.5;
     box-sizing: border-box;
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(61, 40, 31);
     background-color: #fff;
     background-image: none;
@@ -6059,7 +6059,7 @@
 }
 .el-select-dropdown {}
 .el-select-dropdown__item {
-    font-size: 14px;
+    font-size: 12px;
     padding: 8px 10px;
     position: relative;
     white-space: nowrap;
@@ -6372,7 +6372,7 @@
     transition: 0s;
     width: 16px;
     height: 16px;
-    font-size: 14px;
+    font-size: 12px;
     right: 8px;
     text-align: center;
     transform: translateY(-50%) rotateZ(180deg);
@@ -6410,7 +6410,7 @@
     padding: 0;
     margin-left: 10px;
     color: #666;
-    font-size: 14px;
+    font-size: 12px;
     vertical-align: baseline;
     -webkit-appearance: none;
        -moz-appearance: none;
@@ -6446,7 +6446,7 @@
     display: inline-block;
     height: 24px;
     line-height: 24px;
-    font-size: 14px;
+    font-size: 12px;
     border-radius: 4px;
     color: #fff;
     background-color: #3e3a39;
@@ -8478,7 +8478,7 @@
     line-height: 36px;
     padding: 0 10px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
 }
 .el-table-filter__list-item:hover {
     background-color: rgb(241, 234, 228);
@@ -8500,7 +8500,7 @@
     border: none;
     color: rgb(165, 143, 131);
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     padding: 0 3px;
 }
 .el-table-filter__bottom button:hover {
@@ -10207,7 +10207,7 @@
 }
 .el-input {
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     display: inline-block;
     width: 100%;
 }
@@ -10392,7 +10392,7 @@
     line-height: 1.5;
     box-sizing: border-box;
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(61, 40, 31);
     background-color: #fff;
     background-image: none;
@@ -12075,7 +12075,7 @@
 }
 .el-input {
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     display: inline-block;
     width: 100%;
 }
@@ -12260,7 +12260,7 @@
     line-height: 1.5;
     box-sizing: border-box;
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(61, 40, 31);
     background-color: #fff;
     background-image: none;
@@ -13509,7 +13509,7 @@
 }
 .el-input {
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     display: inline-block;
     width: 100%;
 }
@@ -13694,7 +13694,7 @@
     line-height: 1.5;
     box-sizing: border-box;
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(61, 40, 31);
     background-color: #fff;
     background-image: none;
@@ -15120,7 +15120,7 @@
     margin: 0;
 }
 .el-notification__content {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 21px;
     margin: 10px 0 0 0;
     color: rgb(165, 143, 131);
@@ -15140,7 +15140,7 @@
     position: absolute;
     cursor: pointer;
     color: rgb(217, 199, 191);
-    font-size: 14px;
+    font-size: 12px;
 }
 .el-notification__closeBtn:hover {
     color: rgb(190, 165, 151);
@@ -15247,7 +15247,7 @@
 }
 .el-input {
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     display: inline-block;
     width: 100%;
 }
@@ -15432,7 +15432,7 @@
     line-height: 1.5;
     box-sizing: border-box;
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(61, 40, 31);
     background-color: #fff;
     background-image: none;
@@ -19464,7 +19464,7 @@
         align-items: center;
 }
 .el-message__group p {
-    font-size: 14px;
+    font-size: 12px;
     margin: 0 34px 0 0;
     white-space: nowrap;
     color: rgb(165, 143, 131);
@@ -19490,7 +19490,7 @@
     position: absolute;
     cursor: pointer;
     color: rgb(217, 199, 191);
-    font-size: 14px;
+    font-size: 12px;
 }
 .el-message__closeBtn:hover {
     color: rgb(190, 165, 151);
@@ -19856,7 +19856,7 @@
     overflow: hidden;
 }
 .el-rate__text {
-    font-size: 14px;
+    font-size: 12px;
     vertical-align: middle;
 }
 @charset "UTF-8";
@@ -20917,7 +20917,7 @@
 }
 .el-input {
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     display: inline-block;
     width: 100%;
 }
@@ -21102,7 +21102,7 @@
     line-height: 1.5;
     box-sizing: border-box;
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(61, 40, 31);
     background-color: #fff;
     background-image: none;
@@ -21297,7 +21297,7 @@
     border-right: 0;
 }
 .el-cascader-menu__item {
-    font-size: 14px;
+    font-size: 12px;
     padding: 8px 30px 8px 10px;
     position: relative;
     white-space: nowrap;
@@ -21859,7 +21859,7 @@
 }
 .el-input {
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     display: inline-block;
     width: 100%;
 }
@@ -22044,7 +22044,7 @@
     line-height: 1.5;
     box-sizing: border-box;
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(61, 40, 31);
     background-color: #fff;
     background-image: none;
@@ -22853,7 +22853,7 @@
     border-radius: 0;
 }
 .el-transfer {
-    font-size: 14px;
+    font-size: 12px;
 }
 .el-transfer__buttons {
     display: inline-block;
@@ -23012,7 +23012,7 @@
   -------------------------- */
     /* Size
   -------------------------- */
-    /* z-index
+    /* z-tabs
   -------------------------- */
     /* Disable base
   -------------------------- */

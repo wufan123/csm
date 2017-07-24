@@ -1,5 +1,6 @@
 @import "base-variables";
 
+//此文件是对element组件的进一步定制
 html {
   height: 100%;
   width: 100%;
@@ -10,6 +11,14 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
+  //overflow: hidden;
+
+}
+p{
+  font-size: @size-small;
+  color: @color-base-gray;
+  padding: 0;
+  margin: 0;
 }
 
 .content-center {
@@ -33,20 +42,76 @@ input {
   border-radius: 0px;
 
 }
-main .el-menu-item.is-active {
-  color: #fff;
+.el-menu--dark .el-menu-item.is-active {
+  color: @color-white;
   border-bottom: 5px solid @color-sub-primary;
-
 }
 .el-menu--horizontal .el-menu-item {
-  height: 70px;
-  line-height: 70px;
+  height: @size-navmenu-height;
+  line-height: @size-navmenu-height;
 }
 .el-menu--horizontal > .el-menu-item:hover {
   border-bottom: 5px solid @color-sub-primary;
 }
 .el-menu--dark .el-menu-item {
-  font-size: 16px;
-  color: #898989;
+
+  font-size: @size-large;
+  color: @color-base-gray;
   text-decoration-style: solid;
 }
+//修改element submenu 细节
+.el-menu--horizontal .el-submenu .el-submenu__title{
+  height: @size-navmenu-height;
+  line-height: @size-navmenu-height;
+}
+.el-menu--horizontal .el-submenu .el-submenu__icon-arrow{
+  color: @color-sub-primary;
+}
+.el-menu--dark .el-submenu__title{
+  color:@color-white;
+}
+.el-menu--horizontal .el-submenu{
+  float: right;
+}
+//修改element submenu 左侧细节
+
+.slide-menu{
+  background-color: @color-base-bg ;
+  .el-submenu.is-active .el-submenu__title{
+    color: @color-primary;
+
+  }
+  .el-submenu .el-menu{
+    background-color: @color-base-bg ;
+  }
+  .el-submenu__title{
+    background-color: @color-base-bg ;
+    font-size: @size-large;
+    color: @color-base-gray;
+  }
+  .el-menu-item
+  {
+    background-color: @color-base-bg;
+    font-size: @size-medium;
+    color: @color-base-gray;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 25px 0 0 25px;
+    margin: 10px 0 10px 45px;
+    text-align: left;
+    text-decoration-style: solid;
+  }
+  .el-submenu .el-menu-item:hover{
+    color: @color-sub-primary;
+    background:@color-primary;
+
+  }
+  .el-menu-item.is-active{
+    color: @color-sub-primary;
+    background:@color-primary;
+    border-radius: 25px 0 0 25px;
+  }
+}
+
+//修改element tab 细节
+

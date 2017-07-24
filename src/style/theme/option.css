@@ -93,7 +93,7 @@
 .el-select-dropdown{}
 
 .el-select-dropdown__item{
-    font-size: 14px;
+    font-size: 12px;
     padding: 8px 10px;
     position: relative;
     white-space: nowrap;
@@ -148,7 +148,7 @@
   -------------------------- */
     /* Size
   -------------------------- */
-    /* z-index
+    /* z-tabs
   -------------------------- */
     /* Disable base
   -------------------------- */

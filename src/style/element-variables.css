@@ -62,15 +62,15 @@
 
   /* Font
   -------------------------- */
-  --font-size-base: 14px;
+  --font-size-base: 12px;
   --font-color-base: var(--color-base-black);
   --font-color-disabled-base: #bbb;
 
   /* Size
   -------------------------- */
-  --size-base: 14px;
+  --size-base: 12px;
 
-  /* z-index
+  /* z-tabs
   -------------------------- */
   --index-normal: 1;
   --index-top: 1000;

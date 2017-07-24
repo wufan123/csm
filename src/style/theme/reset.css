@@ -566,7 +566,7 @@ h1, h2, h3, h4, h5, h6 {
 body {
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 12px;
   color: rgb(61, 40, 31);
 }
 
@@ -597,15 +597,15 @@ h1:last-child, h2:last-child, h3:last-child, h4:last-child, h5:last-child, h6:la
 }
 
 h1 {
-  font-size: 20px;
-}
-
-h2 {
   font-size: 18px;
 }
 
-h3 {
+h2 {
   font-size: 16px;
+}
+
+h3 {
+  font-size: 14px;
 }
 
 h4, h5, h6, p {
@@ -625,11 +625,11 @@ p:last-child {
 }
 
 sup, sub {
-  font-size: 13px;
+  font-size: 11px;
 }
 
 small {
-  font-size: 12px;
+  font-size: 10px;
 }
 
 hr {
@@ -654,7 +654,7 @@ hr {
   -------------------------- */
   /* Size
   -------------------------- */
-  /* z-index
+  /* z-tabs
   -------------------------- */
   /* Disable base
   -------------------------- */

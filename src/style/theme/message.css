@@ -133,7 +133,7 @@
 }
 
 .el-message__group p{
-    font-size: 14px;
+    font-size: 12px;
     margin: 0 34px 0 0;
     white-space: nowrap;
     color: rgb(165, 143, 131);
@@ -163,7 +163,7 @@
     position: absolute;
     cursor: pointer;
     color: rgb(217, 199, 191);
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .el-message__closeBtn:hover{
@@ -191,7 +191,7 @@
   -------------------------- */
     /* Size
   -------------------------- */
-    /* z-index
+    /* z-tabs
   -------------------------- */
     /* Disable base
   -------------------------- */
