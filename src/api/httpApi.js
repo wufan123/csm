@@ -1,16 +1,13 @@
 import axios from 'axios'
 import vueApp from '../main'
 let BASE_URL = _BASE_URL ? _BASE_URL : '';
-let instance = axios.create({
-    baseURL: BASE_URL,
-    timeout: 10000,
-    headers: {
-        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'accept': 'application/json, text/javascript, */*; q=0.01'
-    }
-});
-
-const infoError = (data) => {
+let MOCK =_MOCK?_MOCK:false;
+axios.defaults.baseURL =BASE_URL;
+axios.defaults.timeout =10000;
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
+axios.defaults.headers.post['accept'] = 'application/json, text/javascript, */*; q=0.01';
+const preHandleError = (data) => {
+    data = data?data:{};
     if (data.message)
         vueApp.$message(
             {
@@ -20,30 +17,34 @@ const infoError = (data) => {
         )
 };
 
-instance.interceptors.response.use(function (response) {
+axios.interceptors.response.use(function (response) {
     let data;
     try {
         data = JSON.parse(response.data);
     } catch (e) {
         data = response.data;
     }
+    if(MOCK)
+    {
+        console.log(data)//如果是模拟数据,打印出模拟的数据
+    }
     if (data.resultCode === '0') {
         return data;
     } else {
-        infoError(data);
+        preHandleError(data);
         return Promise.reject(data);
     }
 }, function (error) {
-    var data = error.data;
-    infoError(data);
+    let data = error.data;
+    preHandleError(data);
     return Promise.reject(data);
 });
 
-instance.postForm = (url, params) => {
+axios.postForm = (url, params) => {
     let form = new URLSearchParams();
     for (let i in params) {
         form.append(i, params[i]);
     }
-    return instance.post(url, form);
+    return axios.post(url, form);
 };
-export  default  instance
+export  default  axios

@@ -1,19 +1,17 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
     <div id="main">
         <el-row class="main-header">
             <el-col :span="3" class="logo">
                 <div class="logo"></div>
             </el-col>
             <el-col :span="21" class="logo">
-                <el-menu theme="dark" mode="horizontal" default-active="1">
-                    <el-menu-item index="1">首页</el-menu-item>
-                    <el-menu-item index="2">客诉建议处理</el-menu-item>
-                    <el-menu-item index="3">系统管理</el-menu-item>
-                    <el-submenu index="4">
-                        <template slot="title"><img class="avatar"/>管理员</template>
-                        <el-menu-item index="4-1">修改头像</el-menu-item>
-                        <el-menu-item index="4-2">修改密码</el-menu-item>
-                        <el-menu-item index="4-2">安全退出</el-menu-item>
+                <el-menu theme="dark" mode="horizontal" :default-active="currentTopMenuIndex.toString()" @select="handleSelect">
+                    <el-menu-item v-for="(item, index) in menus" :index='index.toString()' :key="item.name" >{{item.name}}</el-menu-item>
+                    <el-submenu :index="(menus.length+1).toString()">
+                    <template slot="title"><img class="avatar"  v-bind:src="userDetail.headImageLink" :onerror="errorImg" />{{userDetail.fullName}}</template>
+                        <el-menu-item :index="(menus.length+1).toString()+'-1'">修改头像</el-menu-item>
+                        <el-menu-item :index="(menus.length+1).toString()+'-2'">修改密码</el-menu-item>
+                        <el-menu-item :index="(menus.length+1).toString()+'-3'" v-on:click="logout">安全退出</el-menu-item>
                     </el-submenu>
                 </el-menu>
             </el-col>
@@ -21,16 +19,11 @@
         <el-row class="main-body">
             <el-row>
                 <el-col :span="3" class="slide-menu">
-                    <el-menu default-active="1">
-                        <el-submenu index="1">
-                            <template slot="title"><i class="el-icon-search"></i>数据查询1</template>
-                            <el-menu-item index="1-1">选项11 </el-menu-item>
-                            <el-menu-item index="1-2">选项11 </el-menu-item>
-                            <el-menu-item index="1-3">选项11 </el-menu-item>
-                        </el-submenu>
-                        <el-submenu index="2">
-                            <template slot="title"><i class="el-icon-search"></i>数据查询</template>
-                            <el-menu-item index="2-1">选项13</el-menu-item>
+                    <el-menu >
+
+                        <el-submenu v-for="(item,index) in menus[currentTopMenuIndex].childMenus" :index="index.toString()" :name="index.toString()" :key="item.name">
+                            <template slot="title"><i class="el-icon-search"></i>{{item.name}}</template>
+                            <el-menu-item v-for="(subItem,subIndex) in item.childMenus" :index="index.toString()+'-'+subIndex.toString()" :key="subItem.name">{{subItem.name}}</el-menu-item>
                         </el-submenu>
                     </el-menu>
                 </el-col>
@@ -46,7 +39,6 @@
                                 <!-- 组件在 vm.currentview 变化时改变！ -->
                             </component>
                         </el-tab-pane>
-
                     </el-tabs>
                     <p class="copyright">Copyright 2014-2015 福州最美影视网络科技有限公司 版权所有 4008-12345678  </p>
                 </el-col>
@@ -57,31 +49,35 @@
 <script>
     import indexPage from './tabs/indexPage.vue'
     import complaintListPage from './tabs/complaintListPage.vue'
-
+    import loginApi from '../api/loginApi'
+    import menu from '../assets/menu.json'
     export default{
         data(){
+            this.userDetail =this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
             return {
-                menuTabsValue: '2',
+                currentTopMenuIndex:0,
+                menus:this.userDetail.menus,
+                errorImg:'this.src=""',
+                menuTabsValue: '1',
                 menuTabs: [{
-                    title: 'Tab 1',
+                    title: '首页',
                     name: '1',
                     tabView: indexPage
-                }, {
-                    title: 'Tab 2',
-                    name: '2',
-                    tabView: complaintListPage
-                }
-                    , {
-                        title: 'Tab 3',
-                        name: '3',
-                        tabView: indexPage
-
-                    }],
-                tabIndex: 3
+                }],
             }
         },
         methods: {
-            ,
+            logout(){
+                loginApi.logout({
+                    userId:this.userDetail.id
+                }).then((response) => {
+                    this.$router.push({ path: 'login' })
+                })
+            },
+            handleSelect(key) {
+                console.log(key);
+                this.currentTopMenuIndex=key;
+            },
             removeTab(targetName) {//关闭tab标签
                 let tabs = this.menuTabs;
                 let activeName = this.menuTabsValue;
@@ -104,7 +100,6 @@
 </script>
 <style lang="less">
     @import "~style/base-variables";
-
     #main {
         height: 100%;
         .logo {
@@ -129,7 +124,7 @@
                     height: 100%;
                     .el-tabs {
                         padding-top: 6px;
-                        height: calc(~"100% - 40px");
+                        height: calc(~"100% - 46px");
                         .el-tabs__header {
                             padding: 0 44px 0 44px;
                         }

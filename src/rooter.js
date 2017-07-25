@@ -1,19 +1,12 @@
 import VueRouter from 'vue-router'
 import login from './views/login.vue'
-import main from './views/main.vue'
-import index from './views/tabs/indexPage.vue'
+import home from './views/home.vue'
 
 
 const routes = [
-    {path: '/', redirect: '/login'},
     {path: '/login', component: login},
-    {path: '/tabs', component: index},
-    {
-        path: '/main', component: main,
-        children: [
-            {path: 'index', component: index}
-        ]
-    }
+    {path: '/home', component: home},
+    { path: '*', redirect: '/home' }
 ];
 
 const router = new VueRouter({

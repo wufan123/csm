@@ -56,7 +56,10 @@
                             } else {
                                 this.$storage.clearUser();
                             }
+                            response.resultData.menus = loginApi.reSortMenus(response.resultData.menus);
+                            console.log(response.resultData.menus);
                             this.$storage.setItem(this.$storage.KEY_USER_DETAIL,response.resultData);
+                            this.$router.push({ path: 'home' });
                         })
                     } else {
                         return false;

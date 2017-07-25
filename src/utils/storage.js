@@ -40,9 +40,8 @@ let localUtil = {
             item = JSON.parse(session.getItem(key));
         }catch (e)
         {
-            item ={};
         }
-        return item;
+        return item?item:{};
     },
     setItem:(key,value)=>{
         let itemStr;

@@ -6,11 +6,9 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import rooter from  './rooter'
 import storage from  './utils/storage'
-// import indexPage from './views/tabs/indexPage.vue'
 
 Vue.use(ElementUI);
 Vue.use(VueRouter);
-// Vue.component("index-page",indexPage);
 
 Vue.prototype.$storage = storage;
 
@@ -19,4 +17,6 @@ const vueApp= new Vue({
     router: rooter,
     render: h => h(App)
 });
+
+_MOCK?require('../src/api/mock'):''
 export  default vueApp;
