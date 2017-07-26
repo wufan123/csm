@@ -159,7 +159,7 @@
 }
 
 .el-carousel__indicators--outside button {
-    background-color: rgb(165, 143, 131);
+    background-color: #fcdf02;
     opacity: 0.24;
 }
 
@@ -224,6 +224,9 @@
   -------------------------- */
     /* Colors
   -------------------------- */
+    /*color(var(--color-primary) h(+6) s(33%) l(18%))*/
+    /*color(var(--color-base-black) s(26%) l(80%))*/
+    /*color(var(--color-base-black) s(28%) l(86%))*/
     /* Link
   -------------------------- */
     /* Border
@@ -258,6 +261,7 @@
   -------------------------- */
     /* Input
   -------------------------- */
+    /*var(--color-light-silver)*/
     /* Cascader
   -------------------------- */
     /* Group

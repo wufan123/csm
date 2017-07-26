@@ -118,12 +118,12 @@
     height: 0;
     cursor: pointer;
     border-radius: inherit;
-    background-color: rgba(190, 165, 151, 0.3);
+    background-color: rgba(190, 153, 151, 0.3);
     transition: .3s background-color;
 }
 
 .el-scrollbar__thumb:hover{
-    background-color: rgba(190, 165, 151, 0.5);
+    background-color: rgba(190, 153, 151, 0.5);
 }
 
 .el-scrollbar__bar{
@@ -158,6 +158,9 @@
   -------------------------- */
     /* Colors
   -------------------------- */
+    /*color(var(--color-primary) h(+6) s(33%) l(18%))*/
+    /*color(var(--color-base-black) s(26%) l(80%))*/
+    /*color(var(--color-base-black) s(28%) l(86%))*/
     /* Link
   -------------------------- */
     /* Border
@@ -192,6 +195,7 @@
   -------------------------- */
     /* Input
   -------------------------- */
+    /*var(--color-light-silver)*/
     /* Cascader
   -------------------------- */
     /* Group

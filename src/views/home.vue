@@ -128,6 +128,10 @@
                         .el-tabs__header {
                             padding: 0 44px 0 44px;
                         }
+                        .el-tabs__content{
+                            height: calc(~"100% - 59px");
+                            overflow-y: auto;
+                        }
                         .el-tabs__item {
                             font-size: @size-small;
                         }

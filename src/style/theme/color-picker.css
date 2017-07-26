@@ -379,7 +379,7 @@
 
     font-size: 12px;
 
-    color: rgb(61, 40, 31);
+    color: #898989;
 }
 
 .el-color-dropdown__btn {
@@ -538,7 +538,7 @@
 
     background-color: #fff;
 
-    border: 1px solid rgb(229, 215, 209);
+    border: 1px solid #ddd;
 
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .12);
 }
@@ -549,6 +549,12 @@
 
     /* Colors
   -------------------------- */
+
+    /*color(var(--color-primary) h(+6) s(33%) l(18%))*/
+
+    /*color(var(--color-base-black) s(26%) l(80%))*/
+
+    /*color(var(--color-base-black) s(28%) l(86%))*/
 
     /* Link
   -------------------------- */
@@ -600,6 +606,8 @@
 
     /* Input
   -------------------------- */
+
+    /*var(--color-light-silver)*/
 
     /* Cascader
   -------------------------- */

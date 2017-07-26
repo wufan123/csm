@@ -93,7 +93,7 @@
 .el-tree{
   cursor: default;
   background: #fff;
-  border: 1px solid rgb(229, 215, 209);
+  border: 1px solid #ddd;
 }
 
 .el-tree__empty-block{
@@ -140,7 +140,7 @@
 }
 
 .el-tree-node__content:hover{
-  background: rgb(241, 234, 228);
+  background: rgb(241, 230, 228);
 }
 
 .el-tree-node__expand-icon{
@@ -152,7 +152,7 @@
   margin-left: 10px;
   border: 6px solid transparent;
   border-right-width: 0;
-  border-left-color: rgb(190, 165, 151);
+  border-left-color: rgb(190, 153, 151);
   border-left-width: 7px;
   transform: rotate(0deg);
   transition: transform 0.3s ease-in-out;
@@ -182,7 +182,7 @@
   vertical-align: middle;
   margin-right: 4px;
   font-size: 14px;
-  color: rgb(190, 165, 151);
+  color: rgb(190, 153, 151);
 }
 
 .el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {
@@ -193,6 +193,9 @@
   -------------------------- */
   /* Colors
   -------------------------- */
+  /*color(var(--color-primary) h(+6) s(33%) l(18%))*/
+  /*color(var(--color-base-black) s(26%) l(80%))*/
+  /*color(var(--color-base-black) s(28%) l(86%))*/
   /* Link
   -------------------------- */
   /* Border
@@ -227,6 +230,7 @@
   -------------------------- */
   /* Input
   -------------------------- */
+  /*var(--color-light-silver)*/
   /* Cascader
   -------------------------- */
   /* Group

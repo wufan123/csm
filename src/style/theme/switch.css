@@ -104,8 +104,8 @@
 }
 
 .el-switch.is-disabled .el-switch__core{
-    border-color: rgb(241, 234, 228) !important;
-    background: rgb(241, 234, 228) !important
+    border-color: rgb(241, 230, 228) !important;
+    background: rgb(241, 230, 228) !important
 }
 
 .el-switch.is-disabled .el-switch__core span{
@@ -166,11 +166,11 @@
     position: relative;
     width: 46px;
     height: 22px;
-    border: 1px solid rgb(217, 199, 191);
+    border: 1px solid #ddd;
     outline: none;
     border-radius: 12px;
     box-sizing: border-box;
-    background: rgb(217, 199, 191);
+    background: #ddd;
     cursor: pointer;
     transition: border-color .3s, background-color .3s
 }
@@ -200,6 +200,9 @@
   -------------------------- */
     /* Colors
   -------------------------- */
+    /*color(var(--color-primary) h(+6) s(33%) l(18%))*/
+    /*color(var(--color-base-black) s(26%) l(80%))*/
+    /*color(var(--color-base-black) s(28%) l(86%))*/
     /* Link
   -------------------------- */
     /* Border
@@ -234,6 +237,7 @@
   -------------------------- */
     /* Input
   -------------------------- */
+    /*var(--color-light-silver)*/
     /* Cascader
   -------------------------- */
     /* Group

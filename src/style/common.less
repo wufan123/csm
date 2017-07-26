@@ -56,7 +56,7 @@ input {
 
   font-size: @size-large;
   color: @color-base-gray;
-  text-decoration-style: solid;
+  font-weight: bolder;
 }
 //修改element submenu 细节
 .el-menu--horizontal .el-submenu .el-submenu__title{
@@ -77,9 +77,9 @@ input {
 .slide-menu{
   background-color: @color-base-bg ;
   overflow: auto;
+  font-weight: bolder;
   .el-submenu.is-active .el-submenu__title{
     color: @color-primary;
-
   }
   .el-submenu .el-menu{
     background-color: @color-base-bg ;
@@ -88,6 +88,7 @@ input {
     background-color: @color-base-bg ;
     font-size: @size-large;
     color: @color-base-gray;
+
   }
   .el-menu-item
   {
@@ -97,7 +98,7 @@ input {
     height: 30px;
     line-height: 30px;
     border-radius: 25px 0 0 25px;
-    margin: 10px 0 10px 45px;
+    margin: 5px 0 5px 45px;
     text-align: left;
     text-decoration-style: solid;
   }
@@ -114,4 +115,18 @@ input {
 }
 
 //修改element tab 细节
+.el-tabs__header{
+  margin-bottom: 0;
+}
+
+// 修改element card 细节
+.el-card__header{
+  height: 50px;
+  padding: 16px;
+  background: @color-base-bg;
+  font-weight: bolder;
+}
+.el-card__body{
+  padding: 0 14px;
+}
 

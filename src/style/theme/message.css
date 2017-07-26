@@ -114,7 +114,7 @@
 }
 
 .el-message .el-icon-information{
-    color: #50bfff;
+    color: #1c8ff5;
 }
 
 .el-message .el-icon-warning{
@@ -136,7 +136,7 @@
     font-size: 12px;
     margin: 0 34px 0 0;
     white-space: nowrap;
-    color: rgb(165, 143, 131);
+    color: #fcdf02;
     text-align: justify;
 }
 
@@ -162,12 +162,12 @@
     right: 0;
     position: absolute;
     cursor: pointer;
-    color: rgb(217, 199, 191);
+    color: #ddd;
     font-size: 12px;
 }
 
 .el-message__closeBtn:hover{
-    color: rgb(190, 165, 151);
+    color: rgb(190, 153, 151);
 }
 
 .el-message-fade-enter, .el-message-fade-leave-active {
@@ -179,6 +179,9 @@
   -------------------------- */
     /* Colors
   -------------------------- */
+    /*color(var(--color-primary) h(+6) s(33%) l(18%))*/
+    /*color(var(--color-base-black) s(26%) l(80%))*/
+    /*color(var(--color-base-black) s(28%) l(86%))*/
     /* Link
   -------------------------- */
     /* Border
@@ -213,6 +216,7 @@
   -------------------------- */
     /* Input
   -------------------------- */
+    /*var(--color-light-silver)*/
     /* Cascader
   -------------------------- */
     /* Group

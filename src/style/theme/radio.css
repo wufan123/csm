@@ -91,7 +91,7 @@
 }
 
 .el-radio{
-    color: rgb(61, 40, 31);
+    color: #898989;
     position: relative;
     cursor: pointer;
     display: inline-block;
@@ -129,14 +129,14 @@
 }
 
 .el-radio__input.is-disabled .el-radio__inner{
-    background-color: rgb(246, 241, 238);
-    border-color: rgb(229, 215, 209);
+    background-color: rgb(246, 239, 238);
+    border-color: #ddd;
     cursor: not-allowed
 }
 
 .el-radio__input.is-disabled .el-radio__inner::after{
     cursor: not-allowed;
-    background-color: rgb(246, 241, 238);
+    background-color: rgb(246, 239, 238);
 }
 
 .el-radio__input.is-disabled .el-radio__inner + .el-radio__label{
@@ -144,8 +144,8 @@
 }
 
 .el-radio__input.is-disabled.is-checked .el-radio__inner{
-    background-color: rgb(229, 215, 209);
-    border-color: rgb(229, 215, 209);
+    background-color: #ddd;
+    border-color: #ddd;
 }
 
 .el-radio__input.is-disabled.is-checked .el-radio__inner::after{
@@ -158,7 +158,7 @@
 }
 
 .el-radio__inner{
-    border: 1px solid rgb(217, 199, 191);
+    border: 1px solid #ddd;
     border-radius: 100%;
     width: 18px;
     height: 18px;
@@ -208,6 +208,9 @@
   -------------------------- */
     /* Colors
   -------------------------- */
+    /*color(var(--color-primary) h(+6) s(33%) l(18%))*/
+    /*color(var(--color-base-black) s(26%) l(80%))*/
+    /*color(var(--color-base-black) s(28%) l(86%))*/
     /* Link
   -------------------------- */
     /* Border
@@ -242,6 +245,7 @@
   -------------------------- */
     /* Input
   -------------------------- */
+    /*var(--color-light-silver)*/
     /* Cascader
   -------------------------- */
     /* Group
