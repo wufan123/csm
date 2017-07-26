@@ -47,10 +47,9 @@
     </div>
 </template>
 <script>
-    import indexPage from './tabs/indexPage.vue'
-    import complaintListPage from './tabs/complaintListPage.vue'
-    import loginApi from '../api/loginApi'
-    import menu from '../assets/menu.json'
+    import indexPage from 'views/tabs/indexPage.vue'
+    import complaintListPage from 'views/tabs/complaintListPage.vue'
+    import loginApi from 'api/loginApi'
     export default{
         data(){
             this.userDetail =this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
@@ -75,7 +74,6 @@
                 })
             },
             handleSelect(key) {
-                console.log(key);
                 this.currentTopMenuIndex=key;
             },
             removeTab(targetName) {//关闭tab标签

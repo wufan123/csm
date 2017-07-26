@@ -19,7 +19,7 @@
                         <el-checkbox v-model="loginForm.keepPass">记住密码</el-checkbox>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary login-button" @click="submitForm('loginForm')">
+                        <el-button type="primary login-button" @click="submitLoginForm('loginForm')">
                             登录
                         </el-button>
                     </el-form-item>
@@ -29,7 +29,8 @@
     </div>
 </template>
 <script>
-    import loginApi from '../api/loginApi'
+    import loginApi from 'api/loginApi'
+
     export default {
         data() {
             const user = this.$storage.getUser();
@@ -47,7 +48,7 @@
             }
         },
         methods: {
-            submitForm(formName) {
+            submitLoginForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         loginApi.login(this.loginForm).then((response) => {

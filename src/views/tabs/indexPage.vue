@@ -19,14 +19,23 @@
             return {
                 chartCardView:{},
                 charts:[{
-                    title:'客诉数量趋势',
-                    id:'complaint'
+                    title:'单位:条',
+                    colorStart:'#FFF7C2',
+                    lineColor:'#FEC445',
+                    id:'complaint',
+                    tipText:'客诉数量{c}条'
                 },{
-                    title:'平均响应时间趋势',
-                    id:'response'
+                    title:'单位:秒',
+                    colorStart:'#FFE8EE',
+                    lineColor:'#F491A5',
+                    id:'response',
+                    tipText:'平均响应时间{c}秒'
                 },{
-                    title:'平均解决时间趋势',
-                    id:'solve'
+                    title:'单位:秒',
+                    colorStart:'#AAEE28',
+                    lineColor:'#AAEE68',
+                    id:'solve',
+                    tipText:'平均解决时间{c}秒'
                 }]
             }
         }
@@ -35,7 +44,7 @@
 <style lang="less">
     #index {
         padding: 0 20px 0 20px;
-        .chart-card{
+        .el-card{
             margin-top: 20px;
         }
     }

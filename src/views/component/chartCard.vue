@@ -43,12 +43,14 @@
     </el-card>
 </template>
 <script>
+    import indexApi from 'api/indexApi'
     const echarts = require('echarts/lib/echarts');
     require('echarts/lib/chart/bar');// 引入柱状图
     require('echarts/lib/chart/line');//引入折线图
     require('echarts/lib/component/tooltip');//引入提示框
     require('echarts/lib/component/title');//引入标题
     require('echarts/lib/component/toolbox');//引入标题
+
 
     export default {
         props: {
@@ -57,6 +59,7 @@
                 required:true
             }
         },
+
         data(){
             return {
                 pickerOptions:{

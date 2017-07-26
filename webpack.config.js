@@ -53,8 +53,10 @@ module.exports = () => ({
     resolve: {
         alias: {
             '~': path.resolve(__dirname, 'src'),
-            'assets': path.resolve('src', 'assets'),
-            'style': path.resolve('src', 'style')
+            'assets': path.resolve('src', 'assets'),//资源目录 "~assets"
+            'style': path.resolve('src', 'style'),//样式目录 "~style"
+            'api': path.resolve('src', 'api'),//api请求目录 "api"
+            'views': path.resolve('src', 'views') //视图目录 "views"
         }
     },
     devServer: {
