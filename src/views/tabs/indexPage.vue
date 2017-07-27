@@ -10,34 +10,20 @@
               </div>
           </el-card>
       </el-col>
-
   </el-row>
 </template>
 <script>
+    import chartCard from 'views/component/chartCard.vue'
+    import chartData from 'assets/chartData.json'//获取要显示的图表
     export default {
+        components:{
+            chartCard
+        },
         data(){
             return {
                 chartCardView:{},
-                charts:[{
-                    title:'单位:条',
-                    colorStart:'#FFF7C2',
-                    lineColor:'#FEC445',
-                    id:'complaint',
-                    tipText:'客诉数量{c}条'
-                },{
-                    title:'单位:秒',
-                    colorStart:'#FFE8EE',
-                    lineColor:'#F491A5',
-                    id:'response',
-                    tipText:'平均响应时间{c}秒'
-                },{
-                    title:'单位:秒',
-                    colorStart:'#AAEE28',
-                    lineColor:'#AAEE68',
-                    id:'solve',
-                    tipText:'平均解决时间{c}秒'
-                }]
-            }
+                charts:chartData
+            };
         }
     }
 </script>

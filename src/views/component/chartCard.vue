@@ -37,13 +37,17 @@
 
             </el-select>
             <el-button type="info">查询</el-button>
+
         </div>
         <div class="card-item-chart" :id="chart.id">
+
         </div>
     </el-card>
 </template>
 <script>
     import indexApi from 'api/indexApi'
+    import apiMixin from 'utils/apiMixin'
+    import chartOpt from 'assets/chartOptions.json'//获取图表的定制信息
     const echarts = require('echarts/lib/echarts');
     require('echarts/lib/chart/bar');// 引入柱状图
     require('echarts/lib/chart/line');//引入折线图
@@ -53,15 +57,19 @@
 
 
     export default {
+        mixins:[apiMixin],
         props: {
             chart:{
                 type:Object,//该对象包含属性字段 title id
                 required:true
             }
         },
-
         data(){
+
             return {
+                chartOption:{
+
+                },
                 pickerOptions:{
                 },
                 froValue:'',
@@ -86,103 +94,35 @@
             }
         },
         methods:{
-            drawChart(id){
-                let  colorStart = '#FFF7C2';
-                let lineColor = '#FEC445';
-                let colorEnd = '#FFFFFF';
-                let tipText = '客诉数量{c}条';
-                let title = '单位:条';
-                let myChart = echarts.init(document.getElementById(id));
-                myChart.setOption({
-                    title: {
-                        text: title,
-                        textStyle:{
-                            fontWeight:'normal',
-                            fontSize:'12',
-                            color:'#898989'
-                        },
-                        left: '0',
-                    },
-                    toolbox:{
-                        feature:{
-                            magicType:{
-                                type:['line','bar']
-                            }
-                        },
-                        right:'0'
-                    },
-                    tooltip: {
-                        formatter:tipText
-                    },
-                    xAxis: {
-                        data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-                    },
-                    yAxis: {},
-                    series: [{
-                        name: '销量',
-                        type: 'line',
-                        data: [500, 2000, 3600, 1000, 1000, 2000],
-                        symbolSize:10,//数据点的大小
-                        areaStyle:{//与坐标围成的面积的样式
-                            normal:{
-                                type: 'linear',
-                                color:{
-                                    x: 0,
-                                    y: 0,
-                                    x2: 0,
-                                    y2: 1,
-                                    colorStops: [{
-                                        offset: 0, color: colorStart // 0% 处的颜色
-                                    }, {
-                                        offset: 1, color: colorEnd // 100% 处的颜色
-                                    }],
-                                    globalCoord: false
-                                }
-                            }
-                        },
-                        lineStyle:{//折线样式
-                            normal:{
-                                type: 'solid',
-                                color:{
-                                    x: 0,
-                                    y: 0,
-                                    x2: 0,
-                                    y2: 1,
-                                    colorStops: [{
-                                        offset: 0, color: lineColor // 0% 处的颜色
-                                    }, {
-                                        offset: 1, color: lineColor // 100% 处的颜色
-                                    }],
-                                    globalCoord: false
-                                }
-                            }
-                        },
-                        itemStyle:{
-                            normal:{
-                                color: {
-                                    type: 'linear',
-                                    x: 0,
-                                    y: 0,
-                                    x2: 0,
-                                    y2: 1,
-                                    colorStops: [{
-                                        offset: 0, color: lineColor // 0% 处的颜色
-                                    }, {
-                                        offset: 1, color: lineColor // 100% 处的颜色
-                                    }],
-                                    globalCoord: false // 缺省为 false
-                                }
-                            }
-                        }
-                    }]
-                });
+            drawChart(chart){
+                if(!this.myChartView)
+                {
+                    let chartEl =document.getElementById(chart.id);
+                    if(chartEl)
+                    {
+                        this.myChartView= echarts.init(chartEl);
+                    }else{
+                        return;
+                    }
+                }
+                chartOpt.title.text =chart.chartTitle//单位标题
+                chartOpt.xAxis[0].data =chart.xAxisDate//x 轴第一行下标
+                chartOpt.xAxis[1].data =chart.xAxisWeek//x 轴第二行下标
+                chartOpt.series[0].data =chart.data//数据
+                chartOpt.series[0].areaStyle.normal.color.colorStops[0].color =chart.colorStart//折线区域开始颜色
+                chartOpt.series[0].areaStyle.normal.color.colorStops[1].color =chart.colorEnd//折线区域结束颜色
+                chartOpt.series[0].lineStyle.normal.color.colorStops[0].color =chart.lineColor//折线开始颜色
+                chartOpt.series[0].lineStyle.normal.color.colorStops[1].color =chart.lineColor//折线结束颜色
+                chartOpt.series[0].itemStyle.normal.color.colorStops[0].color =chart.lineColor
+                chartOpt.series[0].itemStyle.normal.color.colorStops[1].color =chart.lineColor
+                this.myChartView.setOption(chartOpt);
             },
-        },
-        mounted(){
-            this.$nextTick(function() {
-                this.drawChart('complaint')
-            })
+            fetchData(){
 
+            },
+            viewReady(){
+                this.drawChart(this.chart)
+            }
         }
     }
 </script>

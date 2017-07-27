@@ -1,0 +1,134 @@
+{
+  "title": {
+    "text": "单位:秒",
+    "textStyle": {
+      "fontWeight": "normal",
+      "fontSize": "12",
+      "color": "#898989"
+    },
+    "left": "0"
+  },
+  "toolbox": {
+    "feature": {
+      "magicType": {
+        "type": [
+          "line",
+          "bar"
+        ]
+      }
+    },
+    "right": "0"
+  },
+  "tooltip": {
+    "formatter": "平均解决时间{c}秒"
+  },
+  "xAxis": [
+    {
+      "type": "category",
+      "boundaryGap": false,
+      "data": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "type": "category",
+      "boundaryGap": false,
+      "data": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "girdIndex": 1,
+      "position": "bottom",
+      "offset": 15
+    }
+  ],
+  "yAxis": {
+    "type": "value"
+  },
+  "series": [
+    {
+      "type": "line",
+      "data": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "symbolSize": 10,
+      "areaStyle": {
+        "normal": {
+          "type": "linear",
+          "color": {
+            "x": 0,
+            "y": 0,
+            "x2": 0,
+            "y2": 1,
+            "colorStops": [
+              {
+                "offset": 0,
+                "color": "#AAEE28"
+              },
+              {
+                "offset": 1,
+                "color": "#FFF"
+              }
+            ],
+            "globalCoord": false
+          }
+        }
+      },
+      "lineStyle": {
+        "normal": {
+          "type": "solid",
+          "color": {
+            "x": 0,
+            "y": 0,
+            "x2": 0,
+            "y2": 1,
+            "colorStops": [
+              {
+                "offset": 0,
+                "color": "#AAEE68"
+              },
+              {
+                "offset": 1,
+                "color": "#AAEE68"
+              }
+            ],
+            "globalCoord": false
+          }
+        }
+      },
+      "itemStyle": {
+        "normal": {
+          "color": {
+            "type": "linear",
+            "x": 0,
+            "y": 0,
+            "x2": 0,
+            "y2": 1,
+            "colorStops": [
+              {
+                "offset": 0,
+                "color": "#AAEE68"
+              },
+              {
+                "offset": 1,
+                "color": "#AAEE68"
+              }
+            ],
+            "globalCoord": false
+          }
+        }
+      }
+    }
+  ]
+}
