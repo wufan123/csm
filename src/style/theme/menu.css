@@ -100,7 +100,7 @@
   height: 56px;
   line-height: 56px;
   font-size: 14px;
-  color: rgb(106, 73, 72);
+  color: #898989;
   padding: 0 20px;
   cursor: pointer;
   position: relative;
@@ -314,6 +314,7 @@
   /*color(var(--color-base-black) s(28%) l(86%))*/
   /* Link
   -------------------------- */
+  /*var(--color-extra-light-black)*/
   /* Border
   -------------------------- */
   /* Box-shadow

@@ -127,16 +127,16 @@
 .el-tag--gray{
     background-color: rgb(241, 230, 228);
     border-color: rgb(241, 230, 228);
-    color: rgb(106, 73, 72)
+    color: #898989
 }
 
 .el-tag--gray .el-tag__close:hover{
-    background-color: rgb(106, 73, 72);
+    background-color: #898989;
     color: #fff
 }
 
 .el-tag--gray.is-hit{
-    border-color: rgb(106, 73, 72)
+    border-color: #898989
 }
 
 .el-tag--primary{
@@ -208,6 +208,7 @@
     /*color(var(--color-base-black) s(28%) l(86%))*/
     /* Link
   -------------------------- */
+    /*var(--color-extra-light-black)*/
     /* Border
   -------------------------- */
     /* Box-shadow

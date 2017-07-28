@@ -21,5 +21,41 @@ export default {
     operationStar(params){
         return httpApi.postForm(_STAR, params)
     },
+    preHandleIndexData(res){
+        let newRes ={
+            xAxisDate:[],
+            xAxisWeek:[],
+            data:[]
+        }
+        let getWeekDay =date=>{
+            switch (date.getDay()){
+                case 0:
+                    return '周日';
+                case 1:
+                    return '周一';
+                case 2:
+                    return '周二';
+                case 3:
+                    return '周三';
+                case 4:
+                    return '周四';
+                case 5:
+                    return '周五';
+                case 6:
+                    return '周六';
+                default:
+                    return '';
+            }
+        }
+        for(let i in res)
+        {
+            newRes.data.push(parseInt(res[i].workorderCount?res[i].workorderCount:'0'))
+            let date = new Date(res[i].workorderdate);
+            newRes.xAxisDate.push(date.getMonth()+1+'-'+date.getDate())
+            newRes.xAxisWeek.push(getWeekDay(date));
+
+        }
+        return newRes;
+    }
 
 }

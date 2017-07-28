@@ -260,7 +260,7 @@
     height: 32px;
     display: block;
     line-height: 32px;
-    color: rgb(106, 73, 72);
+    color: #898989;
 }
 .el-month-table td .cell:hover {
     background-color: rgb(241, 230, 228);
@@ -382,7 +382,7 @@
     height: 32px;
     display: block;
     line-height: 32px;
-    color: rgb(106, 73, 72);
+    color: #898989;
 }
 .el-year-table td .cell:hover {
     background-color: rgb(241, 230, 228);
@@ -974,7 +974,7 @@
   --------------------------*/
 }
 .el-picker-panel {
-    color: rgb(106, 73, 72);
+    color: #898989;
     border: 1px solid #ddd;
     box-shadow: 0 2px 6px #ccc;
     background: #fff;
@@ -1006,7 +1006,7 @@
     background-color: transparent;
     line-height: 28px;
     font-size: 14px;
-    color: rgb(106, 73, 72);
+    color: #898989;
     padding-left: 12px;
     text-align: left;
     outline: none;
@@ -2042,6 +2042,7 @@
     /*color(var(--color-base-black) s(28%) l(86%))*/
     /* Link
   -------------------------- */
+    /*var(--color-extra-light-black)*/
     /* Border
   -------------------------- */
     /* Box-shadow

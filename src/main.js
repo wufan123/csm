@@ -1,11 +1,13 @@
 import Vue from 'vue'
-import './style/theme/index.css'
+import 'style/theme/index.css'
 import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-default/tabs.css'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 import rooter from  './rooter'
-import storage from  './utils/storage'
+import storage from  'utils/storage'
+import 'utils/dateUtils'
+
 
 
 Vue.use(ElementUI);

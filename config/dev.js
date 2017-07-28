@@ -13,7 +13,7 @@ module.exports = {
         }),
         new webpack.DefinePlugin({//运行时变量
             _BASE_URL:JSON.stringify('api/'),
-            _MOCK:true//模拟数据
+            _MOCK:false//模拟数据
         })
     ],
     devtool:'#eval-source-map'//#source-map

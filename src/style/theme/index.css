@@ -1013,14 +1013,14 @@
 .el-tag--gray {
     background-color: rgb(241, 230, 228);
     border-color: rgb(241, 230, 228);
-    color: rgb(106, 73, 72);
+    color: #898989;
 }
 .el-tag--gray .el-tag__close:hover {
-    background-color: rgb(106, 73, 72);
+    background-color: #898989;
     color: #fff;
 }
 .el-tag--gray.is-hit {
-    border-color: rgb(106, 73, 72);
+    border-color: #898989;
 }
 .el-tag--primary {
     background-color: rgba(62, 58, 57, 0.1);
@@ -1169,7 +1169,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: rgb(106, 73, 72);
+    color: #898989;
     height: 36px;
     line-height: 1.5;
     box-sizing: border-box;
@@ -1651,7 +1651,7 @@
 .el-pagination {
     white-space: nowrap;
     padding: 2px 5px;
-    color: rgb(106, 73, 72);
+    color: #898989;
 }
 .el-pagination:before, .el-pagination:after {
     display: table;
@@ -3243,7 +3243,7 @@
 }
 .el-dropdown-menu__item:not(.is-disabled):hover {
     background-color: rgb(241, 230, 228);
-    color: rgb(106, 73, 72);
+    color: #898989;
 }
 .el-dropdown-menu__item.is-disabled {
     cursor: default;
@@ -3357,7 +3357,7 @@
     height: 56px;
     line-height: 56px;
     font-size: 14px;
-    color: rgb(106, 73, 72);
+    color: #898989;
     padding: 0 20px;
     cursor: pointer;
     position: relative;
@@ -5909,14 +5909,14 @@
 .el-tag--gray {
     background-color: rgb(241, 230, 228);
     border-color: rgb(241, 230, 228);
-    color: rgb(106, 73, 72);
+    color: #898989;
 }
 .el-tag--gray .el-tag__close:hover {
-    background-color: rgb(106, 73, 72);
+    background-color: #898989;
     color: #fff;
 }
 .el-tag--gray.is-hit {
-    border-color: rgb(106, 73, 72);
+    border-color: #898989;
 }
 .el-tag--primary {
     background-color: rgba(62, 58, 57, 0.1);
@@ -6065,7 +6065,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: rgb(106, 73, 72);
+    color: #898989;
     height: 36px;
     line-height: 1.5;
     box-sizing: border-box;
@@ -7364,14 +7364,14 @@
 .el-tag--gray {
     background-color: rgb(241, 230, 228);
     border-color: rgb(241, 230, 228);
-    color: rgb(106, 73, 72);
+    color: #898989;
 }
 .el-tag--gray .el-tag__close:hover {
-    background-color: rgb(106, 73, 72);
+    background-color: #898989;
     color: #fff;
 }
 .el-tag--gray.is-hit {
-    border-color: rgb(106, 73, 72);
+    border-color: #898989;
 }
 .el-tag--primary {
     background-color: rgba(62, 58, 57, 0.1);
@@ -8307,14 +8307,14 @@
 .el-tag--gray {
     background-color: rgb(241, 230, 228);
     border-color: rgb(241, 230, 228);
-    color: rgb(106, 73, 72);
+    color: #898989;
 }
 .el-tag--gray .el-tag__close:hover {
-    background-color: rgb(106, 73, 72);
+    background-color: #898989;
     color: #fff;
 }
 .el-tag--gray.is-hit {
-    border-color: rgb(106, 73, 72);
+    border-color: #898989;
 }
 .el-tag--primary {
     background-color: rgba(62, 58, 57, 0.1);
@@ -8482,7 +8482,7 @@
 }
 .el-table-filter__list-item:hover {
     background-color: rgb(241, 230, 228);
-    color: rgb(106, 73, 72);
+    color: #898989;
 }
 .el-table-filter__list-item.is-active {
     background-color: #3e3a39;
@@ -8786,7 +8786,7 @@
     height: 32px;
     display: block;
     line-height: 32px;
-    color: rgb(106, 73, 72);
+    color: #898989;
 }
 .el-month-table td .cell:hover {
     background-color: rgb(241, 230, 228);
@@ -8908,7 +8908,7 @@
     height: 32px;
     display: block;
     line-height: 32px;
-    color: rgb(106, 73, 72);
+    color: #898989;
 }
 .el-year-table td .cell:hover {
     background-color: rgb(241, 230, 228);
@@ -9500,7 +9500,7 @@
   --------------------------*/
 }
 .el-picker-panel {
-    color: rgb(106, 73, 72);
+    color: #898989;
     border: 1px solid #ddd;
     box-shadow: 0 2px 6px #ccc;
     background: #fff;
@@ -9532,7 +9532,7 @@
     background-color: transparent;
     line-height: 28px;
     font-size: 14px;
-    color: rgb(106, 73, 72);
+    color: #898989;
     padding-left: 12px;
     text-align: left;
     outline: none;
@@ -11001,7 +11001,7 @@
   --------------------------*/
 }
 .el-picker-panel {
-    color: rgb(106, 73, 72);
+    color: #898989;
     border: 1px solid #ddd;
     box-shadow: 0 2px 6px #ccc;
     background: #fff;
@@ -11033,7 +11033,7 @@
     background-color: transparent;
     line-height: 28px;
     font-size: 14px;
-    color: rgb(106, 73, 72);
+    color: #898989;
     padding-left: 12px;
     text-align: left;
     outline: none;
@@ -13767,7 +13767,7 @@
 }
 .el-message-box__content {
     padding: 30px 20px;
-    color: rgb(106, 73, 72);
+    color: #898989;
     font-size: 14px;
     position: relative;
 }
@@ -14601,14 +14601,14 @@
 .el-tag--gray {
     background-color: rgb(241, 230, 228);
     border-color: rgb(241, 230, 228);
-    color: rgb(106, 73, 72);
+    color: #898989;
 }
 .el-tag--gray .el-tag__close:hover {
-    background-color: rgb(106, 73, 72);
+    background-color: #898989;
     color: #fff;
 }
 .el-tag--gray.is-hit {
-    border-color: rgb(106, 73, 72);
+    border-color: #898989;
 }
 .el-tag--primary {
     background-color: rgba(62, 58, 57, 0.1);
@@ -21303,7 +21303,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: rgb(106, 73, 72);
+    color: #898989;
     height: 36px;
     line-height: 1.5;
     box-sizing: border-box;
@@ -23005,6 +23005,7 @@
     /*color(var(--color-base-black) s(28%) l(86%))*/
     /* Link
   -------------------------- */
+    /*var(--color-extra-light-black)*/
     /* Border
   -------------------------- */
     /* Box-shadow

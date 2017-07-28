@@ -1,5 +1,5 @@
 import axios from 'axios'
-import vueApp from '../main'
+import vueApp from '~/main'
 let BASE_URL = _BASE_URL ? _BASE_URL : '';
 let MOCK =_MOCK?_MOCK:false;
 axios.defaults.baseURL =BASE_URL;

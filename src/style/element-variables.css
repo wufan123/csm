@@ -37,7 +37,7 @@
 
   /* Link
   -------------------------- */
-  --link-color: var(--color-extra-light-black);
+  --link-color: var(--color-base-black);/*var(--color-extra-light-black)*/
   --link-hover-color: var(--color-primary);
 
   /* Border

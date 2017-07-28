@@ -959,7 +959,7 @@
 
 .el-message-box__content{
   padding: 30px 20px;
-  color: rgb(106, 73, 72);
+  color: #898989;
   font-size: 14px;
   position: relative;
 }
@@ -1077,6 +1077,7 @@
   /*color(var(--color-base-black) s(28%) l(86%))*/
   /* Link
   -------------------------- */
+  /*var(--color-extra-light-black)*/
   /* Border
   -------------------------- */
   /* Box-shadow

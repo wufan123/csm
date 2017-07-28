@@ -2,50 +2,50 @@
     <el-card class="box-card chart-card">
         <div slot="header">
             <span >{{chart.title}}</span>
+
         </div>
         <div  class="card-item">
             <el-date-picker
-                    v-model="froValue"
+                    v-model="form.dateStart"
                     align="right"
                     type="date"
                     placeholder="选择日期"
-                    :picker-options="pickerOptions">
+                    :picker-options="dateStartOptions">
             </el-date-picker>
             至
             <el-date-picker
-                    v-model="toValue"
+                    v-model="form.dateEnd"
                     align="right"
                     type="date"
                     placeholder="选择日期"
-                    :picker-options="pickerOptions">
+                    :picker-options="dateEndOptions">
             </el-date-picker>
-            <el-select v-model="value" placeholder="请选择影院组" >
+            <el-select v-model="form.cinemaGroupId" filterable  placeholder="请选择影院组"  v-on:change="getCinemas" >
                 <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
+                        v-for="item in chart.cinemaGroup"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
                 </el-option>
             </el-select>
-            <el-select v-model="value" placeholder="请选择影院">
+            <el-select v-model="form.cinemaId" filterable placeholder="请选择影院">
                 <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
+                        v-for="item in cinemas"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
                 </el-option>
-
             </el-select>
-            <el-button type="info">查询</el-button>
-
+            <el-button type="info" v-on:click="fetchData">查询</el-button>
         </div>
         <div class="card-item-chart" :id="chart.id">
-
         </div>
     </el-card>
 </template>
 <script>
+    import httpApi from 'api/httpApi'
     import indexApi from 'api/indexApi'
+    import cinemaApi from 'api/cinemaApi'
     import apiMixin from 'utils/apiMixin'
     import chartOpt from 'assets/chartOptions.json'//获取图表的定制信息
     const echarts = require('echarts/lib/echarts');
@@ -65,32 +65,18 @@
             }
         },
         data(){
-
             return {
-                chartOption:{
-
+                form:{
+                    cinemaGroupId:'',
+                    cinemaId:'',
+                    dateStart:'',
+                    dateEnd:''
                 },
-                pickerOptions:{
+                dateStartOptions:{
                 },
-                froValue:'',
-                toValue:'',
-                options: [{
-                    value: '选项1',
-                    label: '黄金糕'
-                }, {
-                    value: '选项2',
-                    label: '双皮奶'
-                }, {
-                    value: '选项3',
-                    label: '蚵仔煎'
-                }, {
-                    value: '选项4',
-                    label: '龙须面'
-                }, {
-                    value: '选项5',
-                    label: '北京烤鸭'
-                }],
-                value: ''
+                dateEndOptions:{
+                },
+                cinemas:[]
             }
         },
         methods:{
@@ -117,12 +103,50 @@
                 chartOpt.series[0].itemStyle.normal.color.colorStops[1].color =chart.lineColor
                 this.myChartView.setOption(chartOpt);
             },
+            getCinemas(){
+                cinemaApi.listCinema({
+                    cinemaGroupId:this.form.cinemaGroupId
+                }).then(res=>{
+                    this.cinemas = res.resultData.content
+                })
+            },
             fetchData(){
-
+                httpApi.postForm(this.chart.apiUrl,{
+                    cinemaId:this.form.cinemaId,
+                    cinemaGroupId:this.form.cinemaGroupId,
+                    dateEnd:this.form.dateEnd?this.form.dateEnd.format('yyyy-MM-dd'):'',//转成服务器需要的格式 - -
+                    dateStart:this.form.dateStart?this.form.dateStart.format('yyyy-MM-dd'):''
+                }).then(res=>{//请求图表数据
+                    let newRes = indexApi.preHandleIndexData(res.resultData);
+                    for( let i in newRes)
+                    {
+                        this.chart[i] = newRes[i]
+                    }
+                    this.drawChart(this.chart)
+                })
             },
             viewReady(){
                 this.drawChart(this.chart)
+                this.dateStartOptions.disabledDate=time=>{
+                   if(this.form.dateEnd instanceof Date){
+                       return time.getTime()<this.form.dateEnd.getTime()-14*24*60*60*1000||time.getTime()>=this.form.dateEnd.getTime();
+                   }else {
+                       return false;
+                   }
+                }//限制范围
+                this.dateEndOptions.disabledDate=time=>{
+                    if(this.form.dateStart instanceof Date){
+                        return time.getTime()>this.form.dateStart.getTime()+14*24*60*60*1000||time.getTime()<=this.form.dateStart.getTime();
+                    }else if(time.getTime()>Date.now()){
+                        return true;
+                    }else {
+                        return false;
+                    }
+                }
             }
+        },
+        computed:{
+
         }
     }
 </script>

@@ -660,14 +660,14 @@
 .el-tag--gray{
     background-color: rgb(241, 230, 228);
     border-color: rgb(241, 230, 228);
-    color: rgb(106, 73, 72);
+    color: #898989;
 }
 .el-tag--gray .el-tag__close:hover{
-    background-color: rgb(106, 73, 72);
+    background-color: #898989;
     color: #fff;
 }
 .el-tag--gray.is-hit{
-    border-color: rgb(106, 73, 72);
+    border-color: #898989;
 }
 .el-tag--primary{
     background-color: rgba(62, 58, 57, 0.1);
@@ -816,7 +816,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: rgb(106, 73, 72);
+    color: #898989;
     height: 36px;
     line-height: 1.5;
     box-sizing: border-box;
@@ -1299,7 +1299,7 @@
 .el-pagination{
     white-space: nowrap;
     padding: 2px 5px;
-    color: rgb(106, 73, 72);
+    color: #898989;
 }
 
 .el-pagination span, .el-pagination button{
@@ -1502,6 +1502,7 @@
     /*color(var(--color-base-black) s(28%) l(86%))*/
     /* Link
   -------------------------- */
+    /*var(--color-extra-light-black)*/
     /* Border
   -------------------------- */
     /* Box-shadow

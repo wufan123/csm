@@ -85,7 +85,7 @@
 :root { /* Transition
   -------------------------- */ /* Colors
   -------------------------- */ /*color(var(--color-primary) h(+6) s(33%) l(18%))*/ /*color(var(--color-base-black) s(26%) l(80%))*/ /*color(var(--color-base-black) s(28%) l(86%))*/ /* Link
-  -------------------------- */ /* Border
+  -------------------------- */ /*var(--color-extra-light-black)*/ /* Border
   -------------------------- */ /* Box-shadow
   -------------------------- */ /* Fill
   -------------------------- */ /* Font
