@@ -160,9 +160,6 @@
             line-height: 40px;
             margin-top: 14px;
             overflow: hidden;
-            .el-date-editor.el-input{
-                width: 120px;
-            }
             .el-select,button{
                 margin-left: 15px;
             }
