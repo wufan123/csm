@@ -659,7 +659,7 @@
 }
 
 .el-table th{
-    background-color: rgb(246, 239, 238);
+    background-color: #f7f7f7;
     text-align: left;
 }
 
@@ -873,7 +873,7 @@
     position: absolute;
     top: -1px;
     right: 0;
-    background-color: rgb(246, 239, 238);
+    background-color: #f7f7f7;
     border-bottom: 1px solid rgb(236, 223, 223);
 }
 
@@ -897,7 +897,7 @@
 }
 
 .el-table__fixed-header-wrapper thead div{
-    background-color: rgb(246, 239, 238);
+    background-color: #f7f7f7;
     color: #898989;
 }
 
@@ -943,7 +943,7 @@
 }
 
 .el-table__header-wrapper thead div, .el-table__footer-wrapper thead div{
-    background-color: rgb(246, 239, 238);
+    background-color: #f7f7f7;
     color: #898989;
 }
 

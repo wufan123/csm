@@ -42,7 +42,6 @@ export default {
         }
         for(let i in array1)
         {
-
             array1[i].childMenus =[];
             for(let j in array2)
             {

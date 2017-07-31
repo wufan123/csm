@@ -24,6 +24,7 @@
   --color-black: #000;
 
   --color-base-black: #898989; /*color(var(--color-primary) h(+6) s(33%) l(18%))*/
+  --color-base-bg:#f7f7f7;
   --color-light-black: color(var(--color-base-black) h(+5) s(27%) l(27%));
   --color-extra-light-black: color(var(--color-base-black) h(+2) s(19%) l(35%));
 
@@ -417,7 +418,7 @@
  -------------------------- */
   --table-border-color: color(var(--border-color-base) h(-3) s(27%) l(90%));
   --table-text-color: var(--color-base-black);
-  --table-header-background: var(--color-extra-light-gray);
+  --table-header-background: var(--color-base-bg);
   --table-footer-background: var(--color-dark-white);
 
   /* Pagination

@@ -41,7 +41,7 @@ let localUtil = {
         }catch (e)
         {
         }
-        return item?item:{};
+        return item;
     },
     setItem:(key,value)=>{
         let itemStr;

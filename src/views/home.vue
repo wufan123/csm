@@ -5,13 +5,13 @@
                 <div class="logo"></div>
             </el-col>
             <el-col :span="21" class="logo">
-                <el-menu theme="dark" mode="horizontal" :default-active="currentTopMenuIndex.toString()" @select="handleSelect">
-                    <el-menu-item v-for="(item, index) in menus" :index='index.toString()' :key="item.name" >{{item.name}}</el-menu-item>
-                    <el-submenu :index="(menus.length+1).toString()">
-                    <template slot="title"><img class="avatar"  v-bind:src="userDetail.headImageLink" :onerror="errorImg" />{{userDetail.fullName}}</template>
-                        <el-menu-item :index="(menus.length+1).toString()+'-1'">修改头像</el-menu-item>
-                        <el-menu-item :index="(menus.length+1).toString()+'-2'">修改密码</el-menu-item>
-                        <el-menu-item :index="(menus.length+1).toString()+'-3'" v-on:click="logout">安全退出</el-menu-item>
+                <el-menu theme="dark" mode="horizontal" :default-active="currentTopMenuIndex.toString()" @select="topMenuSelect">
+                    <el-menu-item v-for="(item, index) in this.userDetail.menus" :index='index.toString()' :key="item.name" >{{item.name}}</el-menu-item>
+                    <el-submenu index="submenu">
+                        <template slot="title"><img class="avatar"  v-bind:src="userDetail.headImageLink" :onerror="errorImg" />{{userDetail.fullName}}</template>
+                        <el-menu-item index="submenu-1">修改头像</el-menu-item>
+                        <el-menu-item index="submenu-2">修改密码</el-menu-item>
+                        <el-menu-item index="submenu-3" v-on:click="logout">安全退出</el-menu-item>
                     </el-submenu>
                 </el-menu>
             </el-col>
@@ -19,24 +19,23 @@
         <el-row class="main-body">
             <el-row>
                 <el-col :span="3" class="slide-menu">
-                    <el-menu >
-
-                        <el-submenu v-for="(item,index) in menus[currentTopMenuIndex].childMenus" :index="index.toString()" :name="index.toString()" :key="item.name">
+                    <el-menu>
+                        <el-submenu v-for="(item,index) in this.userDetail.menus[currentTopMenuIndex].childMenus" :index="index.toString()" :name="index.toString()" :key="item.name">
                             <template slot="title"><i class="el-icon-search"></i>{{item.name}}</template>
-                            <el-menu-item v-for="(subItem,subIndex) in item.childMenus" :index="index.toString()+'-'+subIndex.toString()" :key="subItem.name">{{subItem.name}}</el-menu-item>
+                            <el-menu-item v-for="(subItem,subIndex) in item.childMenus" :index="index.toString()+'-'+subIndex.toString()" :key="subItem.name" v-on:click="sideMenuClick(subItem)">{{subItem.name}}</el-menu-item>
                         </el-submenu>
                     </el-menu>
                 </el-col>
                 <el-col :span="21">
-                    <el-tabs v-model="menuTabsValue" type="card" closable @tab-remove="removeTab">
+                    <el-tabs v-model="currentTabId" type="card" closable @tab-remove="removeTab">
                         <el-tab-pane
                                 v-for="(item, index) in menuTabs"
-                                :key="item.name"
-                                :label="item.title"
-                                :name="item.name"
+                                :key="item.id"
+                                :label="item.name"
+                                :name="item.id.toString()"
                         >
-                            <component v-bind:is="item.tabView">
-                                <!-- 组件在 vm.currentview 变化时改变！ -->
+                            <component v-bind:is="item.page">
+
                             </component>
                         </el-tab-pane>
                     </el-tabs>
@@ -47,22 +46,24 @@
     </div>
 </template>
 <script>
-    import indexPage from 'views/tabs/indexPage.vue'
+    import indexPage from 'views/tabs/TrendsPage.vue'
     import complaintListPage from 'views/tabs/complaintListPage.vue'
     import loginApi from 'api/loginApi'
+    import rooter from  '~/rooter'//
     export default{
         data(){
             this.userDetail =this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
+            if(!this.userDetail)
+            {
+                this.$router.push({ path: 'login' })
+            }
+            let firstTab = this.userDetail.menus[0].childMenus[0].childMenus[0];
+            firstTab.page = rooter.mapTabPage(firstTab);
             return {
                 currentTopMenuIndex:0,
-                menus:this.userDetail.menus,
                 errorImg:'this.src=""',
-                menuTabsValue: '1',
-                menuTabs: [{
-                    title: '首页',
-                    name: '1',
-                    tabView: indexPage
-                }],
+                currentTabId: '55',
+                menuTabs:[firstTab],
             }
         },
         methods: {
@@ -70,27 +71,46 @@
                 loginApi.logout({
                     userId:this.userDetail.id
                 }).then((response) => {
-                    this.$router.push({ path: 'login' })
+                    this.$router.push({ path: 'login'})
                 })
             },
-            handleSelect(key) {
-                this.currentTopMenuIndex=key;
+            topMenuSelect(key) {
+                if(key.indexOf('submenu')===-1) //
+                {
+                    this.currentTopMenuIndex=key;
+                }
             },
-            removeTab(targetName) {//关闭tab标签
+            sideMenuClick(item){
+                this.showSelectTab(item)
+            }
+            ,
+            showSelectTab(item){
+                this.currentTabId = item.id.toString();
+                for(let i in this.menuTabs)
+                {
+                    if(item.id === this.menuTabs[i].id)
+                    {
+                        return;
+                    }
+                }
+                item.page = rooter.mapTabPage(item)
+                this.menuTabs.push(item)
+            },
+            removeTab(targetId) {//关闭tab标签
                 let tabs = this.menuTabs;
-                let activeName = this.menuTabsValue;
-                if (activeName === targetName) {
+                let activeId = this.currentTabId;
+                if (activeId == targetId) {
                     tabs.forEach((tab, index) => {
-                        if (tab.name === targetName) {
+                        if (tab.id == targetId) {
                             let nextTab = tabs[index + 1] || tabs[index - 1];
                             if (nextTab) {
-                                activeName = nextTab.name;
+                                activeId = nextTab.id;
                             }
                         }
                     });
                 }
-                this.menuTabsValue = activeName;
-                this.menuTabs = tabs.filter(tab => tab.name !== targetName);
+                this.currentTabId = activeId.toString();
+                this.menuTabs = tabs.filter(tab => tab.id.toString() != targetId);
             }
         }
 

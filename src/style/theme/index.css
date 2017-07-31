@@ -7580,7 +7580,7 @@
     overflow: hidden;
 }
 .el-table th {
-    background-color: rgb(246, 239, 238);
+    background-color: #f7f7f7;
     text-align: left;
 }
 .el-table th > div {
@@ -7763,7 +7763,7 @@
     position: absolute;
     top: -1px;
     right: 0;
-    background-color: rgb(246, 239, 238);
+    background-color: #f7f7f7;
     border-bottom: 1px solid rgb(236, 223, 223);
 }
 .el-table__fixed-right {
@@ -7783,7 +7783,7 @@
     z-index: 3;
 }
 .el-table__fixed-header-wrapper thead div {
-    background-color: rgb(246, 239, 238);
+    background-color: #f7f7f7;
     color: #898989;
 }
 .el-table__fixed-footer-wrapper {
@@ -7820,7 +7820,7 @@
     overflow: hidden;
 }
 .el-table__header-wrapper thead div, .el-table__footer-wrapper thead div {
-    background-color: rgb(246, 239, 238);
+    background-color: #f7f7f7;
     color: #898989;
 }
 .el-table__header-wrapper tbody td, .el-table__footer-wrapper tbody td {
