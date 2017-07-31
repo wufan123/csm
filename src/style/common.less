@@ -118,6 +118,17 @@ input {
 .el-tabs__header{
   margin-bottom: 0;
 }
+.el-tabs__item{
+  olor:@color-base-gray;
+}
+.el-tab-pane{
+  .el-date-editor.el-input{
+    width: 120px;
+  }
+  .el-select{
+    width: 150px;
+  }
+}
 
 // 修改element card 细节
 .el-card__header{
@@ -135,13 +146,9 @@ input {
 .el-table{
   font-size: @size-small;
 }
-//
-.el-tab-pane{
-  .el-date-editor.el-input{
-    width: 120px;
-  }
-  .el-select{
-    width: 150px;
-  }
+//修改element form 细节
+.el-form-item__label{
+  color: @color-base-gray;
 }
+
 
