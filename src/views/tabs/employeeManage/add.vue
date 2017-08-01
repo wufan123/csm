@@ -2,7 +2,7 @@
   <div class="page">
     <div class="p-title">新建职员 <em class="notice">注意：新建职员初始密码为123456</em>  </div>
      <div class="h20"></div>
-    <div class="content add-form">
+    <div class="content addForm">
       <el-form :rules="rules" ref="employee"   :model="employee" label-width="100px" >
         <el-row>
           <el-col :span="8">
@@ -131,13 +131,13 @@ export default {
     submitForm(employee){
       this.$refs[employee].validate((valid) => {
           if (valid) {
-            console.log('employee',this.employee)
             this.employee.hireDate = this.employee.hireDate.format("yyyy-MM-dd")
             employeeApi.AddEmployee(this.employee).then(res => {
-              console.log('res',res)
-            })
+              this.$emit('setType','list')
+            },error=>new Error(error.message))
           } else {
             console.log('error submit!!');
+            
             return false;
           }
         });
@@ -160,7 +160,7 @@ export default {
 }
 </script>
 <style lang="less">
-.add-form{
+.addForm{
   .el-date-editor{width: 100%!important;}
   .el-form-item{margin:10px 20px;}
 }
