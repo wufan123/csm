@@ -155,8 +155,8 @@
 }
 
 .el-tag--success{
-    background-color: rgba(18,206,102,0.10);
-    border-color: rgba(18,206,102,0.20);
+    background-color: rgba(18, 206, 102, 0.10);
+    border-color: rgba(18, 206, 102, 0.20);
     color: #13ce66
 }
 
@@ -170,8 +170,8 @@
 }
 
 .el-tag--warning{
-    background-color: rgba(247,186,41,0.10);
-    border-color: rgba(247,186,41,0.20);
+    background-color: rgba(247, 186, 41, 0.10);
+    border-color: rgba(247, 186, 41, 0.20);
     color: #f7ba2a
 }
 
@@ -185,8 +185,8 @@
 }
 
 .el-tag--danger{
-    background-color: rgba(255,73,73,0.10);
-    border-color: rgba(255,73,73,0.20);
+    background-color: rgba(255, 73, 73, 0.10);
+    border-color: rgba(255, 73, 73, 0.20);
     color: #ff4949
 }
 

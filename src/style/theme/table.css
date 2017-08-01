@@ -262,7 +262,7 @@
     margin: 0;
     position: relative;
     cursor: pointer;
-    transition: all .3s cubic-bezier(.645,.045,.355,1);
+    transition: all .3s cubic-bezier(.645, .045, .355, 1);
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -452,8 +452,8 @@
     border-color: #3e3a39;
 }
 .el-tag--success{
-    background-color: rgba(18,206,102,0.10);
-    border-color: rgba(18,206,102,0.20);
+    background-color: rgba(18, 206, 102, 0.10);
+    border-color: rgba(18, 206, 102, 0.20);
     color: #13ce66;
 }
 .el-tag--success .el-tag__close:hover{
@@ -464,8 +464,8 @@
     border-color: #13ce66;
 }
 .el-tag--warning{
-    background-color: rgba(247,186,41,0.10);
-    border-color: rgba(247,186,41,0.20);
+    background-color: rgba(247, 186, 41, 0.10);
+    border-color: rgba(247, 186, 41, 0.20);
     color: #f7ba2a;
 }
 .el-tag--warning .el-tag__close:hover{
@@ -476,8 +476,8 @@
     border-color: #f7ba2a;
 }
 .el-tag--danger{
-    background-color: rgba(255,73,73,0.10);
-    border-color: rgba(255,73,73,0.20);
+    background-color: rgba(255, 73, 73, 0.10);
+    border-color: rgba(255, 73, 73, 0.20);
     color: #ff4949;
 }
 .el-tag--danger .el-tag__close:hover{
@@ -970,7 +970,11 @@
     background: rgb(240, 239, 239);
 }
 
-.el-table__body tr.hover-row > td {
+.el-table__body tr.hover-row {}
+
+.el-table__body tr.hover-row, .el-table__body tr.hover-row.el-table__row--striped{}
+
+.el-table__body tr.hover-row > td, .el-table__body tr.hover-row.current-row > td, .el-table__body tr.hover-row.el-table__row--striped > td, .el-table__body tr.hover-row.el-table__row--striped.current-row > td{
     background-color: rgb(246, 239, 238);
 }
 

@@ -144,7 +144,7 @@
     line-height: 1;
     outline: none;
     padding: 3px 10px;
-    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
     width: 100%;
 }
 .el-input__inner::-webkit-input-placeholder{
@@ -296,7 +296,7 @@
     background-image: none;
     border: 1px solid #ddd;
     border-radius: 4px;
-    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
 }
 .el-textarea__inner::-webkit-input-placeholder{
     color: #898989;
@@ -834,7 +834,7 @@
     border: 1px solid #ddd;
     line-height: 20px;
     box-sizing: border-box;
-    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
 }
 
 .el-slider.is-vertical.el-slider--with-input .el-slider__input .el-input-number__decrease{
