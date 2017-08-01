@@ -145,7 +145,7 @@
                             padding: 0 44px 0 44px;
                         }
                         .el-tabs__content{
-                            height: calc(~"100% - 59px");
+                            height: calc(~"100% - 40px");
                             overflow-y: auto;
                         }
                         .el-tabs__item {

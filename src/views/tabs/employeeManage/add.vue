@@ -91,6 +91,20 @@ export default {
           callback()
         }
     }
+    var validateCinema = (rule, value, callback) =>{
+      if(value.length <=0){
+        callback(new Error('请勾选影院组'));
+      }else{
+        callback()
+      }
+    }
+    var validatePosition = (rule, value, callback) =>{
+      if(!value){
+        callback(new Error('请选择岗位'));
+      }else{
+        callback()
+      }
+    }
     return{
       employee:{
         hireDate:null,
@@ -108,8 +122,8 @@ export default {
         mobile: [{ validator: validateMobile, trigger: 'blur' } ],
         loginName:[{ required: true, message: '请输入职员账号', trigger: 'blur' },{ min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }],
         cardId:[{ validator: validateCardId, trigger: 'blur' }],
-        cinemaGroupIds:[{ required: true, message: '请勾选影院组', trigger: 'blur' }],
-        positionId:[{ required: true, message: '请选择岗位', trigger: 'blur' }],
+        cinemaGroupIds:[{ validator: validateCinema, trigger: 'blur' }],
+        positionId:[{ validator: validatePosition, trigger: 'blur' }],
       }
     }
   },

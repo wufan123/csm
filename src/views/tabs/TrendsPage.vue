@@ -98,7 +98,6 @@
     export default {
         mixins: [apiMixin],
         components: {
-            ElRow,
             chartCard
         },
         data(){
