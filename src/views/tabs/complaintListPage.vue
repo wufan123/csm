@@ -1,184 +1,72 @@
 <template>
-    <div id="complainList">
-        <el-form ref="form" :model="form" label-width="85px" :inline="true">
-            <el-form-item label="客诉类型">
-                <el-select v-model="form.region" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="影院组名称">
-                <el-select v-model="form.region" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="影院名称">
-                <el-select v-model="form.region" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="客诉日期">
-                <el-col :span="11">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.date1"></el-date-picker>
-                </el-col>
-                <el-col class="line" :span="2">-</el-col>
-                <el-col :span="11">
-                    <el-time-picker type="fixed-time" placeholder="选择时间" v-model="form.date2"></el-time-picker>
-                </el-col>
-            </el-form-item>
-            <el-form-item label="客诉等级">
-                <el-select v-model="form.region" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="客诉来源">
-                <el-select v-model="form.region" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="客诉状态">
-                <el-select v-model="form.region" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="是否星标">
-                <el-select v-model="form.region" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="info">查询</el-button>
-                <el-button type="success">新建</el-button>
-            </el-form-item>
-        </el-form>
-        <div class="list-body">
-            <el-row>
-                <el-tabs v-model="activeSubTab" type="card">
-                    <el-tab-pane label="全部" name="first"></el-tab-pane>
-                    <el-tab-pane label="等待处理" name="second"></el-tab-pane>
-                    <el-tab-pane label="处理中" name="third"></el-tab-pane>
-                    <el-tab-pane label="处理完毕" name="fourth"></el-tab-pane>
-                </el-tabs>
-            </el-row>
-            <el-row type="flex"  class="state-explain" justify="end" >
-                <el-col :span="2" class="onhandle">
-                    ■ 等待处理
-                </el-col>
-                <el-col :span="2" class="processing">
-                    ■ 正在处理
-                </el-col>
-                <el-col :span="3" class="shift">
-                    ■ 正在处理-转技术解决
-                </el-col>
-                <el-col :span="2" class="unsolved">
-                    ■ 未解决
-                </el-col>
-                <el-col :span="2" class="worked-out">
-                    □ 处理完毕
-                </el-col>
-                <el-col :span="3">
-                    你有11条新客诉
-                </el-col>
-            </el-row>
-            <el-row :gutter="21" class="list-card" >
-                <el-col :span="8"  v-for="i in 10" >
-                    <el-card :class="'processing'">
-                        123465
-                    </el-card>
-                </el-col>
-            </el-row>
-            <el-row type="flex" justify="end">
-                <el-pagination
-                        :current-page="50"
-                        :page-sizes="[100, 200, 300, 400]"
-                        :page-size="100"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="400">
-                </el-pagination>
-            </el-row>
-        </div>
+    <div id="complaint-list">
+       <!-- <complaint-list v-if="viewState == 'list'" v-on:view="changeViewState"></complaint-list>
+        <complaint-add v-if="viewState == 'add'" v-on:view="changeViewState"></complaint-add>
+        <complaint-edit v-if="viewState == 'edit'" v-on:view="changeViewState"></complaint-edit>
+        <complaint-handle v-if="viewState == 'handle'" v-on:view="changeViewState"></complaint-handle>-->
+        <component v-bind:is="view" v-on:view="changeViewState">
+
+        </component>
     </div>
 </template>
 <script>
+    import list from 'views/tabs/complaintList/list.vue'
+    import add from 'views/tabs/complaintList/add.vue'
+    import edit from 'views/tabs/complaintList/edit.vue'
+    import handle from 'views/tabs/complaintList/handle.vue'
     export default {
+        components: {
+            'complaint-list': list,
+            'complaint-add': add,
+            'complaint-edit': edit,
+            'complaint-handle': handle,
+        },
         data(){
             return {
-                activeSubTab:'first',
-                form: {
-
+                viewState: 'list',
+                view:list
+            }
+        },
+        methods: {
+            changeViewState(state){
+                this.viewState = state
+                switch (state)
+                {
+                    case 'add':
+                        this.view =add;
+                        break;
+                    case 'list':
+                        this.view =list;
+                        break;
+                    case 'edit':
+                        this.view =edit;
+                        break;
+                    case 'handle':
+                        this.view =handle;
+                        break;
                 }
             }
         }
     }
 </script>
 <style lang="less">
-    @onhandleColor:#be0000;
-    @onhandleBg:#ffdede;
-    @processingColor:#dc6200;
-    @processingBg:#ffeee1;
-    @shiftColor:#3f5a04;
-    @shiftBg:#dfedc0;
-    @unsolvedColor:#d6bd00;
-    @unsolvedBg:#fffad5;
-    @workedOutColor:#be0000;
-    #complainList{
+    @import "~style/base-variables";
 
-        padding: 30px 20px 20px 20px;
-        .el-form-item{
-            margin-bottom: 10px;
+    .complaint {
+        .property {
+            font-size: @size-small;
+            color: @color-base-gray;
+            margin-bottom: 14px;
         }
-        .list-body{
-            margin-top: 25px;
+        .des {
+            background: #fffad5;
+            color: #948200;
+            margin-bottom: 20px;
+            font-size: @size-medium;
+            padding: 10px;
         }
-
-        .state-explain{
-            margin-top: 30px;
-            font-size: 12px;
-            .onhandle{
-                color:@onhandleColor ;
-            }
-            .processing{
-                color:@processingColor ;
-            }
-            .shift{
-                color:@shiftColor ;
-            }
-            .unsolved{
-                color:@unsolvedColor ;
-            }
-        }
-        .list-card{
-            margin-top: 30px;
-            .el-card{
-                height: 253px;
-                margin-bottom: 20px;
-            }
-            .onhandle{
-                color:@onhandleColor ;
-                background:@onhandleBg ;
-                border: 1px solid @onhandleColor;
-            }
-            .processing{
-                color:@processingColor ;
-                background:@processingBg ;
-                border: 1px solid @processingColor;
-            }
-            .shift{
-                color:@shiftColor ;
-                background: @shiftBg;
-                border: 1px solid @shiftColor;
-            }
-            .unsolved{
-                color:@unsolvedColor ;
-                background:@unsolvedBg ;
-                border: 1px solid @unsolvedColor;
-            }
+        .el-input {
+            width: auto;
         }
     }
 </style>
