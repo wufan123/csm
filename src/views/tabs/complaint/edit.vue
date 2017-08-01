@@ -87,10 +87,10 @@
                     <el-radio class="radio" v-model="radio2" label="4">处理完毕</el-radio>
                 </el-form-item>
                 <el-form-item class="form-button" >
-                    <el-button type="primary" v-on:click="save">
+                    <el-button type="primary">
                         保存
                     </el-button>
-                    <el-button v-on:click="close">
+                    <el-button>
                         关闭不保存
                     </el-button>
                 </el-form-item>
@@ -104,16 +104,19 @@
             return {
                 form:{},
                 radio:1,
-                radio2:1
+                radio2:1,
+                dialogImageUrl:'',
+                dialogVisible:''
             }
         },
         methods:{
-            save(){
-                this.$emit('view', 'list')
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
             },
-            close(){
-                this.$emit('view', 'list')
-            }
+            handlePictureCardPreview(file) {
+                this.dialogImageUrl = file.url;
+                this.dialogVisible = true;
+            },
         }
     }
 </script>

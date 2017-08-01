@@ -10,10 +10,10 @@
     </div>
 </template>
 <script>
-    import list from 'views/tabs/complaintList/list.vue'
-    import add from 'views/tabs/complaintList/add.vue'
-    import edit from 'views/tabs/complaintList/edit.vue'
-    import handle from 'views/tabs/complaintList/handle.vue'
+    import list from 'views/tabs/complaint/list.vue'
+    import add from 'views/tabs/complaint/add.vue'
+    import edit from 'views/tabs/complaint/edit.vue'
+    import handle from 'views/tabs/complaint/handle.vue'
     export default {
         components: {
             'complaint-list': list,

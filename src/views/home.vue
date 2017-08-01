@@ -45,7 +45,7 @@
 </template>
 <script>
     import indexPage from 'views/tabs/TrendsPage.vue'
-    import complaintListPage from 'views/tabs/complaintListPage.vue'
+    import complaintListPage from 'views/tabs/complaint/index.vue'
     import loginApi from 'api/loginApi'
     import rooter from  '~/rooter'//
     export default{
@@ -60,7 +60,7 @@
             return {
                 currentTopMenuIndex:0,
                 errorImg:'this.src=""',
-                currentTabId: '55',
+                currentTabId: "5",
                 menuTabs:[firstTab],
             }
         },
