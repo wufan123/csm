@@ -1,5 +1,5 @@
 @import "base-variables";
-
+@import "element-variables.css";
 //此文件是对element组件的进一步定制
 html {
   height: 100%;
@@ -19,6 +19,11 @@ p{
   padding: 0;
   margin: 0;
 }
+em,i{font-style: normal;display: inline-block;}
+.page{padding: 30px 20px;
+  .p-title{font-size: @size-large-x;color:var(--color-black);
+    em.notice{font-size: @size-small;color: var(--color-danger)!important;}}
+  }
 
 .content-center {
   display: flex;
@@ -173,4 +178,6 @@ input {
   color: @color-base-gray;
 }
 
+.h20{height: 20px;display: block}
+.h10{height: 10px;display: block}
 

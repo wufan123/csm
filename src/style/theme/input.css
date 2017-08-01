@@ -137,7 +137,7 @@
     line-height: 1;
     outline: none;
     padding: 3px 10px;
-    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
     width: 100%
 }
 
@@ -322,7 +322,7 @@
     background-image: none;
     border: 1px solid #ddd;
     border-radius: 4px;
-    transition: border-color .2s cubic-bezier(.645,.045,.355,1)
+    transition: border-color .2s cubic-bezier(.645, .045, .355, 1)
 }
 
 .el-textarea__inner::-webkit-input-placeholder{
