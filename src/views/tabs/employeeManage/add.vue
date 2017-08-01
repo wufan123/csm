@@ -30,7 +30,7 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="入职时间" prop="hireDate" >
+            <el-form-item label="入职时间" prop="hireDate" required >
                <el-date-picker type="date" placeholder="入职时间" v-model="employee.hireDate"></el-date-picker>
              </el-form-item>
           </el-col>
@@ -60,7 +60,7 @@
         <div class="h10"></div>
         <el-form-item>
           <el-button type="primary" @click="submitForm('employee')">立即创建</el-button>
-          <el-button type="primary" :plain="true" >关闭不保存</el-button>
+          <el-button type="primary" :plain="true" @click="closeFn()" >关闭不保存</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -74,18 +74,18 @@ export default {
   data(){
     
     var validateMobile = (rule, value, callback) =>{
-       if (!_vue.$util.isNumber(value)) {
+       if (value&&!_vue.$util.isNumber(value)) {
           callback(new Error('请输入数字值'));
-        }else if(!_vue.$util.isPhone(value)){
+        }else if(value&&!_vue.$util.isPhone(value)){
         callback(new Error('请输入正确的手机号'));
         }else{
           callback()
         }
     }
     var validateCardId = (rule, value, callback) =>{
-       if (!_vue.$util.isNumber(value)) {
+       if (value&&!_vue.$util.isNumber(value)) {
           callback(new Error('请输入数字值'));
-        }else if(!_vue.$util.isIDCard(value)){
+        }else if(value&&!_vue.$util.isIDCard(value)){
           callback(new Error('请输入正确的身份证号'));
         }else{
           callback()
@@ -124,6 +124,7 @@ export default {
         cardId:[{ validator: validateCardId, trigger: 'blur' }],
         cinemaGroupIds:[{ validator: validateCinema, trigger: 'blur' }],
         positionId:[{ validator: validatePosition, trigger: 'blur' }],
+        hireDate:[{ required: true, message: '请选择入职时间', trigger: 'blur' }]
       }
     }
   },
@@ -131,16 +132,19 @@ export default {
     submitForm(employee){
       this.$refs[employee].validate((valid) => {
           if (valid) {
-            this.employee.hireDate = this.employee.hireDate.format("yyyy-MM-dd")
+            this.employee.hireDate = this.employee.hireDate&&this.employee.hireDate.format("yyyy-MM-dd")
             employeeApi.AddEmployee(this.employee).then(res => {
               this.$emit('setType','list')
-            },error=>new Error(error.message))
+            })
           } else {
             console.log('error submit!!');
             
             return false;
           }
         });
+    },
+    closeFn(){
+      this.$emit('setType','list')
     },
     getCinemaList(){
       cinemaApi.listCinemaGroup().then(res => {

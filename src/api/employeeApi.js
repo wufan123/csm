@@ -11,7 +11,9 @@ export default {
         return httpApi.postForm(LIST_EMPLOYEE, params)
     },
     AddEmployee(params) {
-        console.log('params', params)
         return httpApi.postForm(ADD_EMPLOYEE, params)
+    },
+    delEmployee(params) {
+        return httpApi.postForm(DELETE_EMPLOYEE, params)
     }
 }
