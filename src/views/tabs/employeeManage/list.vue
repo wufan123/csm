@@ -37,12 +37,22 @@
             </p>
           </el-form>
       </div>
-      	职员姓名	岗位	职员账号	状态	管理影院组	最后登录时间	操作
+      							
       <div class="content">
          <el-table   :data="employeeList"   border    style="width: 100%">
-            <el-table-column  prop="date" label="序号"  width="180"></el-table-column>
-            <el-table-column   prop="name"    label="姓名"   width="180">  </el-table-column>
-            <el-table-column   prop="address"   label="地址">  </el-table-column>
+            <el-table-column  type="index" label="序号"  width="100"></el-table-column>
+            <el-table-column   prop="fullName"    label="职员姓名"   width="180">  </el-table-column>
+            <el-table-column   prop="position.positionName"   label="岗位"  width="180">  </el-table-column>
+            <el-table-column   prop="loginName"   label="职员账号"  width="180">  </el-table-column>
+            <el-table-column    label="管理影院组" :formatter="formateCinema"  width="180">  </el-table-column>
+            <el-table-column   prop="hireDate" :formatter="formateDate"   label="入职时间"  width="180">  </el-table-column>
+            <el-table-column   label="操作"  > 
+                <template scope="scope">
+                    <el-button type="text" class="t-info">
+                        编辑</el-button>
+                    <el-button type="text" class="t-danger" @click="deleteEmployee(scope.$index)">删除</el-button>
+                </template>    
+            </el-table-column>
         </el-table>    
       </div>  
 
@@ -74,9 +84,31 @@ export default {
         },
         addSubmit(){
             this.$emit('setType','add')
+        },
+        formateDate(row){
+           return new Date(row.hireDate).format("yyyy-MM-dd")
+        },
+        formateCinema(){
+            
+        },
+        deleteEmployee(_index){
+             this.$confirm('此操作将永久删除该职员, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {
+                    employeeApi.delEmployee({id:this.employeeList[_index].id}).then(res => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                     })
+                
+                })
         }
     },
     created:function () {
+        console.log('时间',new Date(1502121600000).format("yyyy-MM-dd"))
         this.getData()
     }
 }
