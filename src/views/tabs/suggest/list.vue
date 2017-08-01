@@ -130,11 +130,12 @@
             }
         },
         methods:{
-            handleEdit(index,row){
-
+            handleEdit(index, row) {
+                console.log(index, row);
+                this.$emit('view', 'check')
             },
-            handleDelete(index,row){
-
+            handleDelete(index, row) {
+                console.log(index, row);
             },
             add(){
                 this.$emit('view', 'add' )

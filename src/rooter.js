@@ -5,8 +5,7 @@ import indexPage from 'views/tabs/TrendsPage.vue'
 import complaintListPage from 'views/tabs/complaint/index.vue'
 import employeeManagePage from 'views/tabs/employeeManage/index.vue'
 import suggestPage from 'views/tabs/suggest/index.vue'
-
-
+import cinemaManagePage from 'views/tabs/cinemaManage/index.vue'
 
 const routes = [
     { path: '/login', component: login },
@@ -27,6 +26,8 @@ router.mapTabPage = tabItem => { //映射tabview
             return employeeManagePage;
         case '建议列表':
             return suggestPage;
+        case '运营人员管理':
+            return cinemaManagePage;
         default:
             return undefined;
     }

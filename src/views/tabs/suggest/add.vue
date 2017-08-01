@@ -51,7 +51,6 @@
                 </el-form-item>
                 <el-form-item class="form-button">
                     <el-button type="primary" v-on:click="save">保存</el-button>
-                    <el-button type="primary" v-on:click="goHandle">保存并开始处理</el-button>
                     <el-button v-on:click="close">关闭不保存</el-button>
                 </el-form-item>
             </el-form>

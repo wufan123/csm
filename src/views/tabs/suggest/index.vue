@@ -34,7 +34,7 @@
                     case 'edit':
                         this.view =edit;
                         break;
-                    case 'handle':
+                    case 'check':
                         this.view =check;
                         break;
                 }
