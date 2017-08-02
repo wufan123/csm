@@ -48,7 +48,7 @@
             <el-table-column   prop="loginName"   label="职员账号"  width="180">  </el-table-column>
             <el-table-column    label="管理影院组" :formatter="formateCinema"  width="180">  </el-table-column>
             <el-table-column   prop="hireDate" :formatter="formateDate"   label="入职时间"  width="180">  </el-table-column>
-            <el-table-column   label="操作"  > 
+            <el-table-column   label="操作"  >
                 <template scope="scope">
                     <el-button type="text" class="t-info" @click="editEmployee(scope.$index)">编辑</el-button>
                     <el-button type="text" class="t-danger" @click="deleteEmployee(scope.$index)">删除</el-button>
@@ -139,7 +139,6 @@ export default {
                 type: 'warning'
                 }).then(() => {
                     employeeApi.delEmployee({id:this.employeeList[_index].id}).then(res => {
-                        this.getData()
                         this.$message({
                             type: 'success',
                             message: '删除成功!'

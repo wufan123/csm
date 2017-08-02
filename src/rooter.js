@@ -4,6 +4,8 @@ import home from './views/home.vue'
 import indexPage from 'views/tabs/TrendsPage.vue'
 import complaintListPage from 'views/tabs/complaintListPage.vue'
 import employeeManagePage from 'views/tabs/employeeManage/index.vue'
+import positionManagePage from 'views/tabs/positionManage/index.vue'
+
 
 
 
@@ -24,6 +26,8 @@ router.mapTabPage = tabItem => { //映射tabview
             return complaintListPage;
         case '职员管理':
             return employeeManagePage;
+        case '岗位管理':
+            return positionManagePage;
 
         default:
             return undefined;
