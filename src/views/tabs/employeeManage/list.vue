@@ -96,10 +96,15 @@ export default {
            if(this.search.timeStart || this.search.timeEnd){
                if(!this.search.timeStart){
                    params.hireDateStart = "2000-01-01"
-                   params.hireDateEnd = this.search.timeEnd
-               }else{
-                   params.hireDateStart = this.search.timeStart
+                   params.hireDateEnd = this.search.timeEnd.format("yyyy-MM-dd")
+               }
+               if(!this.search.timeEnd){
+                   params.hireDateStart = this.search.timeStart.format("yyyy-MM-dd")
                    params.hireDateEnd = "2599-01-01"
+               }
+               if(this.search.timeStart && this.search.timeEnd){
+                   params.hireDateStart = this.search.timeStart.format("yyyy-MM-dd")
+                   params.hireDateEnd = this.search.timeEnd.format("yyyy-MM-dd")
                }
            }
             this.getData(params)
