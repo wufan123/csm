@@ -60,7 +60,7 @@
             return {
                 currentTopMenuIndex:0,
                 errorImg:'this.src=""',
-                currentTabId: "5",
+                currentTabId: firstTab.id.toString(),
                 menuTabs:[firstTab],
             }
         },
