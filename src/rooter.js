@@ -6,9 +6,6 @@ import complaintListPage from 'views/tabs/complaint/index.vue'
 import employeeManagePage from 'views/tabs/employeeManage/index.vue'
 import suggestPage from 'views/tabs/suggest/index.vue'
 import cinemaManagePage from 'views/tabs/cinemaManage/index.vue'
-import complaintReportPage from 'views/tabs/complaintReport.vue'
-import operationLogPage from 'views/tabs/operationLog.vue'
-import faqPage from 'views/tabs/faq/index.vue'
 
 const routes = [
     { path: '/login', component: login },
@@ -31,6 +28,8 @@ router.mapTabPage = tabItem => { //映射tabview
             return suggestPage;
         case '运营人员管理':
             return cinemaManagePage;
+        case '岗位管理':
+            return positionManagePage;
         case '客诉报表':
             return complaintReportPage;
         case '操作日志':

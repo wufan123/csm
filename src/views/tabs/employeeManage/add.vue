@@ -69,7 +69,6 @@
 <<script>
 import employeeApi from 'api/employeeApi'  
 import cinemaApi from 'api/cinemaApi'
-import positionApi from 'api/positionApi'
 export default {
   data(){
     
@@ -91,20 +90,6 @@ export default {
           callback()
         }
     }
-    var validateCinema = (rule, value, callback) =>{
-      if(value.length <=0){
-        callback(new Error('请勾选影院组'));
-      }else{
-        callback()
-      }
-    }
-    var validatePosition = (rule, value, callback) =>{
-      if(!value){
-        callback(new Error('请选择岗位'));
-      }else{
-        callback()
-      }
-    }
     return{
       employee:{
         hireDate:null,
@@ -122,9 +107,9 @@ export default {
         mobile: [{ validator: validateMobile, trigger: 'blur' } ],
         loginName:[{ required: true, message: '请输入职员账号', trigger: 'blur' },{ min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }],
         cardId:[{ validator: validateCardId, trigger: 'blur' }],
-        cinemaGroupIds:[{ validator: validateCinema, trigger: 'blur' }],
-        positionId:[{ validator: validatePosition, trigger: 'blur' }],
-        hireDate:[{ required: true, message: '请选择入职时间', trigger: 'blur' }]
+        cinemaGroupIds:[{ type: 'array', required: true, message: '请至少选择一个影院组', trigger: 'change' }],
+        positionId:[{ type: 'number', required: true, message: '请选择岗位', trigger: 'change' }],
+        hireDate:[ { type: 'date', required: true, message: '请选择入职时间', trigger: 'change' }  ]
       }
     }
   },
@@ -134,7 +119,9 @@ export default {
           if (valid) {
             this.employee.hireDate = this.employee.hireDate&&this.employee.hireDate.format("yyyy-MM-dd")
             employeeApi.AddEmployee(this.employee).then(res => {
-              this.$emit('setType','list')
+              this.$emit('setType',{
+              type:'list'
+            })
             })
           } else {
             console.log('error submit!!');
@@ -144,22 +131,20 @@ export default {
         });
     },
     closeFn(){
-      this.$emit('setType','list')
+      this.$emit('setType',{
+        type:'list'
+      })
     },
     getCinemaList(){
       cinemaApi.listCinemaGroup().then(res => {
         this.cinemaGroupList = res.resultData.content
       })
-    },
-    getPositionList(){
-      positionApi.ListPosition({'enable':true}).then(res => {
-        this.positionList = res.resultData.content
-      })
     }
+    
   },
   created(){
     this.getCinemaList()
-    this.getPositionList()
+    this.positionList = this.$storage.getItem('position')
   }
 }
 </script>

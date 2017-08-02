@@ -11,6 +11,12 @@ export function isNumber(val) {
 export function isIDCard(val) {
     return IDCardReg.test(val)
 }
+export function isEmptyObject(e) {
+    var t;
+    for (t in e)
+        return !1;
+    return !0
+}
 
 Date.prototype.format = function(fmt) { //author: meizz
     var o = {
