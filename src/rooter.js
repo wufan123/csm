@@ -2,10 +2,13 @@ import VueRouter from 'vue-router'
 import login from './views/login.vue'
 import home from './views/home.vue'
 import indexPage from 'views/tabs/TrendsPage.vue'
-import complaintListPage from 'views/tabs/complaint/index.vue'
+import complaintListPage from 'views/tabs/workOrder/index.vue'
 import employeeManagePage from 'views/tabs/employeeManage/index.vue'
 import suggestPage from 'views/tabs/suggest/index.vue'
-import cinemaManagePage from 'views/tabs/cinemaManage/index.vue'
+import cinemaManagePage from 'views/tabs/cinemaManager/index.vue'
+import complaintReportPage from 'views/tabs/complaintReport.vue'
+import operationLogPage from 'views/tabs/operationLog.vue'
+import faqPage from 'views/tabs/faq/index.vue'
 
 const routes = [
     { path: '/login', component: login },

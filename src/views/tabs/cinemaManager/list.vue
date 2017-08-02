@@ -82,7 +82,7 @@
     </div>
 </template>
 <script>
-    import addDialog from 'views/tabs/cinemaManage/add.vue'
+    import addDialog from 'views/tabs/cinemaManager/add.vue'
     export default {
         components: {
             'add-dialog': addDialog,

@@ -8,7 +8,7 @@
     </div>
 </template>
 <script>
-    import list from 'views/tabs/cinemaManage/list.vue'
+    import list from 'views/tabs/cinemaManager/list.vue'
     export default {
         data(){
             return {

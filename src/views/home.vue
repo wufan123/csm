@@ -45,7 +45,7 @@
 </template>
 <script>
     import indexPage from 'views/tabs/TrendsPage.vue'
-    import complaintListPage from 'views/tabs/complaint/index.vue'
+    import complaintListPage from 'views/tabs/workOrder/index.vue'
     import loginApi from 'api/loginApi'
     import rooter from  '~/rooter'//
     export default{

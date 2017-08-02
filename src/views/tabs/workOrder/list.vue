@@ -112,7 +112,8 @@
                 activeSubTab:'first',
                 form: {
 
-                }
+                },
+
             }
         },
         methods:{
@@ -121,8 +122,10 @@
             },
             handleComplaint(){
                 this.$emit('view', 'handle' )
-            }
+            },
+
         }
+
     }
 
 </script>
