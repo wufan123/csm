@@ -144,7 +144,6 @@
         .list-body{
             margin-top: 25px;
         }
-
         .state-explain{
             margin-top: 30px;
             font-size: 12px;

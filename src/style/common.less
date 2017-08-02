@@ -51,6 +51,17 @@ em,i{font-style: normal;display: inline-block;}
     margin-top: 48px;
   }
 }
+//修改element dialog 细节
+.el-dialog__title{
+  color: @color-primary;
+}
+.el-tab-pane{
+  .el-dialog__body{
+    .el-select{
+      width: 100%;
+    }
+  }
+}
 //修改element upload 细节
 .el-upload--picture-card{
   height: 150px;
@@ -146,7 +157,7 @@ input {
   margin-bottom: 0;
 }
 .el-tabs__item{
-  olor:@color-base-gray;
+  color:@color-base-gray;
 }
 .el-tab-pane{
   .el-date-editor.el-input{

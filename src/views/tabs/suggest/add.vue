@@ -1,23 +1,35 @@
 <template>
     <div class="tab-form add-form">
         <el-row class="tab-pane-title">
-            新建客诉
+            新建建议
         </el-row>
         <el-row>
-            <el-form ref="form" :model="form" label-width="85px" >
-                <el-form-item label="来源影院组">
+            <el-form ref="form" :model="form" label-width="100px" >
+                <el-form-item label="具体途径" required>
                     <el-select v-model="form.region" placeholder="请选择">
                         <el-option label="区域一" value="shanghai"></el-option>
                         <el-option label="区域二" value="beijing"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="来源影院">
+                <el-form-item label="来源影院组" required>
                     <el-select v-model="form.region" placeholder="请选择">
                         <el-option label="区域一" value="shanghai"></el-option>
                         <el-option label="区域二" value="beijing"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="来源影院">
+                <el-form-item label="来源影院" required>
+                    <el-select v-model="form.region" placeholder="请选择">
+                        <el-option label="区域一" value="shanghai"></el-option>
+                        <el-option label="区域二" value="beijing"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="标题" required>
+                    <el-select v-model="form.region" placeholder="请选择">
+                        <el-option label="区域一" value="shanghai"></el-option>
+                        <el-option label="区域二" value="beijing"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="内容" required>
                     <el-input
                             type="textarea"
                             :rows="12"
@@ -25,7 +37,7 @@
                             v-model="form.textarea">
                     </el-input>
                 </el-form-item>
-                <el-form-item label="运维附件">
+                <el-form-item label="截图">
                     <el-upload
                             action="https://jsonplaceholder.typicode.com/posts/"
                             list-type="picture-card"
@@ -39,7 +51,6 @@
                 </el-form-item>
                 <el-form-item class="form-button">
                     <el-button type="primary" v-on:click="save">保存</el-button>
-                    <el-button type="primary" v-on:click="goHandle">保存并开始处理</el-button>
                     <el-button v-on:click="close">关闭不保存</el-button>
                 </el-form-item>
             </el-form>

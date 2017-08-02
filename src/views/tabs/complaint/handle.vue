@@ -1,7 +1,7 @@
 <template>
     <div class="tab-form complaint">
         <el-row class="tab-pane-title">
-            编辑客诉
+            处理客诉
         </el-row>
         <el-row class="property">
             <el-col :span="4">
@@ -24,19 +24,18 @@
             问题：有个客人要退票，订单...
         </el-row>
         <el-row>
-            <el-form ref="form" :model="form" label-width="85px" >
-                <el-form-item label="客诉类型"  required>
-                    <el-col :span="6">
+            <el-form ref="form" :model="form" label-width="85px" label-position="right">
+                <el-form-item label="客诉类型"  required >
+                    <el-col :span="4">
                         <el-select v-model="form.region" placeholder="请选择">
                             <el-option label="区域一" value="shanghai"></el-option>
                             <el-option label="区域二" value="beijing"></el-option>
                         </el-select>
                     </el-col>
-                    <el-col :span="15">
-                        &nbsp
-                    </el-col>
-                    <el-col :span="3" class="">
-                        查看沟通记录
+                    <el-col :span="20">
+                        <el-input>
+
+                        </el-input>
                     </el-col>
                 </el-form-item>
             </el-form>
@@ -87,10 +86,10 @@
                     <el-radio class="radio" v-model="radio2" label="4">处理完毕</el-radio>
                 </el-form-item>
                 <el-form-item class="form-button" >
-                    <el-button type="primary">
+                    <el-button type="primary" v-on:click="save">
                         保存
                     </el-button>
-                    <el-button>
+                    <el-button v-on:click="close">
                         关闭不保存
                     </el-button>
                 </el-form-item>
@@ -104,7 +103,24 @@
             return {
                 form:{},
                 radio:1,
-                radio2:1
+                radio2:1,
+                dialogImageUrl:'',
+                dialogVisible:false
+            }
+        },
+        methods:{
+            save(){
+                this.$emit('view', 'list')
+            },
+            close(){
+                this.$emit('view', 'list')
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePictureCardPreview(file) {
+                this.dialogImageUrl = file.url;
+                this.dialogVisible = true;
             }
         }
     }

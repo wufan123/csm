@@ -140,108 +140,7 @@
                     pageSize:10,
                     pageNumber:0
                 },
-                tableData: [
-                    {
-                    completeNum: 8,
-                    averageCompleteTime: 63174611,
-                    userFullName: '李云龙',
-                    userId: '2',
-                    averageRespondTime: '464843',
-
-                }, {
-                    completeNum: 1,
-                    averageCompleteTime: 999999999,
-                    userFullName: '李云龙',
-                    userId: '2',
-                    averageRespondTime: '4648432',
-
-                }, {
-                    completeNum: 15,
-                    averageCompleteTime: 63127622,
-                    userFullName: '李云龙',
-                    userId: '2',
-                    averageRespondTime: '9999999999',
-
-                }, {
-                    completeNum: 10,
-                    averageCompleteTime: 63176644,
-                    userFullName: '李云龙',
-                    userId: '2',
-                    averageRespondTime: '4644843',
-
-                },
-                    {
-                        completeNum: 11,
-                        averageCompleteTime: 63176633,
-                        userFullName: '李云龙',
-                        userId: '2',
-                        averageRespondTime: '4644843',
-
-                    },
-                    {
-                        completeNum: 111,
-                        averageCompleteTime: 63176611,
-                        userFullName: '李云龙',
-                        userId: '2',
-                        averageRespondTime: '4644843',
-
-                    },
-                    {
-                        completeNum: 11,
-                        averageCompleteTime: 631766,
-                        userFullName: '李云龙',
-                        userId: '2',
-                        averageRespondTime: '4644843',
-
-                    },
-                    {
-                        completeNum: 11,
-                        averageCompleteTime: 631766,
-                        userFullName: '李云龙',
-                        userId: '2',
-                        averageRespondTime: '4644843',
-
-                    },
-                    {
-                        completeNum: 11,
-                        averageCompleteTime: 631766,
-                        userFullName: '李云龙',
-                        userId: '2',
-                        averageRespondTime: '4644843',
-
-                    },
-                    {
-                        completeNum: 11,
-                        averageCompleteTime: 631766,
-                        userFullName: '李云龙',
-                        userId: '2',
-                        averageRespondTime: '4644843',
-
-                    }, {
-                        completeNum: 11,
-                        averageCompleteTime: 631766,
-                        userFullName: '李云龙',
-                        userId: '2',
-                        averageRespondTime: '4644843',
-
-                    },
-                    {
-                        completeNum: 11,
-                        averageCompleteTime: 631766,
-                        userFullName: '李云龙',
-                        userId: '2',
-                        averageRespondTime: '4644843',
-
-                    },
-                    {
-                        completeNum: 11,
-                        averageCompleteTime: 631766,
-                        userFullName: '李云龙',
-                        userId: '2',
-                        averageRespondTime: '4644843',
-
-                    }
-                ],
+                tableData:[],
             };
         },
         methods: {
@@ -257,7 +156,7 @@
                 indexApi.workorderCount().then(res => {
                     this.workorderCount = res.resultData
                 })
-//                this.getOperationStar();
+                this.getOperationStar();
             },
             statisticsChage(){
                 this.getOperationStar();
