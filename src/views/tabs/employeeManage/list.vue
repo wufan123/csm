@@ -54,7 +54,19 @@
                     <el-button type="text" class="t-danger" @click="deleteEmployee(scope.$index)">删除</el-button>
                 </template>    
             </el-table-column>
-        </el-table>    
+        </el-table>   
+         <div class="h20"></div>
+         <el-row type="flex" justify="end" class="pagination">
+             <el-pagination
+                        @size-change="pageSizeChange"
+                        @current-change="pageCurrentChange"
+                        :current-page="pageNumber"
+                        :page-sizes="[10, 20, 30, 40]"
+                        :page-size="this.page.pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="this.page.totalElements">
+                </el-pagination>
+        </el-row> 
       </div>  
 
   </div>
@@ -66,6 +78,12 @@ export default {
     data(){
         return{
             employeeList:[],
+            pageNumber:1,
+            page:{
+                pageSize:10,
+                pageNumber:0,
+                totalElements:0
+            },
             positionList:[],
             search: {
                 positionId: null,
@@ -78,7 +96,13 @@ export default {
     },
     methods:{
         getData:function (params) {
+            if(!params){
+                params = {}
+            }
+            params.pageNumber = this.page.pageNumber
+            params.pageSize = this.page.pageSize
             employeeApi.ListEmployee(params).then(res => {
+                this.page.totalElements = res.resultData.totalElements
                 this.employeeList = res.resultData.content
             })
         },
@@ -152,6 +176,14 @@ export default {
                      })
                 
                 })
+        },
+        pageCurrentChange(currentPage){
+            this.page.pageNumber = currentPage -1
+            this.getData();
+        },
+        pageSizeChange(size){
+            this.page.pageSize= size
+            this.getData();
         }
     },
     created:function () {

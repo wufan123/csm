@@ -5,9 +5,9 @@
                 <el-form-item label="归属影院组">
                     <el-select v-model="search.positionId" placeholder="请选择">
                         <el-option label="全部" value=""></el-option>
-                        <el-option   v-for="item in positionList"  :key="item.id"
+                        <!-- <el-option   v-for="item in positionList"  :key="item.id"
                         :label="item.positionName"  :value="item.id">
-                        </el-option>
+                        </el-option> -->
                     </el-select>
                 </el-form-item>
                 <el-form-item>
@@ -31,16 +31,6 @@
                 </template>    
             </el-table-column>
         </el-table>    
-        <div class="h20"></div>
-         <el-row type="flex" justify="end" class="pagination">
-            <el-pagination
-                    :current-page="10"
-                    :page-sizes="[10, 20, 30, 40]"
-                    :page-size="10"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    :total="40">
-            </el-pagination>
-        </el-row>
       </div>
   </div>
 </template>
@@ -51,10 +41,6 @@ export default {
     data(){
         return{
             cinemaList:[],
-            currentPage1: 5,
-            currentPage2: 5,
-            currentPage3: 5,
-            currentPage4: 4,
             search: {
                 positionId: null,
                 enable: null
@@ -62,12 +48,6 @@ export default {
         }
     },
     methods:{
-         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
-        },
         getData:function (params) {
             cinemaApi.listCinema(params).then(res => {
                 this.cinemaList = res.resultData.content

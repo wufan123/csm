@@ -15,5 +15,8 @@ export default {
     },
     delEmployee(params) {
         return httpApi.postForm(DELETE_EMPLOYEE, params)
+    },
+    updateEmployee(params) {
+        return httpApi.postForm(EDIT_EMPLOYEE, params)
     }
 }
