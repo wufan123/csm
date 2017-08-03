@@ -1,6 +1,6 @@
 <template>
     <div id="complaint-list">
-        <component v-bind:is="view" v-on:view="changeViewState">
+        <component v-bind:is="view" v-on:view="changeViewState" :viewState="viewState">
 
         </component>
     </div>
@@ -19,14 +19,14 @@
         },
         data(){
             return {
-                viewState: 'list',
+                viewState: {},
                 view:list
             }
         },
         methods: {
             changeViewState(state){
-                this.viewState = state
-                switch (state)
+                this.viewState = state;
+                switch (state.type)
                 {
                     case 'add':
                         this.view =add;

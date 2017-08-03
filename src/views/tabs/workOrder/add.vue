@@ -4,26 +4,28 @@
             新建客诉
         </el-row>
         <el-row>
-            <el-form ref="form" :model="form" label-width="100px" >
-                <el-form-item label="来源影院组" required>
-                    <el-select v-model="form.region" placeholder="请选择">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
+            <el-form ref="form" :model="form" label-width="100px" :rules="rules">
+                <el-form-item label="来源影院组" prop="cinemaGroupId" required>
+                    <el-select v-model="form.cinemaGroupId" placeholder="请选择" v-on:change="getCinemas">
+                        <el-option v-for="(item,index) in cinemaGroupOptions" :key="index"  :label="item.name" :value="item.id"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="来源影院" required>
-                    <el-select v-model="form.region" placeholder="请选择">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
+                <el-form-item label="来源影院" prop="cinemaId" required>
+                    <el-select v-model="form.cinemaId" placeholder="请选择">
+                        <el-option v-for="(item,index) in cinemasOptions" :key="index"  :label="item.name" :value="item.id"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="来源影院" required>
+                <el-form-item  prop="content" label="问题描述" required >
                     <el-input
                             type="textarea"
                             :rows="12"
                             placeholder="请输入内容"
-                            v-model="form.textarea">
+                            v-model="form.content">
                     </el-input>
+                </el-form-item>
+                <el-form-item label="是否星标" prop="isStartHandle" required>
+                    <el-radio class="radio" v-model="form.isStartHandle" label="true">是</el-radio>
+                    <el-radio class="radio" v-model="form.isStartHandle" label="false">否</el-radio>
                 </el-form-item>
                 <el-form-item label="运维附件">
                     <el-upload
@@ -47,15 +49,57 @@
     </div>
 </template>
 <script>
+    import apiMixin from 'utils/apiMixin'
+    import cinemaApi from 'api/cinemaApi'
+    import workOrderApi from 'api/workOrderApi'
     export default {
+        mixins: [apiMixin],
         data(){
+//            this.userDetail = this.
             return {
-                form:{},
+                cinemaGroupOptions:[],
+                cinemasOptions:[],
+                form:{
+                    initiatorId:this.$storage.getItem(this.$storage.KEY_USER_DETAIL).id,
+                    cinemaGroupId:'',
+                    cinemaId:'',
+                    content:'',
+                    isStartHandle:'false',
+                    imageFiles:''
+                },
                 dialogImageUrl: '',
-                dialogVisible: false
+                dialogVisible: false,
+                rules:{
+                    cinemaGroupId:[
+                        { type:'number', required: true, message: '请输入来源影院组', trigger: 'blur' }
+                    ],
+                    cinemaId:[
+                        { type:'number', required: true, message: '请输入来源影院', trigger: 'blur' }
+                    ],
+                    content:[
+                        { required: true, message: '请描述问题', trigger: 'blur' }
+                    ]
+                }
             }
         },
         methods: {
+            getCinemas(){
+                this.cinemasOptions=[];
+                cinemaApi.listCinema({
+                    cinemaGroupId:this.form.cinemaGroupId
+                }).then(res=>{
+                    let ops =[]
+                    ops = ops.concat(res.resultData.content);
+                    this.cinemasOptions = ops
+                })
+            },
+            fetchData(){
+                cinemaApi.listCinemaGroup().then(res => {
+                    let ops =[]
+                    ops = ops.concat(res.resultData.content);
+                    this.cinemaGroupOptions = ops;
+                })
+            },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
@@ -64,13 +108,27 @@
                 this.dialogVisible = true;
             },
             save(){
-                this.$emit('view', 'list')
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        workOrderApi.create(this.form).then(res=>{
+                            this.$emit('view', {
+                                type:'list'
+                            })
+                        })
+                    } else {
+                        return false;
+                    }
+                });
             },
             goHandle(){
-                this.$emit('view', 'list')
+                this.$emit('view', {
+                    type:'list'
+                })
             },
             close(){
-                this.$emit('view', 'list')
+                this.$emit('view', {
+                    type:'list'
+                })
             }
         }
     }

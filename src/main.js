@@ -7,7 +7,6 @@ import VueRouter from 'vue-router'
 import rooter from './rooter'
 import storage from 'utils/storage'
 import * as util from 'utils'
-import 'utils/dateUtils'
 
 
 
