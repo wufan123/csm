@@ -22,6 +22,7 @@
         },
         methods: {
             getCinemas(){
+                console.log('传进来的值',this.cinemaGroupId)
                 if(!this.cinemaGroupId)
                     return
                 cinemaApi.listCinema({
