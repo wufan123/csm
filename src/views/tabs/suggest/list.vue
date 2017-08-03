@@ -8,7 +8,7 @@
             </el-form-item>
             <el-form-item label="影院名称">
                 <el-select v-model="form.cinemaName" placeholder="全部">
-                    <cinema-options :showAll="true" :cinemaGroupId="form.cinemaGroupId" ref="cinemaOp"></cinema-options>
+                    <cinema-options :showAll="true"  ref="cinemaOp"></cinema-options>
                 </el-select>
             </el-form-item>
             <el-form-item label="建议日期">
@@ -160,7 +160,8 @@
         },
         methods: {
             getCinemas(){
-                this.$refs.cinemaOp.getCinemas();
+                this.form.cinemaName=''
+                this.$refs.cinemaOp.getCinemas(this.form.cinemaGroupId);
             },
             handleEdit(index, row) {
                 this.$emit('view', {
@@ -172,13 +173,15 @@
                 this.$alert('确定删除该条建议么', '温馨提示', {
                     confirmButtonText: '确定',
                     callback: action => {
-                        suggestApi.delete({
-                            id: row.id
-                        }).then(res => {
-                            this.pageDatas.content = this.pageDatas.content.filter(item => {
-                                return item.id !== row.id
+                        if (action == 'confirm') {
+                            suggestApi.delete({
+                                id: row.id
+                            }).then(res => {
+                                this.pageDatas.content = this.pageDatas.content.filter(item => {
+                                    return item.id !== row.id
+                                })
                             })
-                        })
+                        }
                     }
                 });
             },
@@ -195,9 +198,11 @@
             },
             pageCurrentChange(currentPage){
                 this.form.pageNumber = currentPage - 1
+                this.getList()
             },
             pageSizeChange(size){
                 this.form.pageSize = size
+                this.getList()
             },
             fetchData(){
                 this.getList()

@@ -1,10 +1,10 @@
 import httpApi from './httpApi'
-const prefix = '/suggest';
-const _LIST = `${prefix}/listSuggest.do`;//列表
+const prefix = '/cinemaManager';
+const _LIST = `${prefix}/listManager.do`;//列表
 const _DETAIL = `${prefix}/detail.do`;//详细
-const _SAVE = `${prefix}/saveEdit.do`;//保存
-const _CREATE = `${prefix}/createSuggest.do`;//新建
-const _DELETE = `${prefix}/del.do`;//新建
+const _SAVE = `${prefix}/saveManagerEdit.do`;//保存
+const _CREATE = `${prefix}/addManager.do`;//新建
+const _DELETE = `${prefix}/deleteManager.do`;//新建
 
 const _EXPORT = `${prefix}/export.do`;//导出execl
 

@@ -17,7 +17,7 @@
         },
         methods:{
             changeViewState(state){
-                switch (state)
+                switch (state.type)
                 {
                     case 'list':
                         this.view =list;

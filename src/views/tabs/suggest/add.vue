@@ -20,7 +20,7 @@
                 </el-form-item>
                 <el-form-item label="影院名称" prop="cinemaId" required>
                     <el-select v-model="form.cinemaId" placeholder="请选择" >
-                        <cinema-options  :cinemaGroupId="form.cinemaGroupId" ref="cinemaOp"></cinema-options>
+                        <cinema-options   ref="cinemaOp"></cinema-options>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="标题" required prop="title">
@@ -92,7 +92,8 @@
         },
         methods: {
             getCinemas(){
-                this.$refs.cinemaOp.getCinemas();
+                this.form.cinemaId=''
+                this.$refs.cinemaOp.getCinemas(this.form.cinemaGroupId);
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);

@@ -2,26 +2,25 @@
     <div class="suggest-list">
         <el-form ref="form" :model="form" label-width="85px" :inline="true">
             <el-form-item label="影院组名称">
-                <el-select v-model="form.region" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                <el-select v-model="form.cinemaGroupId" placeholder="全部" >
+                    <group-options :showAll="true"></group-options>
                 </el-select>
             </el-form-item>
             <el-form-item label="管理人员">
-                <el-input v-model="form.region" placeholder="活动区域">
+                <el-input v-model="form.fullName" placeholder="">
                 </el-input>
             </el-form-item>
             <el-form-item label="账号名称">
-                <el-input v-model="form.region" placeholder="活动区域">
+                <el-input v-model="form.loginName" placeholder="">
                 </el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="info">查询</el-button>
+                <el-button type="info" v-on:click="getList">查询</el-button>
                 <el-button type="success" v-on:click="add">新建</el-button>
             </el-form-item>
         </el-form>
         <el-table
-                :data="tableData"
+                :data="this.pageDatas.content"
                 stripe
 
         >
@@ -34,24 +33,24 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="name"
+                    prop="fullName"
                     label="管理人员姓名"
             >
             </el-table-column>
             <el-table-column
-                    prop="address"
+                    prop="cinemaGroup"
                     label="影院组名称">
             </el-table-column>
             <el-table-column
-                    prop="address"
+                    prop="mobile"
                     label="联系电话">
             </el-table-column>
             <el-table-column
-                    prop="address"
+                    prop="loginName"
                     label="账号名">
             </el-table-column>
             <el-table-column
-                    prop="address"
+                    prop="hasSubCount"
                     label="管理子账号数量">
             </el-table-column>
             <el-table-column
@@ -71,59 +70,74 @@
         </el-table>
         <el-row type="flex" justify="end" class="pagination">
             <el-pagination
-                    :current-page="50"
-                    :page-sizes="[100, 200, 300, 400]"
-                    :page-size="100"
+                    @size-change="pageSizeChange"
+                    @current-change="pageCurrentChange"
+                    :current-page="pageNumber"
+                    :page-sizes="[20, 40, 60, 80]"
+                    :page-size="this.form.pageSize"
                     layout="total, sizes, prev, pager, next, jumper"
-                    :total="400">
+                    :total="this.pageDatas.totalElements">
             </el-pagination>
         </el-row>
         <add-dialog :dialogAdd="dialogAdd"></add-dialog>
+        <edit-dialog :dialogEdit="dialogEdit"></edit-dialog>
     </div>
 </template>
 <script>
     import addDialog from 'views/tabs/cinemaManager/add.vue'
+    import editDialog from 'views/tabs/cinemaManager/edit.vue'
+    import cinemaManagerApi from 'api/cinemaManagerApi'
     export default {
         components: {
             'add-dialog': addDialog,
+            'edit-dialog': editDialog
         },
         data(){
-            let tableData = []
-            for (let i = 0; i < 20; i++) {
-                tableData.push({
-                    date: '23213',
-                    name: '电影票太贵了',
-                    address: '座位空调太冷'
-                })
-            }
             return {
-                tableData: tableData,
-                activeSubTab: 'first',
-                form: {},
+                pageNumber:0,
+                form: {
+                    fullName:'',
+                    loginName:'',
+                    cinemaGroupId:'',
+                    pageSize: 20,
+                    pageNumber: 0
+                },
+                pageDatas: {
+                    totalElements: 0
+                },
                 dialogAdd: {
                     dialogVisible: false
-                }
+                },
+                dialogEdit: {
+                    dialogVisible: false
+                },
             }
         },
         methods: {
             handleEdit(index, row) {
-                console.log(index, row);
-                this.dialogAdd.dialogVisible =true
+                this.dialogEdit.dialogVisible =true
+                this.dialogEdit.data = row
+                console.log(this.dialogEdit)
             },
             handleDelete(index, row) {
-                console.log(index, row);
-                this.$alert('你确定要删除什么鬼么', '温馨提示', {
+                this.$alert(`确定删除${row.cinemaGroup}的管理账号${row.loginName}么`, '温馨提示', {
                     confirmButtonText: '确定',
                     callback: action => {
-                        this.$message({
-                            type: 'info',
-                            message: `action: ${ action }`
-                        });
+                        if(action=='confirm')
+                        {
+                            cinemaManagerApi.delete({
+                                id: row.id
+                            }).then(res => {
+                                this.pageDatas.content = this.pageDatas.content.filter(item => {
+                                    return item.id !== row.id
+                                })
+                            })
+                        }
                     }
                 });
             },
             add(){
-
+                this.dialogAdd.dialogVisible =true
             },
             handleClose(done) {
                 this.$confirm('确认关闭？')
@@ -132,6 +146,22 @@
                     })
                     .catch(_ => {
                     });
+            },
+            pageCurrentChange(currentPage){
+                this.form.pageNumber = currentPage - 1
+                this.getList()
+            },
+            pageSizeChange(size){
+                this.form.pageSize = size
+                this.getList()
+            },
+            fetchData(){
+                this.getList()
+            },
+            getList(){
+                cinemaManagerApi.list(this.form).then(res=>{
+                    this.pageDatas = res.resultData
+                })
             }
         }
     }
