@@ -1,7 +1,7 @@
 <template>
 <div>
     <div>
-        <component v-bind:is="view" v-on:view="changeViewState">
+        <component v-bind:is="view" v-on:view="changeViewState" :viewState="viewState">
 
         </component>
     </div>
@@ -23,7 +23,8 @@
         },
         methods:{
             changeViewState(state){
-                switch (state)
+                this.viewState = state;
+                switch (state.type)
                 {
                     case 'add':
                         this.view =add;
