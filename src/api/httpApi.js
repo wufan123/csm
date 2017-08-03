@@ -15,7 +15,7 @@ const preHandleError = (data) => {
         })
 };
 
-axios.interceptors.response.use(function(response) {
+axios.interceptors.response.use(function (response) {
     let data;
     try {
         data = JSON.parse(response.data);
@@ -31,8 +31,8 @@ axios.interceptors.response.use(function(response) {
         preHandleError(data);
         return Promise.reject(data);
     }
-}, function(error) {
-    let data = error.data;
+}, function (error) {
+    let data = error?error.data:'';
     preHandleError(data);
     return Promise.reject(data);
 });
@@ -40,7 +40,10 @@ axios.interceptors.response.use(function(response) {
 axios.postForm = (url, params) => {
     let form = new URLSearchParams();
     for (let i in params) {
-        form.append(i, params[i]);
+        {
+            if (params[i]||params[i]===0)
+                form.append(i, params[i]);
+        }
     }
     return axios.post(url, form);
 };

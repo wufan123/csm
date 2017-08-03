@@ -66,6 +66,8 @@
         },
         data(){
             return {
+                dateStart:'',
+                dateEnd:'',
                 form:{
                     cinemaGroupId:'',
                     cinemaId:'',
@@ -111,12 +113,9 @@
                 })
             },
             fetchData(){
-                httpApi.postForm(this.chart.apiUrl,{
-                    cinemaId:this.form.cinemaId,
-                    cinemaGroupId:this.form.cinemaGroupId,
-                    dateEnd:this.form.dateEnd?this.form.dateEnd.format('yyyy-MM-dd'):'',//转成服务器需要的格式 - -
-                    dateStart:this.form.dateStart?this.form.dateStart.format('yyyy-MM-dd'):''
-                }).then(res=>{//请求图表数据
+                this.form.dateEnd=this.form.dateEnd?this.form.dateEnd.format('yyyy-MM-dd'):'';
+                this.form.dateStart =this.form.dateStart?this.form.dateStart.format('yyyy-MM-dd'):'';
+                httpApi.postForm(this.chart.apiUrl,this.form).then(res=>{//请求图表数据
                     let newRes = indexApi.preHandleIndexData(res.resultData);
                     for( let i in newRes)
                     {
