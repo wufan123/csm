@@ -2,34 +2,32 @@
     <div class="suggest-list">
         <el-form ref="form" :model="form" label-width="85px" :inline="true">
             <el-form-item label="影院组名称">
-                <el-select v-model="form.region" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                <el-select v-model="form.cinemaGroupId"  placeholder="全部" v-on:change="getCinemas()">
+                    <group-options :showAll="true"></group-options>
                 </el-select>
             </el-form-item>
             <el-form-item label="影院名称">
-                <el-select v-model="form.region" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                <el-select v-model="form.cinemaName" placeholder="全部">
+                    <cinema-options :showAll="true" :cinemaGroupId="form.cinemaGroupId" ref="cinemaOp"></cinema-options>
                 </el-select>
             </el-form-item>
             <el-form-item label="建议日期">
                 <el-col :span="11">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.date1"></el-date-picker>
+                    <el-date-picker type="date" placeholder="选择日期" v-model="createTimeStart"></el-date-picker>
                 </el-col>
                 <el-col class="line" :span="2">-</el-col>
                 <el-col :span="11">
-                    <el-time-picker type="fixed-time" placeholder="选择时间" v-model="form.date2"></el-time-picker>
+                    <el-time-picker type="fixed-time" placeholder="选择时间" v-model="createTimeEnd"></el-time-picker>
                 </el-col>
             </el-form-item>
             <el-form-item label="状态">
-                <el-select v-model="form.region" placeholder="活动区域">
+                <el-select v-model="form.status" placeholder="活动区域">
                     <el-option label="区域一" value="shanghai"></el-option>
                     <el-option label="区域二" value="beijing"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="具体途径">
-                <el-select v-model="form.region" placeholder="活动区域">
+                <el-select v-model="form.suggestSource" placeholder="活动区域">
                     <el-option label="区域一" value="shanghai"></el-option>
                     <el-option label="区域二" value="beijing"></el-option>
                 </el-select>
@@ -116,20 +114,27 @@
     export default {
         data(){
             let tableData =[]
-            for(let i =0; i<20;i++){
-                tableData.push({
-                    date:'23213',
-                    name:'电影票太贵了',
-                    address:'座位空调太冷'
-                })
-            }
             return {
                 tableData:tableData,
                 activeSubTab: 'first',
-                form: {}
+                createTimeStart:'',
+                createTimeEnd:'',
+                form: {
+                    cinemaGroupId:'',
+                    cinemaName:'',
+                    createTimeStart:'',
+                    createTimeEnd:'',
+                    status:'',
+                    suggestSource:'',
+                    pageSize:20,
+                    pageNumber:0
+                }
             }
         },
         methods:{
+            getCinemas(){
+              this.$refs.cinemaOp.getCinemas();
+            },
             handleEdit(index, row) {
                 console.log(index, row);
                 this.$emit('view', 'check')

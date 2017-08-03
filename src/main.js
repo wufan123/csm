@@ -6,12 +6,17 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import rooter from './rooter'
 import storage from 'utils/storage'
+import cinemaGroupOptions from 'views/component/cinemaGroupOptions.vue'
+import cinemations from 'views/component/cinemaOptions.vue'
+import baseMixin from 'utils/baseMixin'
 import * as util from 'utils'
-
 
 
 Vue.use(ElementUI);
 Vue.use(VueRouter);
+Vue.component('group-options',cinemaGroupOptions)
+Vue.component('cinema-options',cinemations)
+Vue.mixin(baseMixin)
 Vue.prototype.$storage = storage;
 Vue.prototype.$util = util //工具类
 
