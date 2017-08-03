@@ -8,9 +8,6 @@
     import cinemaApi from 'api/cinemaApi'
     export default {
         props: {
-            cinemaGroupId: {
-                required: true
-            },
             showAll: {
                 type: Boolean
             }
@@ -21,15 +18,11 @@
             }
         },
         methods: {
-            getCinemas(){
-                console.log('传进来的值',this.cinemaGroupId)
-                if(!this.cinemaGroupId)
-                    return
+            getCinemas(cinemaGroupId){
+                let ops = [];
                 cinemaApi.listCinema({
-                    cinemaGroupId: this.cinemaGroupId
+                    cinemaGroupId: cinemaGroupId
                 }).then(res => {
-                    console.log(this.cinemaGroupId+ " ")
-                    let ops = []
                     if (this.showAll)
                     {
                         ops =ops.concat([{id: '', name: '全部'}])
@@ -38,10 +31,6 @@
                     this.cinemasOptions = ops
                 })
             }
-            ,
-            fetchData(){
-                this.getCinemas()
-            },
         }
 
     }

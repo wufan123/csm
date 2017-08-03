@@ -3,16 +3,16 @@
       <div class="seatch">
           <el-form :inline="true" :model="search" class="demo-form-inline">
               {{search.cinemaGroupId}}
-               <el-form-item label="影院组名称">
-                <el-select v-model="search.cinemaGroupId" placeholder="全部" v-on:change="getCinemas()"> 
-                    <group-options :showAll="true"></group-options>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="影院名称">
-                <el-select v-model="search.cinemaName" placeholder="全部">
-                    <cinema-options :showAll="true" :cinemaGroupId="search.cinemaGroupId" ref="cinemaOp"></cinema-options>
-                </el-select>
-            </el-form-item>
+                <el-form-item label="影院组名称">
+                    <el-select v-model="search.cinemaGroupId" placeholder="全部" v-on:change="getCinemas()">
+                        <group-options :showAll="true"></group-options>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="影院名称">
+                    <el-select v-model="search.cinemaName" placeholder="全部">
+                        <cinema-options :showAll="true"  ref="cinemaOp"></cinema-options>
+                    </el-select>
+                </el-form-item>
                 <el-form-item>
                     <el-button type="info" @click="searchSubmit">查询</el-button>
                 </el-form-item>
@@ -53,7 +53,7 @@ export default {
     methods:{
         getCinemas(){
                 console.log(1111)
-                this.$refs.cinemaOp.getCinemas();
+                this.$refs.cinemaOp.getCinemas(this.search.cinemaGroupId);
             },
         getData:function (params) {
             cinemaApi.listCinema(params).then(res => {

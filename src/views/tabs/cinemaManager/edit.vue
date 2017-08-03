@@ -1,18 +1,22 @@
 <template>
     <div>
         <el-dialog
-                title="新建管理账号"
-                :visible.sync="dialogAdd.dialogVisible"
+                title="编辑管理账号"
+                :visible.sync="dialogEdit.dialogVisible"
                 size="tiny"
                 :before-close="handleClose">
             <span>
-                <el-form ref="form" :model="form" label-width="120px" :rules="rules">
-                <el-form-item label="账号" required prop="loginName">
-                    <el-input v-model="form.loginName" placeholder="请输入账号">
+                <el-form ref="form" :model="form" label-width="130px" :rules="rules" >
+                <el-form-item label="账号" required prop="loginName" >
+                    <el-input v-model="form.loginName" placeholder="请输入账号" disabled>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="管理子账号数量" required prop="loginName" >
+                    <el-input v-model="form.loginName" placeholder="管理子账号数量" disabled>
                     </el-input>
                 </el-form-item>
                 <el-form-item label="归属影院组" required prop="cinemaGroupId">
-                    <el-select v-model="form.cinemaGroupId" placeholder="请选择">
+                    <el-select v-model="form.cinemaGroupId" placeholder="请选择" disabled>
                         <group-options :showAll="true"></group-options>
                     </el-select>
                 </el-form-item>
@@ -35,7 +39,7 @@
                 </el-form>
             </span>
             <span slot="footer">
-             <el-button @click="dialogAdd.dialogVisible = false">取 消</el-button>
+             <el-button @click="dialogEdit.dialogVisible = false">取 消</el-button>
              <el-button type="primary" @click="save">确 定</el-button>
             </span>
         </el-dialog>
@@ -45,20 +49,22 @@
     import cinemaManagerApi from 'api/cinemaManagerApi'
     export default {
         props: {
-            dialogAdd: {
+            dialogEdit: {
                 type: Object,//该对象包含属性字段 title id
                 required: true
             }
         },
         data(){
+            let data = this.dialogEdit.data?this.dialogEdit.data:''
             return {
                 form: {
-                    loginName: '',
-                    cinemaGroupId: '',
-                    fullName: '',
-                    mobile: '',
+                    id:data.id,
+                    loginName: data.loginName,
+                    cinemaGroupId:data.cinemaGroupId,
+                    fullName: data.fullName,
+                    mobile: data.mobile,
                     password: '',
-                    checkPassword: ''
+                    checkPassword:''
                 },
                 rules: {
                     cinemaGroupId: [
@@ -107,8 +113,11 @@
             save(){
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
-                        cinemaManagerApi.create(this.form).then(res=>{
-                            this.dialogAdd.dialogVisible = false
+                        cinemaManagerApi.save(this.form).then(res=>{
+                            this.dialogEdit.dialogVisible = false
+                        })
+                        this.$emit('dialog', {
+                            type: 'edit'
                         })
                     } else {
                         return false;
