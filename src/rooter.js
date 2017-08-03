@@ -5,10 +5,14 @@ import indexPage from 'views/tabs/TrendsPage.vue'
 import complaintListPage from 'views/tabs/workOrder/index.vue'
 import employeeManagePage from 'views/tabs/employeeManage/index.vue'
 import suggestPage from 'views/tabs/suggest/index.vue'
-import cinemaManagePage from 'views/tabs/cinemaManager/index.vue'
+import cinemaManagerPage from 'views/tabs/cinemaManager/index.vue'
 import complaintReportPage from 'views/tabs/complaintReport.vue'
 import operationLogPage from 'views/tabs/operationLog.vue'
 import faqPage from 'views/tabs/faq/index.vue'
+import positionManagePage from 'views/tabs/positionManage/index.vue'
+import cinemaGroupManagePage from 'views/tabs/cinemaGroupManage/index.vue'
+import cinemaManagePage from 'views/tabs/cinemaManage/index.vue'
+//import menuManagePage from 'views/tabs/menuManage/index.vue'
 
 const routes = [
     { path: '/login', component: login },
@@ -30,7 +34,7 @@ router.mapTabPage = tabItem => { //映射tabview
         case '建议列表':
             return suggestPage;
         case '运营人员管理':
-            return cinemaManagePage;
+            return cinemaManagerPage;
         case '岗位管理':
             return positionManagePage;
         case '客诉报表':
@@ -39,6 +43,12 @@ router.mapTabPage = tabItem => { //映射tabview
             return operationLogPage;
         case 'FAQ录入':
             return faqPage;
+        case '影院组管理':
+            return cinemaGroupManagePage;
+            // case '菜单管理':
+            //     return menuManagePage;
+        case '影院管理':
+            return cinemaManagePage;
         default:
             return undefined;
     }
