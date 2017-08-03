@@ -3,7 +3,7 @@
       <div class="seatch">
           <el-form :inline="true" :model="search" class="demo-form-inline">
                 <el-form-item label="影院组">
-                    <el-input v-model="search.fullName" ></el-input>
+                    <el-input v-model="search.name" ></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="info" @click="searchSubmit">查询</el-button>
@@ -21,20 +21,22 @@
             <el-table-column   prop="createTime" :formatter="formateDate"   label="创建时间"  width="180">  </el-table-column>
             <el-table-column   label="操作" >
                 <template scope="scope">
-                    <el-button type="text" class="t-info" @click="editEmployee(scope.$index)">编辑</el-button>
-                    <el-button type="text" class="t-danger" @click="deleteEmployee(scope.$index)">删除</el-button>
+                    <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)">编辑</el-button>
+                    <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
                 </template>    
             </el-table-column>
         </el-table>    
-        <div class="h20"></div>
+       <div class="h20"></div>
          <el-row type="flex" justify="end" class="pagination">
-            <el-pagination
-                    :current-page="50"
-                    :page-sizes="[100, 200, 300, 400]"
-                    :page-size="100"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    :total="400">
-            </el-pagination>
+             <el-pagination
+                        @size-change="pageSizeChange"
+                        @current-change="pageCurrentChange"
+                        :current-page="pageNumber"
+                        :page-sizes="[10, 20, 30, 40]"
+                        :page-size="this.page.pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="this.page.totalElements">
+                </el-pagination>
         </el-row>
       </div>
   </div>
@@ -46,58 +48,85 @@ export default {
     data(){
         return{
             cinemaGroupList:[],
-            currentPage1: 5,
-            currentPage2: 5,
-            currentPage3: 5,
-            currentPage4: 4,
+            pageNumber:1,
+            page:{
+                pageSize:10,
+                pageNumber:0,
+                totalElements:0
+            },
             search: {
-                positionId: null,
-                enable: null
+                name: '',
             }
         }
     },
     methods:{
-         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
-        },
         getData:function (params) {
             cinemaApi.listCinemaGroup(params).then(res => {
+                this.page.totalElements = res.resultData.totalElements
                 this.cinemaGroupList = res.resultData.content
             })
         },
         searchSubmit(){
             var params = {}
-           if(this.search.positionId){
-               params.positionId = this.search.positionId
-           }
-           if(this.search.enable){
-                params.isEnable = this.search.enable==1?true:false
+           if(this.search.name){
+               params.name = this.search.name
            }
             this.getData(params)
         },
         addSubmit(){
              this.$prompt('影院组名称', '新建影院组', {
                 confirmButtonText: '确定',
-                cancelButtonText: '取消'
+                cancelButtonText: '取消',
+                inputErrorMessage:'请填写影院组',
+                inputValidator:function (value) {
+                    console.log('value',value)
+                    if(!value){
+                        return false;
+                    }
+                },
                 }).then(({ value }) => {
-                
+                    cinemaApi.addCinemaGroup({name:value}).then(res =>{
+                        this.getData();
+                        this.$message({
+                            type: 'success',
+                            message: '添加成功!'
+                        });
+                    })
                 }).catch(() => {
-               
+
+                });
+        },
+        editFn(_index,row){
+            this.$prompt('影院组名称', '编辑影院组', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                inputErrorMessage:'请填写影院组',
+                inputValue:row.name,
+                inputValidator:function (value) {
+                    if(!value){
+                        return false;
+                    }
+                },
+                }).then(({ value }) => {
+                    cinemaApi.editCinemaGroup({name:value, id:row.id}).then(res =>{
+                        this.getData();
+                    })
+                }).catch(() => {
+
                 });
         },
         formateDate(row){
            return new Date(row.createTime).format("yyyy-MM-dd")
         },
-        deleteEmployee(_index){
+        deleteFn(_index,row){
+            console.log('row',row)
              this.$confirm('此操作将永久删除该职员, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
                 }).then(() => {
-                    employeeApi.delEmployee({id:this.employeeList[_index].id}).then(res => {
+                    cinemaApi.delCinemaGroup({cinemaGroupId:row.id}).then(res => {
+                        this.getData();
                         this.$message({
                             type: 'success',
                             message: '删除成功!'
@@ -105,6 +134,14 @@ export default {
                      })
                 
                 })
+        },
+        pageCurrentChange(currentPage){
+            this.page.pageNumber = currentPage -1
+            this.getData();
+        },
+        pageSizeChange(size){
+            this.page.pageSize= size
+            this.getData();
         }
     },
     created:function () {

@@ -12,6 +12,8 @@ import faqPage from 'views/tabs/faq/index.vue'
 import positionManagePage from 'views/tabs/positionManage/index.vue'
 import cinemaGroupManagePage from 'views/tabs/cinemaGroupManage/index.vue'
 import cinemaManagePage from 'views/tabs/cinemaManage/index.vue'
+import avatarChangePage from 'views/tabs/avatarChange.vue'
+import passwordChangePage from 'views/tabs/passwordChange.vue'
 //import menuManagePage from 'views/tabs/menuManage/index.vue'
 
 const routes = [
@@ -45,10 +47,14 @@ router.mapTabPage = tabItem => { //映射tabview
             return faqPage;
         case '影院组管理':
             return cinemaGroupManagePage;
-            // case '菜单管理':
-            //     return menuManagePage;
+        case '菜单管理':
+            return menuManagePage;
         case '影院管理':
             return cinemaManagePage;
+        case '头像修改':
+            return avatarChangePage;
+        case '密码修改':
+            return passwordChangePage;
         default:
             return undefined;
     }

@@ -30,7 +30,7 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="入职时间" prop="hireDate" required >
+            <el-form-item label="入职时间" prop="hireDate" >
                <el-date-picker type="date" placeholder="入职时间" v-model="employee.hireDate"></el-date-picker>
              </el-form-item>
           </el-col>
@@ -108,8 +108,7 @@ export default {
         loginName:[{ required: true, message: '请输入职员账号', trigger: 'blur' },{ min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }],
         cardId:[{ validator: validateCardId, trigger: 'blur' }],
         cinemaGroupIds:[{ type: 'array', required: true, message: '请至少选择一个影院组', trigger: 'change' }],
-        positionId:[{ type: 'number', required: true, message: '请选择岗位', trigger: 'change' }],
-        hireDate:[ { type: 'date', required: true, message: '请选择入职时间', trigger: 'change' }  ]
+        positionId:[{ type: 'number', required: true, message: '请选择岗位', trigger: 'change' }]
       }
     }
   },
@@ -117,7 +116,11 @@ export default {
     submitForm(employee){
       this.$refs[employee].validate((valid) => {
           if (valid) {
-            this.employee.hireDate = this.employee.hireDate&&this.employee.hireDate.format("yyyy-MM-dd")
+            if(this.employee.hireDate){
+                this.employee.hireDate = new Date(this.employee.hireDate).format("yyyy-MM-dd")
+            }else{
+              delete this.employee.hireDate;
+            }
             employeeApi.AddEmployee(this.employee).then(res => {
               this.$emit('setType',{
               type:'list'

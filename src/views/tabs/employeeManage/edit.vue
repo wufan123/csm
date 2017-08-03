@@ -59,7 +59,7 @@
         </el-row>
         <div class="h10"></div>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('employee')">立即创建</el-button>
+          <el-button type="primary" @click="submitForm('employee')">保存</el-button>
           <el-button type="primary" :plain="true" @click="closeFn()" >关闭不保存</el-button>
         </el-form-item>
       </el-form>
@@ -108,7 +108,7 @@ export default {
         cardId:[{ validator: validateCardId, trigger: 'blur' }],
         cinemaGroupIds:[{ type: 'array', required: true, message: '请至少选择一个影院组', trigger: 'change' }],
         positionId:[{ type: 'number', required: true, message: '请选择岗位', trigger: 'change' }],
-        hireDate:[ { type: 'date', required: true, message: '请选择入职时间', trigger: 'change' }  ]
+       // hireDate:[ { type: 'date', required: true, message: '请选择入职时间', trigger: 'change' }  ]
       }
     }
   },
@@ -118,9 +118,15 @@ export default {
   methods:{
     submitForm(employee){
       this.$refs[employee].validate((valid) => {
+        
           if (valid) {
-            this.employee.hireDate = this.employee.hireDate&&this.employee.hireDate.format("yyyy-MM-dd")
-            employeeApi.AddEmployee(this.employee).then(res => {
+
+            if(this.employee.hireDate){
+                this.employee.hireDate = new Date(this.employee.hireDate).format("yyyy-MM-dd")
+            }else{
+              delete this.employee.hireDate;
+            }
+            employeeApi.updateEmployee(this.employee).then(res => {
               this.$emit('setType',{
               type:'list'
             })
@@ -146,8 +152,15 @@ export default {
   },
   created(){
     console.log('employee',this.dataObj)
-    this.employee = this.dataObj
+    this.employee.id = this.dataObj.id
+    this.employee.fullName = this.dataObj.fullName
+    this.employee.loginName = this.dataObj.loginName
+    this.employee.cardId = this.dataObj.cardId
+    this.employee.enable = this.dataObj.enable.toString()
     this.employee.cinemaGroupIds = [1,2]
+    this.employee.positionId = this.dataObj.positionId
+    this.employee.mobile = this.dataObj.mobile
+    this.employee.hireDate = this.dataObj.hireDate
     this.getCinemaList()
     this.positionList = this.$storage.getItem('position')
   }

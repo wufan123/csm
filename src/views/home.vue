@@ -72,6 +72,9 @@
                     this.$router.push({ path: 'login'})
                 })
             },
+            updateAvatar(){
+                console.log('改变了头像')
+            },
             topMenuSelect(key) {
                 if(key.indexOf('submenu')===-1) //
                 {
