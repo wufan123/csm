@@ -49,11 +49,9 @@
     </div>
 </template>
 <script>
-    import apiMixin from 'utils/apiMixin'
     import cinemaApi from 'api/cinemaApi'
     import workOrderApi from 'api/workOrderApi'
     export default {
-        mixins: [apiMixin],
         data(){
 //            this.userDetail = this.
             return {

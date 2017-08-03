@@ -91,12 +91,10 @@
     import chartCard from 'views/component/chartCard.vue'
     import cinemaApi from 'api/cinemaApi'
     import indexApi from 'api/indexApi'
-    import apiMixin from 'utils/apiMixin'
     import chartData from 'assets/chartData.json'
     import ElRow from "element-ui/packages/row/src/row";
     //获取图表数据
     export default {
-        mixins: [apiMixin],
         components: {
             chartCard
         },

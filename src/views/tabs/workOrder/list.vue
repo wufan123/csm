@@ -125,18 +125,16 @@
                         :page-sizes="[20, 40, 60, 80]"
                         :page-size="this.form.pageSize"
                         layout="total, sizes, prev, pager, next, jumper"
-                        :total="this.workOrders.totalElements">
+                        :total="this.pageDatas.totalElements">
                 </el-pagination>
             </el-row>
         </div>
     </div>
 </template>
 <script>
-    import apiMixin from 'utils/apiMixin'
     import cinemaApi from 'api/cinemaApi'
     import workOrderApi from 'api/workOrderApi'
     export default {
-        mixins: [apiMixin],
         data(){
             return {
                 activeSubTab: '',
@@ -157,7 +155,7 @@
                     pageSize:20,
                     pageNumber:0,
                 },
-                workOrders: {
+                pageDatas: {
                     content: [],
                     totalElements: 0,
                 },
@@ -167,9 +165,8 @@
         },
         methods: {
             tabClick(tab){
-                this.OrdersContent = this.workOrders.content.filter(item => {
+                this.OrdersContent = this.pageDatas.content.filter(item => {
                     let status = this.activeSubTab.split(' ')
-                    console.log(status)
                     for (let i in status) {
                         if (!status[i]||status[i]=='0'||status[i] == item.status) {
                             return true
@@ -217,8 +214,8 @@
                 this.form.createTimeStart = this.createTimeStart ? this.createTimeStart.format('yyyy-MM-dd') : '';
                 this.form.createTimeEnd = this.createTimeEnd ? this.createTimeEnd.format('yyyy-MM-dd') : '';
                 workOrderApi.list(this.form).then(res => {
-                    this.workOrders = res.resultData
-                    this.OrdersContent = this.workOrders.content
+                    this.pageDatas = res.resultData
+                    this.OrdersContent = this.pageDatas.content
                 })
             },
             getStatusClass(status){

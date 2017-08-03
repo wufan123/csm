@@ -46,7 +46,6 @@
     import httpApi from 'api/httpApi'
     import indexApi from 'api/indexApi'
     import cinemaApi from 'api/cinemaApi'
-    import apiMixin from 'utils/apiMixin'
     import chartOpt from 'assets/chartOptions.json'//获取图表的定制信息
     const echarts = require('echarts/lib/echarts');
     require('echarts/lib/chart/bar');// 引入柱状图
@@ -57,7 +56,6 @@
 
 
     export default {
-        mixins:[apiMixin],
         props: {
             chart:{
                 type:Object,//该对象包含属性字段 title id
