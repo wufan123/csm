@@ -1,19 +1,15 @@
 <template>
     <div id="complaint-list">
-       <!-- <complaint-list v-if="viewState == 'list'" v-on:view="changeViewState"></complaint-list>
-        <complaint-add v-if="viewState == 'add'" v-on:view="changeViewState"></complaint-add>
-        <complaint-edit v-if="viewState == 'edit'" v-on:view="changeViewState"></complaint-edit>
-        <complaint-handle v-if="viewState == 'handle'" v-on:view="changeViewState"></complaint-handle>-->
         <component v-bind:is="view" v-on:view="changeViewState">
 
         </component>
     </div>
 </template>
 <script>
-    import list from 'views/tabs/complaint/list.vue'
-    import add from 'views/tabs/complaint/add.vue'
-    import edit from 'views/tabs/complaint/edit.vue'
-    import handle from 'views/tabs/complaint/handle.vue'
+    import list from 'views/tabs/workOrder/list.vue'
+    import add from 'views/tabs/workOrder/add.vue'
+    import edit from 'views/tabs/workOrder/edit.vue'
+    import handle from 'views/tabs/workOrder/handle.vue'
     export default {
         components: {
             'complaint-list': list,

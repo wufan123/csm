@@ -1,32 +1,28 @@
 <template>
-    <div>
-        <div>
-            <component v-bind:is="view" v-on:view="changeViewState">
-
-            </component>
-        </div>
-    </div>
+   <div>
+      <list-component v-if="type==='list'" @setType="setPage"></list-component>
+   </div>
 </template>
-<script>
-    import list from 'views/tabs/cinemaManage/list.vue'
-    export default {
-        data(){
-            return {
-                viewState: 'list',
-                view:list,
-                dialogImageUrl: '',
-                dialogVisible: false
-            }
-        },
-        methods:{
-            changeViewState(state){
-                switch (state)
-                {
-                    case 'list':
-                        this.view =list;
-                        break;
-                }
-            }
-        }
+<<script>
+import listComponent from './list.vue'
+export default {
+  data(){
+    return{
+      type:'list',
+      data:[]
     }
+  },
+  components:{listComponent},
+  methods:{
+    setPage(params){
+      this.data = this.$util.isEmptyObject(params.data) ? {} : params.data;
+      this.type = params.type
+    }
+  }
+}
 </script>
+<style lang="less">
+
+</style>
+
+
