@@ -7,9 +7,6 @@
 export default {
   props:{
       count:Number
-  },
-  created(){
-       console.log('dot',this.dot)
   }
 
 }
