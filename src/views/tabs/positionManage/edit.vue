@@ -21,7 +21,7 @@
         </el-row>
         <div class="h10"></div>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('position')">立即创建</el-button>
+          <el-button type="primary" @click="submitForm('position')">保存</el-button>
           <el-button type="primary" :plain="true" @click="closeFn()" >关闭不保存</el-button>
         </el-form-item>
       </el-form>
@@ -29,6 +29,7 @@
   </div>
 </template>
 <script>
+import positionApi from 'api/positionApi' 
 export default {
   data(){
       return {
@@ -36,14 +37,38 @@ export default {
               positionName:'',
               enable:'true'
           },
-          rules:{}
+          rules:{
+             positionName: [{ required: true, message: '请输入岗位名称', trigger: 'blur' },{ min: 2, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }],
+          }
       }
   },
   props: {
     dataObj: Object
   },
+  methods:{
+    submitForm(position){
+      this.$refs[position].validate((valid) => {
+          if (valid) {
+            this.position.positionId = this.dataObj.id
+            positionApi.editPosition(this.position).then(res =>{
+              this.$emit('setType',{
+                type:'list'
+              })
+            })
+          }else{
+
+          }
+          })
+    },
+    closeFn(){
+      this.$emit('setType',{
+                type:'list'
+              })
+    }
+  },
   created(){
       this.position = this.dataObj
+      this.position.enable = this.dataObj.enable.toString()
   }
 }
 </script>

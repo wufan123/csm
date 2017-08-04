@@ -14,7 +14,10 @@ import cinemaGroupManagePage from 'views/tabs/cinemaGroupManage/index.vue'
 import cinemaManagePage from 'views/tabs/cinemaManage/index.vue'
 import avatarChangePage from 'views/tabs/avatarChange.vue'
 import passwordChangePage from 'views/tabs/passwordChange.vue'
-//import menuManagePage from 'views/tabs/menuManage/index.vue'
+import menuManagePage from 'views/tabs/menuManage/index.vue'
+import portClassManagePage from 'views/tabs/portClassManage/index.vue'
+import portManagePage from 'views/tabs/portManage/index.vue'
+
 
 const routes = [
     { path: '/login', component: login },
@@ -55,6 +58,10 @@ router.mapTabPage = tabItem => { //映射tabview
             return avatarChangePage;
         case '密码修改':
             return passwordChangePage;
+        case '接口分类管理':
+            return portClassManagePage;
+        case '接口管理':
+            return portManagePage;
         default:
             return undefined;
     }

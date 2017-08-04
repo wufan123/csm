@@ -2,22 +2,20 @@
   <div class="page">
       <div class="seatch">
           <el-form :inline="true" :model="search" class="demo-form-inline">
-              {{search.cinemaGroupId}}
                 <el-form-item label="影院组名称">
-                    <el-select v-model="search.cinemaGroupId" placeholder="全部" v-on:change="getCinemas()">
+                    <el-select v-model="search.cinemaGroupId" placeholder="全部">
                         <group-options :showAll="true"></group-options>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="影院名称">
-                    <el-select v-model="search.cinemaName" placeholder="全部">
-                        <cinema-options :showAll="true"  ref="cinemaOp"></cinema-options>
-                    </el-select>
+                <el-form-item label="影院">
+                    <el-input v-model="search.name" placeholder="">
+                    </el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="info" @click="searchSubmit">查询</el-button>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="success" @click="addSubmit">新增</el-button>
+                    <el-button type="success" @click="addFn">新增</el-button>
                 </el-form-item>
           </el-form>
       </div>				
@@ -25,36 +23,69 @@
          <el-table   :data="cinemaList"   border    style="width: 100%">
             <el-table-column  type="index" label="序号"  width="100"></el-table-column>
             <el-table-column   prop="name"   label="影院名称"  width="180">  </el-table-column>
-            <el-table-column   prop="cinemaGroupId"   label="归属影院组"  width="180"> </el-table-column>
+            <el-table-column   prop="cinemaGroup.name"   label="归属影院组"  width="180"> </el-table-column>
             <el-table-column   prop="createTime" :formatter="formateDate"   label="创建时间"  width="180">  </el-table-column>
             <el-table-column   label="操作" >
                 <template scope="scope">
-                    <el-button type="text" class="t-info" @click="editEmployee(scope.$index)">编辑</el-button>
-                    <el-button type="text" class="t-danger" @click="deleteEmployee(scope.$index)">删除</el-button>
+                    <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)">编辑</el-button>
+                    <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
                 </template>    
             </el-table-column>
         </el-table>    
       </div>
+        <el-dialog
+    title="提示"
+    :visible.sync="dialogVisible"
+    size="tiny">
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="影院名称" prop="name" required>
+            <el-input type="text" v-model="ruleForm.name"  auto-complete="off"></el-input>
+        </el-form-item>
+         <el-form-item label="影院组名称" required prop="cinemaGroupId" >
+                <el-select v-model="ruleForm.cinemaGroupId" placeholder="全部" >
+                    <group-options :showAll="true"></group-options>
+                </el-select>
+            </el-form-item>
+    </el-form>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitFn('ruleForm')">确 定</el-button>
+    </span>
+</el-dialog>
   </div>
 </template>
+
 <<script>
 import employeeApi from 'api/employeeApi'
 import cinemaApi from 'api/cinemaApi'
 export default {
     data(){
+        var validateGroupId = (rule, value, callback) =>{
+            if(!value){
+                callback('请选择影院组')
+            }else{
+                callback()
+            }
+        }
         return{
             cinemaList:[],
+            dialogVisible:false,
+            ruleForm:{
+                type:0,
+                name:'',
+                cinemaGroupId:null
+            },
             search: {
                 cinemaGroupId: null,
-                cinemaName: null
+                name: null
+            },
+            rules:{
+               name:[{ required: true, message: '请输入职员姓名', trigger: 'blur' },{ min: 3, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }] ,
+               cinemaGroupId:[{ validator: validateGroupId, trigger: 'blur' }]
             }
         }
     },
     methods:{
-        getCinemas(){
-                console.log(1111)
-                this.$refs.cinemaOp.getCinemas(this.search.cinemaGroupId);
-            },
         getData:function (params) {
             cinemaApi.listCinema(params).then(res => {
                 this.cinemaList = res.resultData.content
@@ -62,11 +93,11 @@ export default {
         },
         searchSubmit(){
             var params = {}
-           if(this.search.positionId){
-               params.positionId = this.search.positionId
+           if(this.search.cinemaGroupId){
+               params.cinemaGroupId = this.search.cinemaGroupId
            }
-           if(this.search.enable){
-                params.isEnable = this.search.enable==1?true:false
+           if(this.search.name){
+                params.name = this.search.name
            }
             this.getData(params)
         },
@@ -83,13 +114,25 @@ export default {
         formateDate(row){
            return new Date(row.createTime).format("yyyy-MM-dd")
         },
-        deleteEmployee(_index){
-             this.$confirm('此操作将永久删除该职员, 是否继续?', '提示', {
+        addFn(_index,row){
+            this.dialogVisible = true;
+            this.ruleForm = {}
+            this.ruleForm.type = 0
+        },
+        editFn(_index,row){
+            
+            this.dialogVisible = true;
+            this.ruleForm = row
+            this.ruleForm.type = 1
+        },
+        deleteFn(_index,row){
+             this.$confirm('此操作将永久删除该影院, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
                 }).then(() => {
-                    employeeApi.delEmployee({id:this.employeeList[_index].id}).then(res => {
+                    cinemaApi.delCinema({id:row.id}).then(res => {
+                        this.getData()
                         this.$message({
                             type: 'success',
                             message: '删除成功!'
@@ -97,7 +140,28 @@ export default {
                      })
                 
                 })
-        }
+        },
+        submitFn(ruleForm) {
+            this.$refs['ruleForm'].validate((valid) => {
+                if(valid){
+                    let params = {}
+                    params.name = this.ruleForm.name
+                    params.cinemaGroupId = this.ruleForm.cinemaGroupId
+                    if(this.ruleForm.type){
+                        params.id = this.ruleForm.id
+                        cinemaApi.editCinema(params).then(res =>{
+                            this.getData()
+                        })
+                    }else(
+                        cinemaApi.addCinema(params).then(res =>{
+                            this.getData()
+                        })
+                    )
+                    this.dialogVisible = false;
+                }
+                
+            })
+      }
     },
     created:function () {
         this.getData()

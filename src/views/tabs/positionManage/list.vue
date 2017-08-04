@@ -32,14 +32,16 @@
             <el-table-column   prop="positionName"   label="岗位名称"  width="180">  </el-table-column>
             <el-table-column   prop="enable"   label="状态"  width="180">
                 <template scope="scope">
-                    <em>{{scope.row.enable ? '启用' : '禁用'}}</em>
-                </template> 
+    <em>
+        {{scope.row.enable ? '启用' : '禁用'}}</em>
+</template> 
             </el-table-column>
             <el-table-column   label="操作"  >
                 <template scope="scope">
-                    <el-button type="text" class="t-info" @click="editEmployee(scope.$index)">编辑</el-button>
-                    <el-button type="text" class="t-danger" @click="deleteEmployee(scope.$index)">删除</el-button>
-                </template>    
+    <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)">
+        编辑</el-button>
+    <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
+</template>    
             </el-table-column>
         </el-table>   
          <div class="h20"></div>
@@ -85,6 +87,7 @@ export default {
             params.pageNumber = this.page.pageNumber
             params.pageSize = this.page.pageSize
             employeeApi.ListEmployee(params).then(res => {
+                this.page.totalElements = res.resultData.totalElements
                 this.employeeList = res.resultData.content
             })
         },
@@ -103,19 +106,19 @@ export default {
                 type:'add'
             })
         },
-        editEmployee(_index){
+        editFn(_index,row){
           this.$emit('setType',{
               type:'edit',
-              data:this.employeeList[_index]
+              data:row
           })
-          this.$storage.setItem('curEmployeeDetail',this.employeeList[_index])
+        //  this.$storage.setItem('curEmployeeDetail',this.employeeList[_index])
         },
         formateDate(row){
            return new Date(row.hireDate).format("yyyy-MM-dd")
         },
         formateCinema(row){
             var str = ''
-            row.manageGroups.forEach(item => {
+            row.manageGroups&&row.manageGroups.forEach(item => {
                 str += item.name+' '
             })
             return str
@@ -127,13 +130,14 @@ export default {
                 this.$storage.setItem('position',res.resultData.content)
             })
         },
-        deleteEmployee(_index){
-             this.$confirm('此操作将永久删除该职员, 是否继续?', '提示', {
+        deleteFn(_index,row){
+             this.$confirm('此操作将永久删除该岗位, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
                 }).then(() => {
-                    employeeApi.delEmployee({id:this.employeeList[_index].id}).then(res => {
+                    positionApi.delPosition({positionId:row.id}).then(res => {
+                        this.getData();
                         this.$message({
                             type: 'success',
                             message: '删除成功!'

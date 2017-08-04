@@ -61,6 +61,11 @@ export default {
     },
     methods:{
         getData:function (params) {
+            if(!params){
+                params = {}
+            }
+            params.pageNumber = this.page.pageNumber
+            params.pageSize = this.page.pageSize
             cinemaApi.listCinemaGroup(params).then(res => {
                 this.page.totalElements = res.resultData.totalElements
                 this.cinemaGroupList = res.resultData.content
@@ -120,7 +125,7 @@ export default {
         },
         deleteFn(_index,row){
             console.log('row',row)
-             this.$confirm('此操作将永久删除该职员, 是否继续?', '提示', {
+             this.$confirm('此操作将永久删除该影院组, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'

@@ -7,6 +7,9 @@ const DET_CINEMA_GROUP = `${prefix}/deleteCinemaGroup.do`
 const EDIT_CINEMA_GROUP = `${prefix}/saveCinemaGroupEdit.do`
 
 const _CINEMA = `${prefix}/listCinema.do`; //影院列表
+const DEL_CINEMA = `${prefix}/deleteCinema.do`
+const ADD_CINEMA = `${prefix}/addCinema.do`
+const EDIT_CINEMA = `${prefix}/saveCinemaEdit.do`
 
 
 export default {
@@ -26,5 +29,14 @@ export default {
     },
     listCinema(params) {
         return httpApi.postForm(_CINEMA, params)
+    },
+    delCinema(params) {
+        return httpApi.postForm(DEL_CINEMA, params)
+    },
+    addCinema(params) {
+        return httpApi.postForm(ADD_CINEMA, params)
+    },
+    editCinema(params) {
+        return httpApi.postForm(EDIT_CINEMA, params)
     }
 }

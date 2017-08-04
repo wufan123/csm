@@ -29,6 +29,7 @@
   </div>
 </template>
 <script>
+import positionApi from 'api/positionApi' 
 export default {
   data(){
       return {
@@ -36,8 +37,30 @@ export default {
               positionName:'',
               enable:'true'
           },
-          rules:{}
+          rules:{
+             positionName: [{ required: true, message: '请输入岗位名称', trigger: 'blur' },{ min: 2, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }],
+          }
       }
+  },
+  methods:{
+    submitForm(position){
+      this.$refs[position].validate((valid) => {
+          if (valid) {
+            positionApi.addPosition(this.position).then(res =>{
+              this.$emit('setType',{
+                type:'list'
+              })
+            })
+          }else{
+
+          }
+          })
+    },
+    closeFn(){
+      this.$emit('setType',{
+                type:'list'
+              })
+    }
   }
 }
 </script>

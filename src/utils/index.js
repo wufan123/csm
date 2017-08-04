@@ -35,6 +35,27 @@ export function getTimestamp(dateTime) {
         return ''
     }
 }
+export function picBase64(file, fun) {
+    var reader = new FileReader();
+    reader.onload = function() {
+        var img = new Image();
+        img.src = reader.result;
+        img.onload = function() {
+            var w = img.width,
+                h = img.height;
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            $(canvas).attr({
+                width: w,
+                height: h
+            });
+            ctx.drawImage(img, 0, 0, w, h);
+            var result = canvas.toDataURL('image/jpeg', 0.5);
+            fun(result);
+        }
+    }
+    reader.readAsDataURL(file);
+}
 var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 var base64DecodeChars = new Array(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63,
     52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,

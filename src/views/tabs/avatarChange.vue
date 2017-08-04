@@ -41,7 +41,6 @@ export default {
             let timeStamp = this.$util.getTimestamp(new Date())
              let fileKey = 'csm/images/'+timeStamp+'/'+ this.$util.randomString()
             this.getQiNiuToken(res => {
-                console.log('2222',res)
                 let result = res.resultData
                 putb64(resData,-1,fileKey,result, url =>{
                   if(!url){
