@@ -2,12 +2,15 @@
   <div class="page">
       <div class="seatch">
           <el-form :inline="true" :model="search" class="demo-form-inline">
-                <el-form-item label="归属影院组">
-                    <el-select v-model="search.positionId" placeholder="请选择">
-                        <el-option label="全部" value=""></el-option>
-                        <!-- <el-option   v-for="item in positionList"  :key="item.id"
-                        :label="item.positionName"  :value="item.id">
-                        </el-option> -->
+              {{search.cinemaGroupId}}
+                <el-form-item label="影院组名称">
+                    <el-select v-model="search.cinemaGroupId" placeholder="全部" v-on:change="getCinemas()">
+                        <group-options :showAll="true"></group-options>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="影院名称">
+                    <el-select v-model="search.cinemaName" placeholder="全部">
+                        <cinema-options :showAll="true"  ref="cinemaOp"></cinema-options>
                     </el-select>
                 </el-form-item>
                 <el-form-item>
@@ -42,12 +45,16 @@ export default {
         return{
             cinemaList:[],
             search: {
-                positionId: null,
-                enable: null
+                cinemaGroupId: null,
+                cinemaName: null
             }
         }
     },
     methods:{
+        getCinemas(){
+                console.log(1111)
+                this.$refs.cinemaOp.getCinemas(this.search.cinemaGroupId);
+            },
         getData:function (params) {
             cinemaApi.listCinema(params).then(res => {
                 this.cinemaList = res.resultData.content
