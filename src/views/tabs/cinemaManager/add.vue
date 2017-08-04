@@ -2,34 +2,34 @@
     <div>
         <el-dialog
                 title="新建管理账号"
-                :visible.sync="dialogAdd.dialogVisible"
+                :visible="dialogAdd.dialogVisible"
                 size="tiny"
                 :before-close="handleClose">
             <span>
-                <el-form ref="form" :model="form" label-width="120px" :rules="rules">
+                <el-form ref="form" :model="dialogAdd.data" label-width="120px" :rules="rules">
                 <el-form-item label="账号" required prop="loginName">
-                    <el-input v-model="form.loginName" placeholder="请输入账号">
+                    <el-input v-model="dialogAdd.data.loginName" placeholder="请输入账号">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="归属影院组" required prop="cinemaGroupId">
-                    <el-select v-model="form.cinemaGroupId" placeholder="请选择">
-                        <group-options :showAll="true"></group-options>
+                    <el-select v-model="dialogAdd.data.cinemaGroupId" placeholder="请选择">
+                        <group-options ></group-options>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="管理人员姓名" required prop="fullName">
-                    <el-input v-model="form.fullName" placeholder="请输入管理人员姓名">
+                    <el-input v-model="dialogAdd.data.fullName" placeholder="请输入管理人员姓名">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="手机号码" required prop="mobile">
-                    <el-input v-model="form.mobile" placeholder="请输入手机号码">
+                    <el-input v-model="dialogAdd.data.mobile" placeholder="请输入手机号码">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="设置初始密码" required prop="password">
-                    <el-input type="password" v-model="form.password" placeholder="不超过8个字符,数字,字母均可">
+                    <el-input type="password" v-model="dialogAdd.data.password" placeholder="不超过8个字符,数字,字母均可">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="重复初始密码" required prop="checkPassword">
-                    <el-input type="password" v-model="form.checkPassword" placeholder="请确认初始密码">
+                    <el-input type="password" v-model="dialogAdd.data.checkPassword" placeholder="请确认初始密码">
                     </el-input>
                 </el-form-item>
                 </el-form>
@@ -52,14 +52,6 @@
         },
         data(){
             return {
-                form: {
-                    loginName: '',
-                    cinemaGroupId: '',
-                    fullName: '',
-                    mobile: '',
-                    password: '',
-                    checkPassword: ''
-                },
                 rules: {
                     cinemaGroupId: [
                         {type: 'number', required: true, message: '请选择来源影院组', trigger: 'blur'}
@@ -93,7 +85,7 @@
                     checkPassword: [
                         {required: true, message: '请确认初始密码', trigger: 'blur'},
                         { validator: (rule, value, callback) => {
-                            if (value !== this.form.password) {
+                            if (value !== this.dialogAdd.data.password) {
                                 callback(new Error('两次输入密码不一致!'));
                             } else {
                                 callback();
@@ -107,7 +99,7 @@
             save(){
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
-                        cinemaManagerApi.create(this.form).then(res=>{
+                        cinemaManagerApi.create(this.dialogAdd.data).then(res=>{
                             this.dialogAdd.dialogVisible = false
                         })
                     } else {

@@ -106,18 +106,29 @@
                     totalElements: 0
                 },
                 dialogAdd: {
-                    dialogVisible: false
+                    dialogVisible: false,
+                    data:{
+                        loginName: '',
+                        cinemaGroupId: '',
+                        fullName: '',
+                        mobile: '',
+                        password: '',
+                        checkPassword: ''
+                    }
                 },
                 dialogEdit: {
-                    dialogVisible: false
+                    dialogVisible: false,
+                    data:{
+                        password: '',
+                        checkPassword: ''
+                    }
                 },
             }
         },
         methods: {
             handleEdit(index, row) {
-                this.dialogEdit.dialogVisible =true
                 this.dialogEdit.data = row
-                console.log(this.dialogEdit)
+                this.dialogEdit.dialogVisible =true
             },
             handleDelete(index, row) {
                 this.$alert(`确定删除${row.cinemaGroup}的管理账号${row.loginName}么`, '温馨提示', {

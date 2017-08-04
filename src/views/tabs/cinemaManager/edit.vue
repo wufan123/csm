@@ -2,38 +2,38 @@
     <div>
         <el-dialog
                 title="编辑管理账号"
-                :visible.sync="dialogEdit.dialogVisible"
+                :visible="dialogEdit.dialogVisible"
                 size="tiny"
                 :before-close="handleClose">
             <span>
-                <el-form ref="form" :model="form" label-width="130px" :rules="rules" >
+                <el-form ref="form" :model="dialogEdit.data" label-width="130px" :rules="rules" >
                 <el-form-item label="账号" required prop="loginName" >
-                    <el-input v-model="form.loginName" placeholder="请输入账号" disabled>
+                    <el-input v-model="dialogEdit.data.loginName" placeholder="请输入账号" disabled>
                     </el-input>
                 </el-form-item>
                 <el-form-item label="管理子账号数量" required prop="loginName" >
-                    <el-input v-model="form.loginName" placeholder="管理子账号数量" disabled>
+                    <el-input v-model="dialogEdit.data.loginName" placeholder="管理子账号数量" disabled>
                     </el-input>
                 </el-form-item>
                 <el-form-item label="归属影院组" required prop="cinemaGroupId">
-                    <el-select v-model="form.cinemaGroupId" placeholder="请选择" disabled>
+                    <el-select v-model="dialogEdit.data.cinemaGroupId" placeholder="请选择" disabled>
                         <group-options :showAll="true"></group-options>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="管理人员姓名" required prop="fullName">
-                    <el-input v-model="form.fullName" placeholder="请输入管理人员姓名">
+                    <el-input v-model="dialogEdit.data.fullName" placeholder="请输入管理人员姓名">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="手机号码" required prop="mobile">
-                    <el-input v-model="form.mobile" placeholder="请输入手机号码">
+                    <el-input v-model="dialogEdit.data.mobile" placeholder="请输入手机号码">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="设置初始密码" required prop="password">
-                    <el-input type="password" v-model="form.password" placeholder="不超过8个字符,数字,字母均可">
+                    <el-input type="password" v-model="dialogEdit.data.password" placeholder="不超过8个字符,数字,字母均可">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="重复初始密码" required prop="checkPassword">
-                    <el-input type="password" v-model="form.checkPassword" placeholder="请确认初始密码">
+                    <el-input type="password" v-model="dialogEdit.data.checkPassword" placeholder="请确认初始密码">
                     </el-input>
                 </el-form-item>
                 </el-form>
@@ -50,22 +50,12 @@
     export default {
         props: {
             dialogEdit: {
-                type: Object,//该对象包含属性字段 title id
+                type: Object,
                 required: true
             }
         },
         data(){
-            let data = this.dialogEdit.data?this.dialogEdit.data:''
             return {
-                form: {
-                    id:data.id,
-                    loginName: data.loginName,
-                    cinemaGroupId:data.cinemaGroupId,
-                    fullName: data.fullName,
-                    mobile: data.mobile,
-                    password: '',
-                    checkPassword:''
-                },
                 rules: {
                     cinemaGroupId: [
                         {type: 'number', required: true, message: '请选择来源影院组', trigger: 'blur'}
@@ -99,7 +89,7 @@
                     checkPassword: [
                         {required: true, message: '请确认初始密码', trigger: 'blur'},
                         { validator: (rule, value, callback) => {
-                            if (value !== this.form.password) {
+                            if (value !== this.dialogEdit.data.password) {
                                 callback(new Error('两次输入密码不一致!'));
                             } else {
                                 callback();
@@ -113,7 +103,7 @@
             save(){
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
-                        cinemaManagerApi.save(this.form).then(res=>{
+                        cinemaManagerApi.save(this.dialogEdit.data).then(res=>{
                             this.dialogEdit.dialogVisible = false
                         })
                         this.$emit('dialog', {

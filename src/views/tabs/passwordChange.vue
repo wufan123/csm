@@ -1,18 +1,18 @@
 <<template>
-  <div class="page">
-    <div class="p-title">密码修改</div>
+  <div class="page tab-form">
+    <div class="p-title tab-pane-title">密码修改</div>
      <div class="h20"></div>
     <div class="content">
        <el-form :model="form" :rules="rules2" ref="form" label-width="100px" class="demo-ruleForm">
            <input type="text" style="display:none">
-           <el-form-item label="初始密码" prop="initPass">
-                <el-input type="password" v-model="form.initPass"></el-input>
+           <el-form-item  prop="initPass">
+                <el-input type="password" v-model="form.initPass" placeholder="初始密码"></el-input>
             </el-form-item>
-            <el-form-item label="密码" prop="pass">
-                <el-input type="password" v-model="form.pass" auto-complete="off"></el-input>
+            <el-form-item  prop="pass">
+                <el-input type="password" v-model="form.pass" auto-complete="off" placeholder="密码"></el-input>
             </el-form-item>
-            <el-form-item label="确认密码" prop="checkPass">
-                <el-input type="password" v-model="form.checkPass" auto-complete="off"></el-input>
+            <el-form-item  prop="checkPass">
+                <el-input type="password" v-model="form.checkPass" auto-complete="off" placeholder="确认密码"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('form')">提交</el-button>

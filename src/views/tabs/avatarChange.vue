@@ -1,6 +1,6 @@
 <<template>
-  <div class="page">
-    <div class="p-title">头像修改</div>
+  <div class="page tab-form">
+    <div class="p-title tab-pane-title">头像修改</div>
      <div class="h20"></div>
     <div class="content">
         <div class="box">
