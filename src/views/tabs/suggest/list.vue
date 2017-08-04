@@ -136,10 +136,7 @@
     import suggestApi from 'api/suggestApi'
     export default {
         data(){
-            let tableData = []
             return {
-                tableData: tableData,
-                activeSubTab: 'first',
                 createTimeStart: '',
                 createTimeEnd: '',
                 pageNumber: 0,
