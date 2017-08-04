@@ -21,7 +21,6 @@
             fetchData(){
                 cinemaApi.listCinemaGroup({}).then(res => {
                     let ops =[]
-
                     if (this.showAll)
                     {
                         ops = ops.concat([{id: '', name: '全部'}])

@@ -8,15 +8,8 @@
 <script>
     import list from 'views/tabs/workOrder/list.vue'
     import add from 'views/tabs/workOrder/add.vue'
-    import edit from 'views/tabs/workOrder/edit.vue'
     import handle from 'views/tabs/workOrder/handle.vue'
     export default {
-        components: {
-            'complaint-list': list,
-            'complaint-add': add,
-            'complaint-edit': edit,
-            'complaint-handle': handle,
-        },
         data(){
             return {
                 viewState: {},
@@ -34,9 +27,6 @@
                     case 'list':
                         this.view =list;
                         break;
-                    case 'edit':
-                        this.view =edit;
-                        break;
                     case 'handle':
                         this.view =handle;
                         break;
@@ -49,11 +39,6 @@
     @import "~style/base-variables";
 
     .complaint {
-        .property {
-            font-size: @size-small;
-            color: @color-base-gray;
-            margin-bottom: 14px;
-        }
         .des {
             background: #fffad5;
             color: #948200;

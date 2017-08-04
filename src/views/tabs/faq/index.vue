@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <component v-bind:is="view" v-on:view="changeViewState">
+            <component v-bind:is="view" v-on:view="changeViewState" :viewState="viewState">
 
             </component>
         </div>
@@ -10,6 +10,7 @@
 <script>
     import list from 'views/tabs/faq/list.vue'
     import add from 'views/tabs/faq/add.vue'
+    import edit from 'views/tabs/faq/edit.vue'
     export default {
         data(){
             return {
@@ -18,7 +19,7 @@
         },
         methods:{
             changeViewState(state){
-                this.viewState = state;
+                this.viewState =state
                 switch (state.type)
                 {
                     case 'add':

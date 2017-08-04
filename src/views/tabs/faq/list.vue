@@ -6,16 +6,11 @@
                     <group-options :showAll="true"></group-options>
                 </el-select>
             </el-form-item>
-            <el-form-item label="影院名称">
-                <el-select v-model="form.cinemaName" placeholder="全部">
-                    <cinema-options :showAll="true" ref="cinemaOp"></cinema-options>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="客诉处理人">
+            <el-form-item label="添加职员">
                 <el-input v-model="form.serviceName" placeholder="">
                 </el-input>
             </el-form-item>
-            <el-form-item label="客诉日期">
+            <el-form-item label="添加日期">
                 <el-col :span="11">
                     <el-date-picker type="date" placeholder="选择日期" v-model="createTimeStart"></el-date-picker>
                 </el-col>
@@ -104,7 +99,6 @@
                 pageNumber: 0,
                 form: {
                     cinemaGroupId: '',
-                    cinemaName: '',
                     createTimeStart: '',
                     createTimeEnd: '',
                     serviceName: '',
@@ -117,6 +111,28 @@
             }
         },
         methods: {
+            handleEdit(index, row) {
+                this.$emit('view', {
+                    type: 'edit',
+                    data: row
+                })
+            },
+            handleDelete(index, row) {
+                this.$alert('确定删除该条建议么', '温馨提示', {
+                    confirmButtonText: '确定',
+                    callback: action => {
+                        if (action == 'confirm') {
+                            platformFaqApi.delete({
+                                id: row.id
+                            }).then(res => {
+                                this.pageDatas.content = this.pageDatas.content.filter(item => {
+                                    return item.id !== row.id
+                                })
+                            })
+                        }
+                    }
+                });
+            },
             getCinemas(){
                 this.form.cinemaName = ''
                 this.$refs.cinemaOp.getCinemas(this.form.cinemaGroupId);
