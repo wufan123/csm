@@ -1,35 +1,40 @@
 <template>
-    <div class="suggest-list">
+    <div class="table-list">
         <el-form ref="form" :model="form" label-width="85px" :inline="true">
             <el-form-item label="影院组名称">
-                <el-select v-model="form.region" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                <el-select v-model="form.cinemaGroupId" placeholder="全部" v-on:change="getCinemas()">
+                    <group-options :showAll="true"></group-options>
                 </el-select>
             </el-form-item>
-            <el-form-item label="添加职员">
-                <el-input v-model="form.region" placeholder="活动区域">
+            <el-form-item label="影院名称">
+                <el-select v-model="form.cinemaName" placeholder="全部">
+                    <cinema-options :showAll="true" ref="cinemaOp"></cinema-options>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="客诉处理人">
+                <el-input v-model="form.serviceName" placeholder="">
                 </el-input>
             </el-form-item>
-            <el-form-item label="添加日期">
+            <el-form-item label="客诉日期">
                 <el-col :span="11">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.date1"></el-date-picker>
+                    <el-date-picker type="date" placeholder="选择日期" v-model="createTimeStart"></el-date-picker>
                 </el-col>
                 <el-col class="line" :span="2">-</el-col>
                 <el-col :span="11">
-                    <el-time-picker type="fixed-time" placeholder="选择时间" v-model="form.date2"></el-time-picker>
+                    <el-date-picker ype="date" placeholder="选择日期" v-model="createTimeEnd"></el-date-picker>
                 </el-col>
             </el-form-item>
             <el-form-item>
-                <el-button type="info">查询</el-button>
+                <el-button type="info" @click="getList">查询</el-button>
                 <el-button type="success" v-on:click="add">新建</el-button>
+            </el-form-item>
+            <el-form-item>
+                <a href="">导出Excel</a>
             </el-form-item>
         </el-form>
         <el-table
-                :data="tableData"
-                stripe
-
-        >
+                :data="this.pageDatas.content"
+                stripe>
             <el-table-column
                     prop="date"
                     label="序号"
@@ -39,21 +44,25 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="name"
                     label="添加日期"
             >
+                <template scope="scope">
+                    {{new Date(scope.row.createTime).format("yyyy-MM-dd hh:mm")}}
+                </template>
             </el-table-column>
             <el-table-column
-                    prop="address"
+                    prop="serviceUserName"
                     label="添加职员">
             </el-table-column>
             <el-table-column
-                    prop="address"
+                    prop="questionCount"
                     label="问答数量">
             </el-table-column>
             <el-table-column
-                    prop="address"
+                    prop="cinemaGroupIds"
                     label="适用影院组">
+                <template scope="scope">
+                </template>
             </el-table-column>
             <el-table-column
                     prop="address"
@@ -72,75 +81,80 @@
         </el-table>
         <el-row type="flex" justify="end" class="pagination">
             <el-pagination
-                    :current-page="50"
-                    :page-sizes="[100, 200, 300, 400]"
-                    :page-size="100"
+                    @size-change="pageSizeChange"
+                    @current-change="pageCurrentChange"
+                    :current-page="pageNumber"
+                    :page-sizes="[20, 40, 60, 80]"
+                    :page-size="this.form.pageSize"
                     layout="total, sizes, prev, pager, next, jumper"
-                    :total="400">
+                    :total="this.pageDatas.totalElements">
             </el-pagination>
         </el-row>
     </div>
 </template>
 <script>
-    import addDialog from 'views/tabs/cinemaManager/add.vue'
+    import platformFaqApi from 'api/platformFaqApi'
     export default {
-        components: {
-            'add-dialog': addDialog,
-        },
         data(){
             let tableData = []
-            for (let i = 0; i < 20; i++) {
-                tableData.push({
-                    date: '23213',
-                    name: '电影票太贵了',
-                    address: '座位空调太冷'
-                })
-            }
             return {
                 tableData: tableData,
-                activeSubTab: 'first',
-                form: {},
-                dialogAdd: {
-                    dialogVisible: false
+                createTimeStart: '',
+                createTimeEnd: '',
+                pageNumber: 0,
+                form: {
+                    cinemaGroupId: '',
+                    cinemaName: '',
+                    createTimeStart: '',
+                    createTimeEnd: '',
+                    serviceName: '',
+                    pageSize: 20,
+                    pageNumber: 0
+                },
+                pageDatas: {
+                    totalElements: 0
                 }
             }
         },
         methods: {
-            handleEdit(index, row) {
-                console.log(index, row);
+            getCinemas(){
+                this.form.cinemaName = ''
+                this.$refs.cinemaOp.getCinemas(this.form.cinemaGroupId);
             },
-            handleDelete(index, row) {
-                console.log(index, row);
-                this.$alert('你确定要删除什么鬼么', '温馨提示', {
-                    confirmButtonText: '确定',
-                    callback: action => {
-                        this.$message({
-                            type: 'info',
-                            message: `action: ${ action }`
-                        });
-                    }
-                });
+            getList(){
+                this.form.createTimeStart = this.createTimeStart ? this.createTimeStart.format('yyyy-MM-dd') : '';
+                this.form.createTimeEnd = this.createTimeEnd ? this.createTimeEnd.format('yyyy-MM-dd') : '';
+                platformFaqApi.list(this.form).then(res => {
+                    this.pageDatas = res.resultData
+                })
             },
             add(){
-                console.log('11111111')
-                this.$emit('view', 'add' )
+                this.$emit('view', {
+                    type: 'add'
+                })
             },
-            handleClose(done) {
-                this.$confirm('确认关闭？')
-                    .then(_ => {
-                        done();
-                    })
-                    .catch(_ => {
-                    });
+            fetchData(){
+                this.getList()
+            },
+            pageCurrentChange(currentPage){
+                this.form.pageNumber = currentPage - 1
+                this.getList()
+            },
+            pageSizeChange(size){
+                this.form.pageSize = size
+                this.getList()
             }
         }
     }
 </script>
 <style lang='less'>
-    .suggest-list {
+    .table-list {
         padding: 30px 20px 20px 20px;
         .pagination {
             margin-top: 30px;
         }
     }
 </style>
+
+
+

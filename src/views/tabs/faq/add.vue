@@ -4,19 +4,9 @@
             新建客诉
         </el-row>
         <el-row>
-            <el-form ref="form" :model="form" label-width="120px">
+            <el-form ref="form" :model="form" label-width="140px">
                 <el-form-item label="请选择适用影院组" required>
-                    <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-                    <div style="margin: 15px 0;"></div>
-                    <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-                        <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
-                    </el-checkbox-group>
-                </el-form-item>
-                <el-form-item label="来源影院" required>
-                    <el-select v-model="form.region" placeholder="请选择">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
+                    <cinema-checkbox v-model="form.checkedOptions"></cinema-checkbox>
                 </el-form-item>
                 <el-form-item label="来源影院" required>
                     <el-input
@@ -29,7 +19,7 @@
                             type="textarea"
                             :rows="12"
                             placeholder="请输入内容"
-                            v-model="form.textarea">
+                            v-model="form.content">
                     </el-input>
                 </el-form-item>
                 <el-form-item class="form-button">
@@ -39,36 +29,29 @@
             </el-form>
         </el-row>
     </div>
-
 </template>
 <script>
     export default {
         data(){
-            const cityOptions = ['上海', '北京', '广州', '深圳'];
             return {
-                form: {},
-                checkAll: true,
-                checkedCities: ['上海', '北京'],
-                cities: cityOptions,
-                isIndeterminate: true
+                form: {
+                    cinemaGroupIds:[],
+                },
             }
         },
-        methods:{
+        methods: {
             save(){
-                this.$emit('view', 'list')
+                console.log(this.form);
+                return
+                this.$emit('view', {
+                    type:'list'
+                })
             },
             close(){
-                this.$emit('view', 'list')
+                this.$emit('view', {
+                    type:'list'
+                })
             },
-            handleCheckAllChange(event) {
-                this.checkedCities = event.target.checked ? this.cities : [];
-                this.isIndeterminate = false;
-            },
-            handleCheckedCitiesChange(value) {
-                let checkedCount = value.length;
-                this.checkAll = checkedCount === this.cities.length;
-                this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
-            }
         }
     }
 </script>

@@ -1,133 +1,160 @@
 <template>
-    <div class="suggest-list">
+    <div class="table-list">
         <el-form ref="form" :model="form" label-width="85px" :inline="true">
             <el-form-item label="影院组名称">
-                <el-select v-model="form.region" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                <el-select v-model="form.cinemaGroupId" placeholder="全部" v-on:change="getCinemas()">
+                    <group-options :showAll="true"></group-options>
                 </el-select>
             </el-form-item>
             <el-form-item label="影院名称">
-                <el-select v-model="form.region" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                <el-select v-model="form.cinemaName" placeholder="全部">
+                    <cinema-options :showAll="true" ref="cinemaOp"></cinema-options>
                 </el-select>
             </el-form-item>
             <el-form-item label="操作职员">
-                <el-select v-model="form.region" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
+                <el-input v-model="form.serviceName" placeholder="">
+                </el-input>
             </el-form-item>
-            <el-form-item label="操作日期">
+            <el-form-item label="客诉日期">
                 <el-col :span="11">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.date1"></el-date-picker>
+                    <el-date-picker type="date" placeholder="选择日期" v-model="createTimeStart"></el-date-picker>
                 </el-col>
                 <el-col class="line" :span="2">-</el-col>
                 <el-col :span="11">
-                    <el-time-picker type="fixed-time" placeholder="选择时间" v-model="form.date2"></el-time-picker>
+                    <el-date-picker ype="date" placeholder="选择日期" v-model="createTimeEnd"></el-date-picker>
                 </el-col>
             </el-form-item>
             <el-form-item>
-                <el-button type="info">查询</el-button>
+                <el-button type="info" @click="getList">查询</el-button>
             </el-form-item>
             <el-form-item>
                 <a href="">导出Excel</a>
             </el-form-item>
         </el-form>
         <el-table
-                :data="tableData"
+                :data="this.pageDatas.content"
                 stripe
         >
             <el-table-column
                     prop="date"
                     label="序号"
+                    width="100"
             >
                 <template scope="scope">
                     {{ scope.$index + 1}}
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="name"
+                    prop="createTime"
                     label="操作时间"
+                    width="150"
             >
+                <template scope="scope">
+                    {{new Date(scope.row.createTime).format("yyyy-MM-dd hh:mm")}}
+                </template>
             </el-table-column>
             <el-table-column
-                    prop="address"
-                    label="操作职员">
+                    prop="serviceUserName"
+                    label="操作职员"
+                    width="100" >
+            </el-table-column>
+            <!--<el-table-column-->
+                    <!--prop="workorderTypeName"-->
+                    <!--label="类型">-->
+            <!--</el-table-column>-->
+            <el-table-column
+                    prop="workorderNo"
+                    label="单据编号"
+                    width="100" >
             </el-table-column>
             <el-table-column
-                    prop="address"
-                    label="类型">
+                    prop="cinemaName"
+                    label="影院名称"
+                    width="100" >
             </el-table-column>
             <el-table-column
-                    prop="address"
-                    label="单据编号">
+                    prop="cinemaGroupName"
+                    label="影院组名称"
+                    width="100" >
             </el-table-column>
+            <!--<el-table-column-->
+                    <!--prop="address"-->
+                    <!--label="客诉类型">-->
+            <!--</el-table-column>-->
             <el-table-column
-                    prop="address"
-                    label="影院名称">
-            </el-table-column>
-            <el-table-column
-                    prop="address"
-                    label="影院组名称">
-            </el-table-column>
-            <el-table-column
-                    prop="address"
-                    label="客诉类型">
-            </el-table-column>
-            <el-table-column
-                    prop="address"
+                    prop="detail"
                     label="具体操作">
             </el-table-column>
         </el-table>
         <el-row type="flex" justify="end" class="pagination">
             <el-pagination
-                    :current-page="50"
-                    :page-sizes="[100, 200, 300, 400]"
-                    :page-size="100"
+                    @size-change="pageSizeChange"
+                    @current-change="pageCurrentChange"
+                    :current-page="pageNumber"
+                    :page-sizes="[20, 40, 60, 80]"
+                    :page-size="this.form.pageSize"
                     layout="total, sizes, prev, pager, next, jumper"
-                    :total="400">
+                    :total="this.pageDatas.totalElements">
             </el-pagination>
         </el-row>
     </div>
 </template>
 <script>
+    import workorderHandleRecordApi from 'api/handleRecordApi'
     export default {
         data(){
-            let tableData =[]
-            for(let i =0; i<20;i++){
-                tableData.push({
-                    date:'23213',
-                    name:'电影票太贵了',
-                    address:'座位空调太冷'
-                })
-            }
+            let tableData = []
             return {
-                tableData:tableData,
-                activeSubTab: 'first',
-                form: {}
+                tableData: tableData,
+                createTimeStart: '',
+                createTimeEnd: '',
+                pageNumber: 0,
+                form: {
+                    cinemaGroupId: '',
+                    cinemaName: '',
+                    createTimeStart: '',
+                    createTimeEnd: '',
+                    serviceName:'',
+                    pageSize: 20,
+                    pageNumber: 0
+                },
+                pageDatas: {
+                    totalElements: 0
+                }
             }
         },
-        methods:{
-            handleEdit(index, row) {
-                console.log(index, row);
-                this.$emit('view', 'check')
+        methods: {
+            getCinemas(){
+                this.form.cinemaName = ''
+                this.$refs.cinemaOp.getCinemas(this.form.cinemaGroupId);
             },
-            handleDelete(index, row) {
-                console.log(index, row);
+            getList(){
+                this.form.createTimeStart = this.createTimeStart ? this.createTimeStart.format('yyyy-MM-dd') : '';
+                this.form.createTimeEnd = this.createTimeEnd ? this.createTimeEnd.format('yyyy-MM-dd') : '';
+                workorderHandleRecordApi.list(this.form).then(res => {
+                    this.pageDatas = res.resultData
+                })
             },
-            add(){
-                this.$emit('view', 'add' )
+            fetchData(){
+                this.getList()
+            },
+            pageCurrentChange(currentPage){
+                this.form.pageNumber = currentPage - 1
+                this.getList()
+            },
+            pageSizeChange(size){
+                this.form.pageSize = size
+                this.getList()
             }
         }
     }
 </script>
 <style lang='less'>
-    .suggest-list{
+    .table-list {
         padding: 30px 20px 20px 20px;
-        .pagination{
+        .pagination {
             margin-top: 30px;
         }
     }
 </style>
+

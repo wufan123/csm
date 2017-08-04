@@ -1,5 +1,5 @@
 <template>
-    <div class="suggest-list">
+    <div class="table-list">
         <el-form ref="form" :model="form" label-width="85px" :inline="true">
             <el-form-item label="影院组名称">
                 <el-select v-model="form.cinemaGroupId" placeholder="全部" v-on:change="getCinemas()">
@@ -48,6 +48,7 @@
             <el-table-column
                     prop="orderNo"
                     label="客诉编号"
+                    width="150"
             >
             </el-table-column>
             <el-table-column
@@ -73,16 +74,19 @@
             </el-table-column>
             <el-table-column
                     prop="statusName"
-                    label="客诉状态">
+                    label="客诉状态"
+                     >
             </el-table-column>
             <el-table-column
-                    label="发起时间">
+                    label="发起时间"
+                    width="120" >
                 <template scope="scope">
                     {{new Date(scope.row.createTime).format("yyyy-MM-dd hh:mm")}}
                 </template>
             </el-table-column>
             <el-table-column
-                    label="解决时间">
+                    label="解决时间"
+                    width="120" >
                 <template scope="scope">
                     {{scope.row.completeTime?new Date(scope.row.completeTime).format("yyyy-MM-dd hh:mm"):''}}
                 </template>
@@ -101,15 +105,18 @@
             </el-table-column>
             <el-table-column
                     prop="orderLevelName"
-                    label="客诉等级">
+                    label="客诉等级"
+                    >
             </el-table-column>
             <el-table-column
                     prop="orderBugLevelName"
-                    label="bug等级">
+                    label="bug等级"
+                    >
             </el-table-column>
             <el-table-column
                     prop="bugTypeName"
-                    label="bug类型">
+                    label="bug类型"
+                    >
             </el-table-column>
         </el-table>
         <el-row type="flex" justify="end" class="pagination">
@@ -178,7 +185,7 @@
     }
 </script>
 <style lang='less'>
-    .suggest-list {
+    .table-list {
         padding: 30px 20px 20px 20px;
         .pagination {
             margin-top: 30px;

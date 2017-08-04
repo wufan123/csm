@@ -18,14 +18,19 @@
         },
         methods:{
             changeViewState(state){
-                switch (state)
+                this.viewState = state;
+                switch (state.type)
                 {
-                    case 'list':
-                        this.view =list;
-                        break;
                     case 'add':
                         this.view =add;
                         break;
+                    case 'list':
+                        this.view =list;
+                        break;
+                    case 'edit':
+                        this.view =edit;
+                        break;
+
                 }
             }
         }
