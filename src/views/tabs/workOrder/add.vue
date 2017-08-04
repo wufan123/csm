@@ -28,16 +28,14 @@
                     <el-radio class="radio" v-model="form.isStartHandle" label="false">否</el-radio>
                 </el-form-item>
                 <el-form-item label="运维附件">
-                    <el-upload
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            list-type="picture-card"
-                            :on-preview="handlePictureCardPreview"
-                            :on-remove="handleRemove">
+                    <div v-for="item in dialogImageUrl">
+                        <img :src="item">
+                    </div>
+                    <div class="el-upload el-upload--picture-card">
                         <i class="el-icon-plus"></i>
-                    </el-upload>
-                    <el-dialog v-model="dialogVisible" size="tiny">
-                        <img width="100%" :src="dialogImageUrl" alt="">
-                    </el-dialog>
+                        <input type="file" name="file"  v-on:change="updateLoadImg()" ref="inputer"  id="imageFiles" multiple="multiple">
+                    </div>
+                    
                 </el-form-item>
                 <el-form-item class="form-button">
                     <el-button type="primary" v-on:click="save">保存</el-button>
@@ -51,6 +49,8 @@
 <script>
     import cinemaApi from 'api/cinemaApi'
     import workOrderApi from 'api/workOrderApi'
+    import commonApi from 'api/commonApi'
+    import {putb64} from 'utils/qiniu'
     export default {
         data(){
 //            this.userDetail = this.
@@ -65,7 +65,8 @@
                     isStartHandle:'false',
                     imageFiles:''
                 },
-                dialogImageUrl: '',
+                QiniuData:{ },
+                dialogImageUrl: [],
                 dialogVisible: false,
                 rules:{
                     cinemaGroupId:[
@@ -98,12 +99,32 @@
                     this.cinemaGroupOptions = ops;
                 })
             },
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
+            updateLoadImg(){
+                 let vm = this
+                let objUrl =null
+                let filepath = event.target.value
+                let inputDOM = this.$refs.inputer;
+                let file = inputDOM.files[0];
+                let timeStamp = this.$util.getTimestamp(new Date())
+                let fileKey = 'csm/images/'+timeStamp+'/'+ this.$util.randomString()
+                this.getQiNiuToken(res => {
+                    let result = res.resultData
+                    vm.$util.picBase64(file,imgData => {
+                        console.log('data',imgData)
+                        putb64(imgData,-1,fileKey,result, url =>{
+                            if(!url){
+                                return;
+                            }
+                            vm.dialogImageUrl.push(url)
+                        })
+                    })
+                    
+                })
             },
-            handlePictureCardPreview(file) {
-                this.dialogImageUrl = file.url;
-                this.dialogVisible = true;
+            getQiNiuToken(callback){
+                commonApi.getToken().then(res => {
+                    callback && callback(res)
+                })
             },
             save(){
                 this.$refs['form'].validate((valid) => {
@@ -131,6 +152,8 @@
         }
     }
 </script>
-<style lang="less">
-
+<style lang="less" scoped>
+    .el-upload{
+        input{position: absolute; width: 150px;  height: 150px;  top: 0;  left: 0;cursor: pointer; opacity: 0;}
+    }
 </style>

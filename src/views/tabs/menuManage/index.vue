@@ -7,10 +7,20 @@
     <div class="content">
          <el-table   :data="tableList"   border    style="width: 100%">
             <el-table-column  type="index" label="序号"  width="100"></el-table-column>
-            <el-table-column   prop="name"   label="菜单名称"  width="180">  </el-table-column>
+            <el-table-column   prop="name"   label="菜单名称"  width="180">
+                 <template scope="scope">
+                   <c-dot :count="scope.row.hierarchy"></c-dot> {{scope.row.name}}
+                </template>  
+            </el-table-column>
             <el-table-column   prop="url"   label="菜单地址"  > </el-table-column>
             <el-table-column   prop="enable"  label="是否启用"  width="180"> 
-                <template scope="scope"> <em> {{scope.row.enable ? '启用' : '禁用'}}</em></template>      
+                <template scope="scope">
+                  <el-switch
+                    v-model="scope.row.enable"
+                    on-color="#13ce66"
+                    off-color="#ccc" >
+                  </el-switch>
+                </template>      
             </el-table-column>
             <el-table-column   label="操作" >
                 <template scope="scope">
@@ -37,9 +47,10 @@
 </template>
 <script>
     import editDialog from 'views/tabs/menuManage/update.vue'
+    import cDot from 'views/component/dot.vue'
     import menuApi from 'api/menuApi'
 export default {
-  components: { 'edit-dialog': editDialog },
+  components: { 'edit-dialog': editDialog,'c-dot': cDot },
   data(){
     return {
       tableList:[],
