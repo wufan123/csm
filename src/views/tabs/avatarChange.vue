@@ -13,7 +13,7 @@
             <div class="h20"></div>
             <el-button type="primary"  @click="updateAvatar"  style="width:100%">保存</el-button>
 
-            <ImageCropper :width="300" :height="300"  @close='close' @crop-success="cropSuccess"
+            <ImageCropper :width="300" :height="300" @close='close' @crop-success="cropSuccess"
             :key="imagecropperKey" v-show="imagecropperShow" />
         </div>
     </div>

@@ -29,7 +29,8 @@
         </el-form>
         <el-table
                 :data="this.pageDatas.content"
-                stripe>
+                stripe
+                border>
             <el-table-column
                     prop="date"
                     label="序号"

@@ -22,7 +22,7 @@
         <el-table
                 :data="this.pageDatas.content"
                 stripe
-
+                border
         >
             <el-table-column
                     prop="date"
