@@ -42,7 +42,15 @@ axios.postForm = (url, params) => {
     for (let i in params) {
         {
             if (params[i]||params[i]===0)
-                form.append(i, params[i]);
+            {
+                if(params[i] instanceof  Array )
+                {
+                    form.append(i, JSON.stringify(params[i]))
+                }else
+                {
+                    form.append(i, params[i]);
+                }
+            }
         }
     }
     return axios.post(url, form);

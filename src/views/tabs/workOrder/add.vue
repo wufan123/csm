@@ -28,18 +28,7 @@
                     <el-radio class="radio" v-model="form.isStartHandle" label="false">否</el-radio>
                 </el-form-item>
                 <el-form-item label="运维附件">
-                    <el-upload
-                            action="https://jsonplaceholder.typicode.com/posts/"
-
-                            list-type="picture-card"
-                            :file-list="fileList"
-                            :on-preview="handlePictureCardPreview"
-                            :on-remove="handleRemove">
-                        <i class="el-icon-plus"></i>
-                    </el-upload>
-                    <el-dialog v-model="dialogVisible" size="tiny">
-                        <img width="100%" :src="dialogImageUrl" alt="">
-                    </el-dialog>
+                    <qiniu-img v-model="form.imageFiles"></qiniu-img>
                 </el-form-item>
                 <el-form-item class="form-button">
                     <el-button type="primary" v-on:click="save">保存</el-button>
@@ -59,22 +48,13 @@
             return {
                 cinemaGroupOptions:[],
                 cinemasOptions:[],
-                fileList: [{
-                    name: 'food.jpeg',
-                    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-                    status: 'finished'
-                }, {
-                    name: 'food2.jpeg',
-                    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-                    status: 'finished'
-                }],
                 form:{
                     initiatorId:this.$storage.getItem(this.$storage.KEY_USER_DETAIL).id,
                     cinemaGroupId:'',
                     cinemaId:'',
                     content:'',
                     isStartHandle:'false',
-                    imageFiles:''
+                    imageFiles:[] 
                 },
                 dialogImageUrl: '',
                 dialogVisible: false,

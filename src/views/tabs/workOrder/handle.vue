@@ -127,7 +127,7 @@
                     bugType:viewData.bugType?viewData.bugType.toString():'',
                     status: viewData.status>2?viewData.status.toString():'2',
                     isStar: viewData.isStar.toString(),
-                    operationRemark:viewData.operationRemark
+                    operationRemark:viewData.operationRemark,
                 },
                 dialogImageUrl:'',
                 dialogVisible:false,
