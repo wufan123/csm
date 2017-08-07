@@ -110,9 +110,18 @@
                 });
             },
             goHandle(){
-                this.$emit('view', {
-                    type:'list'
-                })
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        workOrderApi.create(this.form).then(res=>{
+                            this.$emit('view', {
+                                type:'handle',
+                                data:res.resultData
+                            })
+                        })
+                    } else {
+                        return false;
+                    }
+                });
             },
             close(){
                 this.$emit('view', {

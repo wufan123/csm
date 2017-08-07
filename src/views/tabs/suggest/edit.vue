@@ -74,7 +74,7 @@
                     cinemaId:viewData.cinemaId?viewData.cinemaId:'',
                     cinemaGroupId:viewData.cinemaGroupId?viewData.cinemaGroupId:'',
                     content:viewData.content?viewData.content:'',
-                    suggestAttaches:viewData.suggestAttaches?JSON.parse(viewData.suggestAttaches):[]
+                    suggestAttaches:viewData.suggestAttaches?viewData.suggestAttaches.split(','):[]
                 },
                 dialogImageUrl: '',
                 dialogVisible: false,

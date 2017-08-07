@@ -110,7 +110,7 @@
             handleClose(done) {
                 this.$confirm('确认关闭？')
                     .then(_ => {
-                        done();
+                        this.dialogAdd.dialogVisible = false
                     })
                     .catch(_ => {
                     });

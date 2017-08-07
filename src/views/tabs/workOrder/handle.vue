@@ -119,8 +119,8 @@
                     status: viewData.status > 2 ? viewData.status.toString() : '2',
                     isStar: viewData.isStar.toString(),
                     operationRemark: viewData.operationRemark,
-                    workorderAttaches:viewData.workorderAttaches?JSON.parse(viewData.workorderAttaches):[],
-                },
+                    workorderAttaches:viewData.workorderAttaches?viewData.workorderAttaches.split(','):[],
+            },
                 dialogImageUrl: '',
                 dialogVisible: false,
                 rules: {
