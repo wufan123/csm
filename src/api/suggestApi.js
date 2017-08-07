@@ -22,7 +22,16 @@ export default {
         return httpApi.postForm(_CREATE, params)
     },
     exportReport(params){
-        return httpApi.postForm(_EXPORT, params)
+        let exportUrl =httpApi.defaults.baseURL+_EXPORT+'?'
+        for(let i in params)
+        {
+            if(params[i]){
+                if(i!='pageSize'||i!='pageNumber'){
+                    exportUrl+=i+"="+params[i]+'&'
+                }
+            }
+        }
+        window.location.href =exportUrl;
     },
     delete(params){
         return httpApi.postForm(_DELETE, params)

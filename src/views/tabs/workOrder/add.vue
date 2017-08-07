@@ -28,7 +28,7 @@
                     <el-radio class="radio" v-model="form.isStartHandle" label="false">否</el-radio>
                 </el-form-item>
                 <el-form-item label="运维附件">
-                    <qiniu-img v-model="form.imageFiles"></qiniu-img>
+                    <qiniu-img v-model="form.workorderAttaches"></qiniu-img>
                 </el-form-item>
                 <el-form-item class="form-button">
                     <el-button type="primary" v-on:click="save">保存</el-button>
@@ -54,7 +54,7 @@
                     cinemaId:'',
                     content:'',
                     isStartHandle:'false',
-                    imageFiles:[] 
+                    workorderAttaches:[]
                 },
                 dialogImageUrl: '',
                 dialogVisible: false,

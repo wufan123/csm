@@ -43,13 +43,27 @@
                 }
             }
         },
+        watch: {
+            value: function (val) {
+                console.log(val)
+                let fileList =[]
+                for(let i in val){
+                    fileList.push({
+                        name:val[i],
+                        url:val[i],
+                        status: 'finished'
+                    })
+                }
+                this.fileList=fileList
+            }
+        },
         methods: {
             handleRemove(file, fileList) {
-                console.log(file, fileList);
-                this.value.filter(item=>{
-                    return item.url == file.url;
+                let newValue=  this.value.filter(item=>{
+                    return item !== file.url;
                 })
-                this.$emit('input',this.value)
+                console.log('1111111',newValue);
+                this.$emit('input',newValue)
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;

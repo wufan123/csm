@@ -6,7 +6,7 @@
         <el-row class="property">
             <el-col :span="4">
                 客诉来源: {{viewState.data.orderSourceName}}
-            </el-col >
+            </el-col>
             <el-col :span="4">
                 客诉影院: {{viewState.data.cinemaName}}
             </el-col>
@@ -25,7 +25,7 @@
         </el-row>
         <el-row>
             <el-form ref="form-a" :model="form" label-width="85px" label-position="right" :rules="rules">
-                <el-form-item label="客诉类型"  required  prop="orderType">
+                <el-form-item label="客诉类型" required prop="orderType">
                     <el-col :span="4">
                         <el-select v-model="form.orderType" placeholder="请选择">
                             <el-option label="查询" value="1"></el-option>
@@ -47,13 +47,13 @@
                 </el-form-item>
             </el-form>
             <el-form ref="form-b" :model="form" label-width="85px" :inline="true" :rules="rules">
-                <el-form-item label="客诉等级"  required prop="orderLevel">
+                <el-form-item label="客诉等级" required prop="orderLevel">
                     <el-select v-model="form.orderLevel" placeholder="请选择">
                         <el-option label="一般" value="1"></el-option>
                         <el-option label="紧急" value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="bug等级"  required prop="bugLevel">
+                <el-form-item label="bug等级" required prop="bugLevel">
                     <el-select v-model="form.bugLevel" placeholder="请选择">
                         <el-option label="致命" value="1"></el-option>
                         <el-option label="严重" value="2"></el-option>
@@ -61,7 +61,7 @@
                         <el-option label="次要" value="4"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="bug类型"  required prop="bugType">
+                <el-form-item label="bug类型" required prop="bugType">
                     <el-select v-model="form.bugType" placeholder="请选择">
                         <el-option label="功能" value="1"></el-option>
                         <el-option label="接口" value="2"></el-option>
@@ -72,22 +72,13 @@
                     <el-radio class="radio" v-model="form.isStar" label="true">是</el-radio>
                     <el-radio class="radio" v-model="form.isStar" label="false">否</el-radio>
                 </el-form-item>
-            </el-form >
-            <el-form ref="form-c" :model="form" >
+            </el-form>
+            <el-form ref="form-c" :model="form">
                 <el-form-item label=" 运维备注">
                     <el-input v-model="form.operationRemark"></el-input>
                 </el-form-item>
                 <el-form-item label=" 运维附件">
-                    <el-upload
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            list-type="picture-card"
-                            :on-preview="handlePictureCardPreview"
-                            :on-remove="handleRemove">
-                        <i class="el-icon-plus"></i>
-                    </el-upload>
-                    <el-dialog v-model="dialogVisible" size="tiny">
-                        <img width="100%" :src="dialogImageUrl" alt="">
-                    </el-dialog>
+                    <qiniu-img v-model="form.workorderAttaches"></qiniu-img>
                 </el-form-item>
                 <el-form-item label="客诉状态">
                     <el-radio class="radio" v-model="form.status" label="2">正在处理</el-radio>
@@ -95,7 +86,7 @@
                     <el-radio class="radio" v-model="form.status" label="4">未解决</el-radio>
                     <el-radio class="radio" v-model="form.status" label="5">处理完毕</el-radio>
                 </el-form-item>
-                <el-form-item class="form-button" >
+                <el-form-item class="form-button">
                     <el-button type="primary" v-on:click="save">
                         保存
                     </el-button>
@@ -103,7 +94,7 @@
                         关闭不保存
                     </el-button>
                 </el-form-item>
-            </el-form> 
+            </el-form>
         </el-row>
     </div>
 </template>
@@ -120,50 +111,50 @@
             console.log(viewData)
             return {
                 form: {
-                    id:viewData.id,
-                    orderType: viewData.orderType?viewData.orderType.toString():'',
-                    orderLevel: viewData.orderLevel?viewData.orderLevel.toString():'',
-                    bugLevel:viewData.bugLevel?viewData.orderLevel.toString():'',
-                    bugType:viewData.bugType?viewData.bugType.toString():'',
-                    status: viewData.status>2?viewData.status.toString():'2',
+                    id: viewData.id,
+                    orderType: viewData.orderType ? viewData.orderType.toString() : '',
+                    orderLevel: viewData.orderLevel ? viewData.orderLevel.toString() : '',
+                    bugLevel: viewData.bugLevel ? viewData.orderLevel.toString() : '',
+                    bugType: viewData.bugType ? viewData.bugType.toString() : '',
+                    status: viewData.status > 2 ? viewData.status.toString() : '2',
                     isStar: viewData.isStar.toString(),
-                    operationRemark:viewData.operationRemark,
+                    operationRemark: viewData.operationRemark,
+                    workorderAttaches:viewData.workorderAttaches?JSON.parse(viewData.workorderAttaches):[],
                 },
-                dialogImageUrl:'',
-                dialogVisible:false,
-                rules:{
-                    orderType:[
-                        { required: true, message: '请选择客诉类型', trigger: 'blur' }
+                dialogImageUrl: '',
+                dialogVisible: false,
+                rules: {
+                    orderType: [
+                        {required: true, message: '请选择客诉类型', trigger: 'blur'}
                     ],
-                    orderLevel:[
-                        {  required: true, message: '请选择客诉等级', trigger: 'blur' }
+                    orderLevel: [
+                        {required: true, message: '请选择客诉等级', trigger: 'blur'}
                     ],
-                    bugType:[
-                        { required: true, message: '请选择bug类型', trigger: 'blur' }
+                    bugType: [
+                        {required: true, message: '请选择bug类型', trigger: 'blur'}
                     ],
-                    bugLevel:[
-                        { required: true, message: '请选择bug等级', trigger: 'blur' }
+                    bugLevel: [
+                        {required: true, message: '请选择bug等级', trigger: 'blur'}
                     ],
                 }
             }
         },
-        methods:{
+        methods: {
             save(){
-                let validA,validB =false;
-                let validSave = ()=>{
-                    console.log(validA,validB)
-                    if(validA&&validB)
-                    {
-                        workOrderApi.save(this.form).then(res=>{
+                let validA, validB = false;
+                let validSave = () => {
+                    console.log(validA, validB)
+                    if (validA && validB) {
+                        workOrderApi.save(this.form).then(res => {
                             this.$emit('view', {
-                                type:'list'
+                                type: 'list'
                             })
                         })
                     }
                 }
                 this.$refs['form-a'].validate((valid) => {
                     if (valid) {
-                        validA =true
+                        validA = true
                         validSave()
                     } else {
                         return false;
@@ -171,7 +162,7 @@
                 });
                 this.$refs['form-b'].validate((valid) => {
                     if (valid) {
-                        validB =true
+                        validB = true
                         validSave()
                     } else {
                         return false;
@@ -180,7 +171,7 @@
             },
             close(){
                 this.$emit('view', {
-                    type:'list'
+                    type: 'list'
                 })
             },
             handleRemove(file, fileList) {

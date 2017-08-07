@@ -211,7 +211,7 @@
                 })
             },
             exportReport(){
-                suggestApi.exportReport(this.form)
+               suggestApi.exportReport(this.form)
             }
         }
     }
