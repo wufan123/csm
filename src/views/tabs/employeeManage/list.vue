@@ -104,7 +104,7 @@ export default {
             employeeApi.ListEmployee(params).then(res => {
                 this.page.totalElements = res.resultData.totalElements
                 this.employeeList = res.resultData.content
-            })
+            },error=>this.$message.error(error))
         },
         searchSubmit(){
             var params = {}
@@ -159,7 +159,7 @@ export default {
             positionApi.ListPosition().then(res => {
                 this.positionList = res.resultData.content;
                 this.$storage.setItem('position',res.resultData.content)
-            })
+            },error=>this.$message.error(error))
         },
         deleteEmployee(_index){
              this.$confirm('此操作将永久删除该职员, 是否继续?', '提示', {
@@ -173,7 +173,7 @@ export default {
                             type: 'success',
                             message: '删除成功!'
                         });
-                     })
+                     },error=>this.$message.error(error))
                 
                 })
         },

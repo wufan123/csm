@@ -137,7 +137,7 @@ export default {
                             type: 'success',
                             message: '删除成功!'
                         });
-                     })
+                     },error=>this.$message.error(error))
                 
                 })
         },
@@ -151,11 +151,11 @@ export default {
                         params.id = this.ruleForm.id
                         cinemaApi.editCinema(params).then(res =>{
                             this.getData()
-                        })
+                        },error=>this.$message.error(error))
                     }else(
                         cinemaApi.addCinema(params).then(res =>{
                             this.getData()
-                        })
+                        },error=>this.$message.error(error))
                     )
                     this.dialogVisible = false;
                 }

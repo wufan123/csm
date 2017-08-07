@@ -130,7 +130,7 @@ export default {
               this.$emit('setType',{
               type:'list'
             })
-            })
+            },error=>this.$message.error(error))
           } else {
             console.log('error submit!!');
             
@@ -146,7 +146,7 @@ export default {
     getCinemaList(){
       cinemaApi.listCinemaGroup().then(res => {
         this.cinemaGroupList = res.resultData.content
-      })
+      },error=>this.$message.error(error))
     }
     
   },

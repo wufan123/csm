@@ -125,7 +125,7 @@ export default {
               this.$emit('setType',{
               type:'list'
             })
-            })
+            },error=>this.$message.error(error))
           } else {
             console.log('error submit!!');
             
