@@ -20,6 +20,9 @@ p{
   margin: 0;
 }
 em,i{font-style: normal;display: inline-block;}
+div{
+
+}
 .page{padding: 30px 20px;
   .p-title{font-size: @size-large-x;color:var(--color-black);
     em.notice{font-size: @size-small;color: var(--color-danger)!important;}}
@@ -40,7 +43,7 @@ em,i{font-style: normal;display: inline-block;}
   font-size: @size-large-xx;
 }
 .add-form{
-  width: 556px;
+  width: 800px;
 }
 .tab-form{
   padding: 48px 40px;
@@ -102,6 +105,9 @@ input {
   font-weight: bolder;
 }
 //修改element submenu 细节
+.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item{
+  color: @color-base-gray;
+}
 .el-menu--horizontal .el-submenu .el-submenu__title{
   height: @size-navmenu-height;
   line-height: @size-navmenu-height;

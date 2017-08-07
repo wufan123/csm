@@ -15,7 +15,7 @@
     export default {
         data(){
             return {
-                viewState: 'list',
+                viewState: {},
                 view:list,
                 dialogImageUrl: '',
                 dialogVisible: false

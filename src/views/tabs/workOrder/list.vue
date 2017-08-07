@@ -122,7 +122,7 @@
                         @size-change="pageSizeChange"
                         @current-change="pageCurrentChange"
                         :current-page="pageNumber"
-                        :page-sizes="[20, 40, 60, 80]"
+                        :page-sizes="[21, 42, 63]"
                         :page-size="this.form.pageSize"
                         layout="total, sizes, prev, pager, next, jumper"
                         :total="this.pageDatas.totalElements">
@@ -152,7 +152,7 @@
                     orderSource: '',
                     status: '',
                     isStar: '',
-                    pageSize:20,
+                    pageSize:21,
                     pageNumber:0,
                 },
                 pageDatas: {
@@ -284,7 +284,7 @@
         .list-card {
             margin-top: 30px;
             .el-card {
-                height: 253px;
+                height: 180px;
                 margin-bottom: 20px;
                 cursor: pointer;
                 padding: 24px 16px;
@@ -293,8 +293,10 @@
                 }
                 .card_body {
                     margin-top: 24px;
-                    height: 150px;
+                    height: 85px;
                     padding-left: 20px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
                 .card_footer {
                     margin-top: 28px;

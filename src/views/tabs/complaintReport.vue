@@ -38,7 +38,7 @@
                 <el-button type="info" @click="getList">查询</el-button>
             </el-form-item>
             <el-form-item>
-                <a href="">导出Excel</a>
+                <el-button type="text" class="t-info" v-on:click="exportReport">导出Excel</el-button>
             </el-form-item>
         </el-form>
         <el-table
@@ -180,7 +180,10 @@
             pageSizeChange(size){
                 this.form.pageSize = size
                 this.getList()
-            }
+            },
+            exportReport(){
+                workOrderApi.exportReport(this.form)
+            },
         }
     }
 </script>

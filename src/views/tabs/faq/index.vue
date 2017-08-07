@@ -15,6 +15,7 @@
         data(){
             return {
                 view:list,
+                viewState:{}
             }
         },
         methods:{

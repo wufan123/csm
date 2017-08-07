@@ -124,13 +124,13 @@
             },
             viewReady(){
                 this.drawChart(this.chart)
-                this.dateStartOptions.disabledDate=time=>{
+                this.dateStartOptions.disabledDate=time=>{//限制日期范围
                    if(this.form.dateEnd instanceof Date){
                        return time.getTime()<this.form.dateEnd.getTime()-14*24*60*60*1000||time.getTime()>=this.form.dateEnd.getTime();
                    }else {
                        return false;
                    }
-                }//限制范围
+                }
                 this.dateEndOptions.disabledDate=time=>{
                     if(this.form.dateStart instanceof Date){
                         return time.getTime()>this.form.dateStart.getTime()+14*24*60*60*1000||time.getTime()<=this.form.dateStart.getTime();

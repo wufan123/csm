@@ -37,16 +37,7 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item label="截图">
-                    <el-upload
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            list-type="picture-card"
-                            :on-preview="handlePictureCardPreview"
-                            :on-remove="handleRemove">
-                        <i class="el-icon-plus"></i>
-                    </el-upload>
-                    <el-dialog v-model="dialogVisible" size="tiny">
-                        <img width="100%" :src="dialogImageUrl" alt="">
-                    </el-dialog>
+                    <qiniu-img v-model="form.suggestAttaches"></qiniu-img>
                 </el-form-item>
                 <el-form-item class="form-button">
                     <el-button type="primary" v-on:click="save">保存</el-button>
@@ -67,7 +58,8 @@
                     title:'',
                     cinemaId:'',
                     cinemaGroupId:'',
-                    content:''
+                    content:'',
+                    suggestAttaches:[]
                 },
                 dialogImageUrl: '',
                 dialogVisible: false,

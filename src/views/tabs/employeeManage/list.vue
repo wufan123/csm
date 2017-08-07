@@ -41,7 +41,7 @@
       </div>
       							
       <div class="content">
-         <el-table   :data="employeeList"   border    style="width: 100%">
+         <el-table   :data="employeeList"   border  stripe  style="width: 100%">
             <el-table-column  type="index" label="序号"  width="100"></el-table-column>
             <el-table-column   prop="fullName"    label="职员姓名"   width="180">  </el-table-column>
             <el-table-column   prop="position.positionName"   label="岗位"  width="180">  </el-table-column>

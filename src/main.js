@@ -9,6 +9,7 @@ import storage from 'utils/storage'
 import cinemaGroupOptions from 'views/component/cinemaGroupOptions.vue'
 import cinemations from 'views/component/cinemaOptions.vue'
 import cinemaGroupCheckbox from 'views/component/cinemaGroupCheckbox.vue'
+import qiniuImg from 'views/component/qiniuImgUpload.vue'
 import baseMixin from 'utils/baseMixin'
 import * as util from 'utils'
 
@@ -18,6 +19,7 @@ Vue.use(VueRouter);
 Vue.component('group-options',cinemaGroupOptions)
 Vue.component('cinema-options',cinemations)
 Vue.component('cinema-checkbox',cinemaGroupCheckbox)
+Vue.component('qiniu-img',qiniuImg)
 Vue.mixin(baseMixin)
 Vue.prototype.$storage = storage;
 Vue.prototype.$util = util //工具类

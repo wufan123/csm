@@ -5,13 +5,18 @@
                 <div class="logo"></div>
             </el-col>
             <el-col :span="21" class="logo">
-                <el-menu theme="dark" mode="horizontal" :default-active="currentTopMenuIndex.toString()" @select="topMenuSelect">
-                    <el-menu-item v-for="(item, index) in this.userDetail.menus" :index='index.toString()' :key="item.name" >{{item.name}}</el-menu-item>
+                <el-menu theme="dark" mode="horizontal" :default-active="currentTopMenuIndex.toString()"
+                         @select="topMenuSelect">
+                    <el-menu-item v-for="(item, index) in this.userDetail.menus" :index='index.toString()'
+                                  :key="item.name">{{item.name}}
+                    </el-menu-item>
                     <el-submenu index="submenu">
-                        <template slot="title"><img class="avatar"  v-bind:src="userDetail.headImageLink" :onerror="errorImg" />{{userDetail.fullName}}</template>
+                        <template slot="title"><img class="avatar" v-bind:src="userDetail.headImageLink"
+                                                    :onerror="errorImg"/>{{userDetail.fullName}}
+                        </template>
                         <el-menu-item index="submenu-1">修改头像</el-menu-item>
                         <el-menu-item index="submenu-2">修改密码</el-menu-item>
-                        <el-menu-item index="submenu-3" v-on:click="logout">安全退出</el-menu-item>
+                        <el-menu-item index="submenu-3">安全退出</el-menu-item>
                     </el-submenu>
                 </el-menu>
             </el-col>
@@ -20,9 +25,13 @@
             <el-row>
                 <el-col :span="3" class="slide-menu">
                     <el-menu>
-                        <el-submenu v-for="(item,index) in this.userDetail.menus[currentTopMenuIndex].childMenus" :index="index.toString()" :name="index.toString()" :key="item.name">
+                        <el-submenu v-for="(item,index) in this.userDetail.menus[currentTopMenuIndex].childMenus"
+                                    :index="index.toString()" :name="index.toString()" :key="item.name">
                             <template slot="title"><i class="el-icon-search"></i>{{item.name}}</template>
-                            <el-menu-item v-for="(subItem,subIndex) in item.childMenus" :index="index.toString()+'-'+subIndex.toString()" :key="subItem.name" v-on:click="sideMenuClick(subItem)">{{subItem.name}}</el-menu-item>
+                            <el-menu-item v-for="(subItem,subIndex) in item.childMenus"
+                                          :index="index.toString()+'-'+subIndex.toString()" :key="subItem.name"
+                                          v-on:click="sideMenuClick(subItem)">{{subItem.name}}
+                            </el-menu-item>
                         </el-submenu>
                     </el-menu>
                 </el-col>
@@ -34,7 +43,7 @@
                                 :label="item.name"
                                 :name="item.id.toString()"
                         >
-                            <component v-bind:is="item.page"> </component>
+                            <component v-bind:is="item.page"></component>
                         </el-tab-pane>
                     </el-tabs>
                     <p class="copyright">Copyright 2014-2015 福州最美影视网络科技有限公司 版权所有 4008-12345678  </p>
@@ -50,35 +59,50 @@
     import rooter from  '~/rooter'//
     export default{
         data(){
-            this.userDetail =this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
-            if(!this.userDetail)
-            {
-                this.$router.push({ path: 'login' })
+            this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
+            if (!this.userDetail) {
+                this.$router.push({path: 'login'})
             }
             let firstTab = this.userDetail.menus[0].childMenus[0].childMenus[0];
             firstTab.page = rooter.mapTabPage(firstTab);
             return {
-                currentTopMenuIndex:0,
-                errorImg:'this.src=""',
+                currentTopMenuIndex: 0,
+                errorImg: 'this.src=""',
                 currentTabId: firstTab.id.toString(),
-                menuTabs:[firstTab],
+                menuTabs: [firstTab],
             }
         },
         methods: {
             logout(){
                 loginApi.logout({
-                    userId:this.userDetail.id
+                    userId: this.userDetail.id
                 }).then((response) => {
-                    this.$router.push({ path: 'login'})
+                    this.$router.push({path: 'login'})
                 })
             },
-            updateAvatar(){
-                console.log('改变了头像')
-            },
             topMenuSelect(key) {
-                if(key.indexOf('submenu')===-1) //
+                if (key.indexOf('submenu') === -1) //
                 {
-                    this.currentTopMenuIndex=key;
+                    this.currentTopMenuIndex = key;
+                } else {
+
+                    switch (key){
+                        case 'submenu-1':
+                            this.showSelectTab({
+                                name:'头像修改',
+                                id:'头像修改'
+                            })
+                            break;
+                        case 'submenu-2':
+                            this.showSelectTab({
+                                name:'密码修改',
+                                id:'密码修改'
+                            })
+                            break;
+                        case 'submenu-3':
+                            this.logout();
+                            break;
+                    }
                 }
             },
             sideMenuClick(item){
@@ -87,10 +111,8 @@
             ,
             showSelectTab(item){
                 this.currentTabId = item.id.toString();
-                for(let i in this.menuTabs)
-                {
-                    if(item.id === this.menuTabs[i].id)
-                    {
+                for (let i in this.menuTabs) {
+                    if (item.id === this.menuTabs[i].id) {
                         return;
                     }
                 }
@@ -119,6 +141,7 @@
 </script>
 <style lang="less">
     @import "~style/base-variables";
+
     #main {
         height: 100%;
         .logo {
@@ -147,7 +170,7 @@
                         .el-tabs__header {
                             padding: 0 44px 0 44px;
                         }
-                        .el-tabs__content{
+                        .el-tabs__content {
                             height: calc(~"100% - 40px");
                             overflow-y: auto;
                         }

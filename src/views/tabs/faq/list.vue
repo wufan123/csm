@@ -24,12 +24,13 @@
                 <el-button type="success" v-on:click="add">新建</el-button>
             </el-form-item>
             <el-form-item>
-                <a href="">导出Excel</a>
+                <el-button type="text" class="t-info" v-on:click="exportReport">导出Excel</el-button>
             </el-form-item>
         </el-form>
         <el-table
                 :data="this.pageDatas.content"
-                stripe>
+                stripe
+                border>
             <el-table-column
                     prop="date"
                     label="序号"
@@ -159,6 +160,9 @@
             pageSizeChange(size){
                 this.form.pageSize = size
                 this.getList()
+            },
+            exportReport(){
+                platformFaqApi.exportReport(this.form)
             }
         }
     }
