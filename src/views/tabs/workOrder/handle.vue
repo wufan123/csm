@@ -1,5 +1,7 @@
 <template>
     <div class="tab-form complaint">
+        <!--<tip class="tip"></tip>-->
+        <chat class="chat"></chat>
         <el-row class="tab-pane-title">
             处理客诉
         </el-row>
@@ -100,7 +102,13 @@
 </template>
 <script>
     import workOrderApi from 'api/workOrderApi'
+    import tip from './tip.vue'
+    import chat from './chat.vue'
     export default {
+        components:{
+            'tip':tip,
+            'chat':chat,
+        },
         props: {
             viewState: {
                 type: Object,
@@ -108,7 +116,6 @@
         },
         data(){
             let viewData = this.viewState.data;
-            console.log(viewData)
             return {
                 form: {
                     id: viewData.id,
@@ -180,7 +187,24 @@
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
+            },
+            fetchData(){
+                workOrderApi.detail({
+                    workorderId:this.form.id
+                })
             }
         }
     }
 </script>
+<style lang="less">
+    .tip{
+        position: fixed;
+        top: 336px;
+        right: 0px;
+    }
+    .chat{
+        bottom: 20px;
+        right: 20px;
+        position: fixed;
+    }
+</style>

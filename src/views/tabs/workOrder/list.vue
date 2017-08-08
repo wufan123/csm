@@ -105,6 +105,7 @@
             <el-row :gutter="21" class="list-card">
                 <el-col :span="8" v-for="(item,index) in OrdersContent" :key="index">
                     <el-card :class="getStatusClass(item.status)" @click.native="handleComplaint(item)">
+                        <span v-if="item.isStar" class="star-tag"></span>
                         <div class="card_header">
                             {{item.orderNo}}
                         </div>
@@ -288,6 +289,15 @@
                 margin-bottom: 20px;
                 cursor: pointer;
                 padding: 24px 16px;
+                position: relative;
+                .star-tag{
+                    background:url("~assets/image/workorder/is_star.png") no-repeat center;
+                    position: absolute;
+                    height: 50px;
+                    width: 50px;
+                    top:0;
+                    right: -2px;
+                }
                 .card_header {
 
                 }
