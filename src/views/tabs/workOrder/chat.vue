@@ -50,6 +50,7 @@
             }
         },
         data(){
+            console.log(this.workorder.teamId)
             return {
                 chatRec: [],
                 textMessage: '',
@@ -67,7 +68,6 @@
                 window._nim.onMsg = this.onMsg
             },
             onMsg(msg){
-                console.log("收到消息", msg)
                 if (!this.isWindowShow) {
                     this.unread++;
                 }
@@ -142,6 +142,11 @@
                     msg.custom = JSON.parse(msg.custom)
                     this.chatRec.push(msg)
                     this.updateMessageUI(msg)
+                } else {
+                    this.$message({
+                        message: error.message,
+                        type: 'error'
+                    })
                 }
             },
             fetchData(){

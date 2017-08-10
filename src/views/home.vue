@@ -5,14 +5,14 @@
                 <div class="logo"></div>
             </el-col>
             <el-col :span="21" class="logo">
-                <el-menu theme="dark" mode="horizontal" :default-active="currentTopMenuIndex.toString()"
+                <el-menu theme="dark" mode="horizontal" default-active="0"
                          @select="topMenuSelect">
-                    <el-menu-item v-for="(item, index) in this.userDetail.sortedMenus" :index='index.toString()'
+                    <el-menu-item v-for="(item, index) in topMenus" :index='index.toString()'
                                   :key="item.name">{{item.name}}
                     </el-menu-item>
                     <el-submenu index="submenu">
-                        <template slot="title"><img class="avatar" v-bind:src="userDetail.headImageLink"
-                                                    :onerror="errorImg"/>{{userDetail.fullName}}
+                        <template slot="title"><img class="avatar" v-bind:src="headImageLink"
+                                                    :onerror="errorImg"/>{{fullName}}
                         </template>
                         <el-menu-item index="submenu-1">修改头像</el-menu-item>
                         <el-menu-item index="submenu-2">修改密码</el-menu-item>
@@ -25,7 +25,7 @@
             <el-row>
                 <el-col :span="3" class="slide-menu">
                     <el-menu>
-                        <el-submenu v-for="(item,index) in this.userDetail.menus[currentTopMenuIndex].childMenus"
+                        <el-submenu v-for="(item,index) in subMenus"
                                     :index="index.toString()" :name="index.toString()" :key="item.name">
                             <template slot="title"><i class="el-icon-search"></i>{{item.name}}</template>
                             <el-menu-item v-for="(subItem,subIndex) in item.childMenus"
@@ -43,7 +43,8 @@
                                 :label="item.name"
                                 :name="item.id.toString()"
                         >
-                            <component v-bind:is="item.page" v-on:goOtherTab="showTabByName" :tabForm="item.tabForm"></component>
+                            <component v-bind:is="item.page" v-on:goOtherTab="showTabByName"
+                                       :tabForm="item.tabForm"></component>
                         </el-tab-pane>
                     </el-tabs>
                     <p class="copyright">Copyright 2014-2015 福州最美影视网络科技有限公司 版权所有 4008-12345678  </p>
@@ -60,16 +61,27 @@
     export default{
         data(){
             this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL)
+            let topMenus = [], subMenus = [], menus = [], menuTabs = [], fullName = '', headImageLink = ''
             if (!this.userDetail) {
                 this.$router.push({path: 'login'})
+            } else {
+                topMenus = this.userDetail.sortedMenus
+                if (topMenus.length > 0) {
+                    subMenus = topMenus[0].childMenus
+                }
+                fullName = this.userDetail.fullName
+                headImageLink = this.userDetail.headImageLink
+                menus = this.userDetail.menus
             }
-            let firstTab = this.userDetail.sortedMenus[0].childMenus[0].childMenus[0];
-            firstTab.page = rooter.mapTabPage(firstTab);
             return {
-                currentTopMenuIndex: 0,
+                fullName: fullName,
+                headImageLink: headImageLink,
                 errorImg: 'this.src=""',
-                currentTabId: firstTab.id.toString(),
-                menuTabs: [firstTab],
+                currentTabId: '',
+                menuTabs: menuTabs,
+                topMenus: topMenus,
+                subMenus: subMenus,
+                menus: menus
             }
         },
         methods: {
@@ -77,13 +89,14 @@
                 loginApi.logout({
                     userId: this.userDetail.id
                 }).then((response) => {
+                    window._nim.disconnect();
                     this.$router.push({path: 'login'})
                 })
             },
             topMenuSelect(key) {
                 if (key.indexOf('submenu') === -1) //
                 {
-                    this.currentTopMenuIndex = key;
+                    this.subMenus = this.topMenus[key].childMenus
                 } else {
 
                     switch (key) {
@@ -119,14 +132,10 @@
                 this.menuTabs.push(item)
             },
             showTabByName(targetTab){
-                let menus = this.userDetail.menus
-                for(let i in  menus)
-                {
-                    if(menus[i].name==targetTab.name)
-                    {
-                        menus[i].tabForm = targetTab.tabForm
-                        console.log(targetTab.tabForm)
-                        this.showSelectTab(menus[i])
+                for (let i in  this.menus) {
+                    if (this.menus[i].name == targetTab.name) {
+                        this.menus[i].tabForm = targetTab.tabForm
+                        this.showSelectTab(this.menus[i])
                     }
                 }
 
@@ -148,51 +157,72 @@
                 this.menuTabs = tabs.filter(tab => tab.id.toString() != targetId);
             },
             viewReady(){
-                window._nim = new NIM({//初始化im
-                    appKey: this.userDetail.appKey,
-                    account: this.userDetail.accid,
-                    token: this.userDetail.token,
-                    onconnect: () => {
-                        console.log('IM连接成功');
-                    },
-                    onwillreconnect: obj => {
-                        console.log('IM即将重连');
-                        console.log(obj.retryCount);
-                        console.log(obj.duration);
-                    },
-                    onerror: error => {
+                if (!this.userDetail)
+                    return
+                this.showTabByName({name: '趋势查询'})
+                if (!window._nim) {
+                    window._nim = NIM.getInstance({//初始化im
+                        appKey: this.userDetail.appKey,
+                        account: this.userDetail.accid,
+                        token: this.userDetail.token,
+                        onconnect: () => {
+                            console.log('IM连接成功');
+                        },
+                        onwillreconnect: obj => {
+                            console.log('IM即将重连');
+                            console.log(obj.retryCount);
+                            console.log(obj.duration);
+                        },
+                        onerror: error => {
 
-                    },
-                    onmsg: msg => {
-                        console.log('收到消息', msg.scene, msg.type, msg);
-                        try {
-                            msg.custom = JSON.parse(msg.custom)
-                        }
-                        catch (e) {
-                        }
-                        if (!msg.custom)
-                            msg.custom = {}
-                        if (window._nim) {
-                            switch (msg.type) {
-                                case "text":
-                                case "image":
-                                    if (window._nim.onMsg) {
-                                        window._nim.onMsg(msg)
-                                    }
-                                    break;
-                                case "notification":
-                                    if (window._nim.onNoti) {
-                                        window._nim.onNoti(msg)
-                                    }
-                                    break;
+                        },
+                        onmsg: msg => {
+                            console.log('收到消息', msg.scene, msg.type, msg);
+                            try {
+                                msg.custom = JSON.parse(msg.custom)
                             }
+                            catch (e) {
+                            }
+                            if (!msg.custom)
+                                msg.custom = {}
+                            if (window._nim) {
+                                switch (msg.type) {
+                                    case "text":
+                                    case "image":
+                                        if (window._nim.onMsg) {
+                                            window._nim.onMsg(msg)
+                                        }
+                                        break;
+                                    case "notification":
+                                        if (window._nim.onNoti) {
+                                            window._nim.onNoti(msg)
+                                        }
+                                        break;
+                                }
+                            }
+
+
+                        },
+                        onsysmsg: sysMsg => {
+                            console.log('收到系统通知',sysMsg)
+                        },
+                        oncustomsysmsg: sysMsg => {
+                            console.log('收到系统通知',sysMsg)
+                        },
+                        ondisconnect:error=>{
+                            console.log('断开连接',error)
                         }
+                    })
+                }else{
+                    console.log("用户信息",this.userDetail)
+                    window._nim.setOptions({
+                        account: this.userDetail.accid,
+                    });
+                    window._nim.connect();
+                }
 
-
-                    }
-                })
-            }
-        }
+            },
+        },
 
     }
 </script>

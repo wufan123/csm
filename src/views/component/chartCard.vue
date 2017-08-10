@@ -90,7 +90,7 @@
                     }
                 }
                 chartOpt.title.text =chart.chartTitle//单位标题
-                chartOpt.tooltip.tipText =chart.tipText//tip 
+                chartOpt.tooltip.formatter =chart.tipText//tip
                 chartOpt.xAxis[0].data =chart.xAxisDate//x 轴第一行下标
                 chartOpt.xAxis[1].data =chart.xAxisWeek//x 轴第二行下标
                 chartOpt.series[0].data =chart.data//数据

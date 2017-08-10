@@ -22,7 +22,7 @@ import portManagePage from 'views/tabs/portManage/index.vue'
 const routes = [
     { path: '/login', component: login },
     { path: '/home', component: home },
-    { path: '*', redirect: '/login' }
+    { path: '*', redirect: '/login' } 
 ];
 
 let router = new VueRouter({
