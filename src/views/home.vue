@@ -27,7 +27,7 @@
                     <el-menu>
                         <el-submenu v-for="(item,index) in subMenus"
                                     :index="index.toString()" :name="index.toString()" :key="item.name">
-                            <template slot="title"><i class="el-icon-search"></i>{{item.name}}</template>
+                            <template slot="title">{{item.name}}</template>
                             <el-menu-item v-for="(subItem,subIndex) in item.childMenus"
                                           :index="index.toString()+'-'+subIndex.toString()" :key="subItem.name"
                                           v-on:click="sideMenuClick(subItem)">{{subItem.name}}
@@ -207,16 +207,18 @@
                             console.log('收到系统通知',sysMsg)
                         },
                         oncustomsysmsg: sysMsg => {
-                            console.log('收到系统通知',sysMsg)
+                            console.log('收到自定义系统通知',sysMsg)
+
                         },
                         ondisconnect:error=>{
                             console.log('断开连接',error)
                         }
                     })
                 }else{
-                    console.log("用户信息",this.userDetail)
+
                     window._nim.setOptions({
                         account: this.userDetail.accid,
+
                     });
                     window._nim.connect();
                 }

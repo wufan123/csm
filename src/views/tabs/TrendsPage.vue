@@ -10,7 +10,7 @@
                 </div>
                 <div class="body">
                     <div class="title">欢迎你</div>
-                    <div class="name">{{userDetail.positionName + ' ' + userDetail.fullName}}</div>
+                    <div class="name">{{userDetail.positionName?userDetail.positionName:''  + ' ' + userDetail.fullName}}</div>
                     <div class='des'>
                         <label>负责范围：</label>
                         <el-row :gutter="20" class="range">

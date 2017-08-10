@@ -147,6 +147,10 @@
                         message: error.message,
                         type: 'error'
                     })
+                    if(msg.type="text"){
+                        this.textMessage =msg.type
+
+                    }
                 }
             },
             fetchData(){
