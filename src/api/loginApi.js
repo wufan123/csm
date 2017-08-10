@@ -12,8 +12,7 @@ export default {
     },
     logout(params){
         return httpApi.postForm(_LOGOUt, params)
-    }
-    ,
+    },
     reSortMenus(menus){//将原先的菜单列表转换成三维数组
         let array1 = [];
         let array2 = [];

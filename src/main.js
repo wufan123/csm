@@ -23,12 +23,12 @@ Vue.component('qiniu-img',qiniuImg)
 Vue.mixin(baseMixin)
 Vue.prototype.$storage = storage;
 Vue.prototype.$util = util //工具类
-
 window._vue = new Vue({
     el: '#app',
     router: rooter,
     render: h => h(App),
 });
+window._vue.$bus = new Vue();
 
 _MOCK ? require('../src/api/mock') : ''
 export default _vue;

@@ -13,7 +13,7 @@
             </div>
             <div class="chat-body" ref="chatBody">
                 <div v-for="(item,index) in chatRec" :key="index"
-                     :class="item.custom.identity==2?'chat-rec-left':'chat-rec-right'">
+                     :class="item.custom.identity==1?'chat-rec-right':'chat-rec-left'">
                     <div class="get-avatar"></div>
                     <div class="content">
                         <span class="time">{{new Date(item.time).format('yyyy-MM-dd hh:mm:ss')}}</span><br/>
@@ -139,6 +139,7 @@
             sendMsgDone(error, msg){
                 if (!error) {
                     console.log("发送成功", msg)
+                    msg.custom = JSON.parse(msg.custom)
                     this.chatRec.push(msg)
                     this.updateMessageUI(msg)
                 }

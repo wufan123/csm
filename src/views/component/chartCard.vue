@@ -6,7 +6,7 @@
         </div>
         <div  class="card-item">
             <el-date-picker
-                    v-model="form.dateStart"
+                    v-model="dateStart"
                     align="right"
                     type="date"
                     placeholder="选择日期"
@@ -14,7 +14,7 @@
             </el-date-picker>
             至
             <el-date-picker
-                    v-model="form.dateEnd"
+                    v-model="dateEnd"
                     align="right"
                     type="date"
                     placeholder="选择日期"
@@ -110,8 +110,9 @@
                 })
             },
             fetchData(){
-                this.form.dateEnd=this.form.dateEnd?this.form.dateEnd.format('yyyy-MM-dd'):'';
-                this.form.dateStart =this.form.dateStart?this.form.dateStart.format('yyyy-MM-dd'):'';
+
+                this.form.dateEnd=this.dateEnd?this.dateEnd.format('yyyy-MM-dd'):'';
+                this.form.dateStart =this.dateStart?this.dateStart.format('yyyy-MM-dd'):'';
                 httpApi.postForm(this.chart.apiUrl,this.form).then(res=>{//请求图表数据
                     let newRes = indexApi.preHandleIndexData(res.resultData,this.chart.type);
                     for( let i in newRes)

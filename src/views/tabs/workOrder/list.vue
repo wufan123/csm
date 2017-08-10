@@ -98,9 +98,6 @@
                 <el-col :span="2" class="worked-out">
                     □ 处理完毕
                 </el-col>
-                <el-col :span="3">
-                    你有11条新客诉
-                </el-col>
             </el-row>
             <el-row :gutter="21" class="list-card">
                 <el-col :span="8" v-for="(item,index) in OrdersContent" :key="index">
@@ -136,7 +133,17 @@
     import cinemaApi from 'api/cinemaApi'
     import workOrderApi from 'api/workOrderApi'
     export default {
+        props:['viewState'],
         data(){
+            let status = ''
+            if(this.viewState)
+            {
+                if(this.viewState.tabForm)
+                {
+                    status = this.viewState.tabForm.status
+                    console.log(status)
+                }
+            }
             return {
                 activeSubTab: '',
                 createTimeStart: '',
@@ -151,7 +158,7 @@
                     createTimeEnd: '',
                     orderLevel: '',
                     orderSource: '',
-                    status: '',
+                    status: status,
                     isStar: '',
                     pageSize: 21,
                     pageNumber: 0,

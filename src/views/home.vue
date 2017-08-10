@@ -7,7 +7,7 @@
             <el-col :span="21" class="logo">
                 <el-menu theme="dark" mode="horizontal" :default-active="currentTopMenuIndex.toString()"
                          @select="topMenuSelect">
-                    <el-menu-item v-for="(item, index) in this.userDetail.menus" :index='index.toString()'
+                    <el-menu-item v-for="(item, index) in this.userDetail.sortedMenus" :index='index.toString()'
                                   :key="item.name">{{item.name}}
                     </el-menu-item>
                     <el-submenu index="submenu">
@@ -43,7 +43,7 @@
                                 :label="item.name"
                                 :name="item.id.toString()"
                         >
-                            <component v-bind:is="item.page"></component>
+                            <component v-bind:is="item.page" v-on:goOtherTab="showTabByName" :tabForm="item.tabForm"></component>
                         </el-tab-pane>
                     </el-tabs>
                     <p class="copyright">Copyright 2014-2015 福州最美影视网络科技有限公司 版权所有 4008-12345678  </p>
@@ -63,7 +63,7 @@
             if (!this.userDetail) {
                 this.$router.push({path: 'login'})
             }
-            let firstTab = this.userDetail.menus[0].childMenus[0].childMenus[0];
+            let firstTab = this.userDetail.sortedMenus[0].childMenus[0].childMenus[0];
             firstTab.page = rooter.mapTabPage(firstTab);
             return {
                 currentTopMenuIndex: 0,
@@ -118,6 +118,19 @@
                 item.page = rooter.mapTabPage(item)
                 this.menuTabs.push(item)
             },
+            showTabByName(targetTab){
+                let menus = this.userDetail.menus
+                for(let i in  menus)
+                {
+                    if(menus[i].name==targetTab.name)
+                    {
+                        menus[i].tabForm = targetTab.tabForm
+                        console.log(targetTab.tabForm)
+                        this.showSelectTab(menus[i])
+                    }
+                }
+
+            },
             removeTab(targetId) {//关闭tab标签
                 let tabs = this.menuTabs;
                 let activeId = this.currentTabId;
@@ -170,7 +183,6 @@
                                 case "notification":
                                     if (window._nim.onNoti) {
                                         window._nim.onNoti(msg)
-
                                     }
                                     break;
                             }

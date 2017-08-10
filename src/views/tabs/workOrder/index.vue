@@ -10,9 +10,12 @@
     import add from 'views/tabs/workOrder/add.vue'
     import handle from 'views/tabs/workOrder/handle.vue'
     export default {
+        props:['tabForm'],
         data(){
             return {
-                viewState: {},
+                viewState: {
+                    tabForm:this.tabForm
+                },
                 view:list
             }
         },
