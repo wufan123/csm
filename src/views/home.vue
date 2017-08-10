@@ -7,7 +7,7 @@
             <el-col :span="21" class="logo">
                 <el-menu theme="dark" mode="horizontal" :default-active="currentTopMenuIndex.toString()"
                          @select="topMenuSelect">
-                    <el-menu-item v-for="(item, index) in this.userDetail.menus" :index='index.toString()'
+                    <el-menu-item v-for="(item, index) in this.userDetail.sortedMenus" :index='index.toString()'
                                   :key="item.name">{{item.name}}
                     </el-menu-item>
                     <el-submenu index="submenu">
@@ -43,7 +43,7 @@
                                 :label="item.name"
                                 :name="item.id.toString()"
                         >
-                            <component v-bind:is="item.page"></component>
+                            <component v-bind:is="item.page" v-on:goOtherTab="showTabByName" :tabForm="item.tabForm"></component>
                         </el-tab-pane>
                     </el-tabs>
                     <p class="copyright">Copyright 2014-2015 福州最美影视网络科技有限公司 版权所有 4008-12345678  </p>
@@ -59,11 +59,11 @@
     import rooter from  '~/rooter'//
     export default{
         data(){
-            this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
+            this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL)
             if (!this.userDetail) {
                 this.$router.push({path: 'login'})
             }
-            let firstTab = this.userDetail.menus[0].childMenus[0].childMenus[0];
+            let firstTab = this.userDetail.sortedMenus[0].childMenus[0].childMenus[0];
             firstTab.page = rooter.mapTabPage(firstTab);
             return {
                 currentTopMenuIndex: 0,
@@ -86,17 +86,17 @@
                     this.currentTopMenuIndex = key;
                 } else {
 
-                    switch (key){
+                    switch (key) {
                         case 'submenu-1':
                             this.showSelectTab({
-                                name:'头像修改',
-                                id:'头像修改'
+                                name: '头像修改',
+                                id: '头像修改'
                             })
                             break;
                         case 'submenu-2':
                             this.showSelectTab({
-                                name:'密码修改',
-                                id:'密码修改'
+                                name: '密码修改',
+                                id: '密码修改'
                             })
                             break;
                         case 'submenu-3':
@@ -107,8 +107,7 @@
             },
             sideMenuClick(item){
                 this.showSelectTab(item)
-            }
-            ,
+            },
             showSelectTab(item){
                 this.currentTabId = item.id.toString();
                 for (let i in this.menuTabs) {
@@ -118,6 +117,19 @@
                 }
                 item.page = rooter.mapTabPage(item)
                 this.menuTabs.push(item)
+            },
+            showTabByName(targetTab){
+                let menus = this.userDetail.menus
+                for(let i in  menus)
+                {
+                    if(menus[i].name==targetTab.name)
+                    {
+                        menus[i].tabForm = targetTab.tabForm
+                        console.log(targetTab.tabForm)
+                        this.showSelectTab(menus[i])
+                    }
+                }
+
             },
             removeTab(targetId) {//关闭tab标签
                 let tabs = this.menuTabs;
@@ -134,6 +146,51 @@
                 }
                 this.currentTabId = activeId.toString();
                 this.menuTabs = tabs.filter(tab => tab.id.toString() != targetId);
+            },
+            viewReady(){
+                window._nim = new NIM({//初始化im
+                    appKey: this.userDetail.appKey,
+                    account: this.userDetail.accid,
+                    token: this.userDetail.token,
+                    onconnect: () => {
+                        console.log('IM连接成功');
+                    },
+                    onwillreconnect: obj => {
+                        console.log('IM即将重连');
+                        console.log(obj.retryCount);
+                        console.log(obj.duration);
+                    },
+                    onerror: error => {
+
+                    },
+                    onmsg: msg => {
+                        console.log('收到消息', msg.scene, msg.type, msg);
+                        try {
+                            msg.custom = JSON.parse(msg.custom)
+                        }
+                        catch (e) {
+                        }
+                        if (!msg.custom)
+                            msg.custom = {}
+                        if (window._nim) {
+                            switch (msg.type) {
+                                case "text":
+                                case "image":
+                                    if (window._nim.onMsg) {
+                                        window._nim.onMsg(msg)
+                                    }
+                                    break;
+                                case "notification":
+                                    if (window._nim.onNoti) {
+                                        window._nim.onNoti(msg)
+                                    }
+                                    break;
+                            }
+                        }
+
+
+                    }
+                })
             }
         }
 

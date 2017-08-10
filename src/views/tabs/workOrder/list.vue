@@ -1,5 +1,5 @@
 <template>
-    <div class="complain-list">
+    <div class="complain-list"  ref="workorder">
         <el-form ref="form" :model="form" label-width="85px" :inline="true">
             <el-form-item label="客诉类型">
                 <el-select v-model="form.orderType" placeholder="全部">
@@ -78,7 +78,7 @@
                 <el-tabs v-model="activeSubTab" type="card" v-on:tab-click="tabClick">
                     <el-tab-pane label="全部" name=""></el-tab-pane>
                     <el-tab-pane label="等待处理" name="1"></el-tab-pane>
-                    <el-tab-pane label="处理中" name="2 3"></el-tab-pane>
+                    <el-tab-pane label="处理中" name="2"></el-tab-pane>
                     <el-tab-pane label="处理完毕" name="5"></el-tab-pane>
                 </el-tabs>
             </el-row>
@@ -98,13 +98,11 @@
                 <el-col :span="2" class="worked-out">
                     □ 处理完毕
                 </el-col>
-                <el-col :span="3">
-                    你有11条新客诉
-                </el-col>
             </el-row>
             <el-row :gutter="21" class="list-card">
                 <el-col :span="8" v-for="(item,index) in OrdersContent" :key="index">
                     <el-card :class="getStatusClass(item.status)" @click.native="handleComplaint(item)">
+                        <span v-if="item.isStar" class="star-tag"></span>
                         <div class="card_header">
                             {{item.orderNo}}
                         </div>
@@ -123,9 +121,9 @@
                         @current-change="pageCurrentChange"
                         :current-page="pageNumber"
                         :page-sizes="[21, 42, 63]"
-                        :page-size="this.form.pageSize"
+                        :page-size="form.pageSize"
                         layout="total, sizes, prev, pager, next, jumper"
-                        :total="this.pageDatas.totalElements">
+                        :total="pageDatas.totalElements">
                 </el-pagination>
             </el-row>
         </div>
@@ -135,13 +133,23 @@
     import cinemaApi from 'api/cinemaApi'
     import workOrderApi from 'api/workOrderApi'
     export default {
+        props:['viewState'],
         data(){
+            let status = ''
+            if(this.viewState)
+            {
+                if(this.viewState.tabForm)
+                {
+                    status = this.viewState.tabForm.status
+                    console.log(status)
+                }
+            }
             return {
                 activeSubTab: '',
                 createTimeStart: '',
                 createTimeEnd: '',
                 OrdersContent: [],
-                pageNumber:1,
+                pageNumber: 1,
                 form: {
                     orderType: '',
                     cinemaGroupId: '',
@@ -150,10 +158,10 @@
                     createTimeEnd: '',
                     orderLevel: '',
                     orderSource: '',
-                    status: '',
+                    status: status,
                     isStar: '',
-                    pageSize:21,
-                    pageNumber:0,
+                    pageSize: 21,
+                    pageNumber: 0,
                 },
                 pageDatas: {
                     content: [],
@@ -164,16 +172,23 @@
             }
         },
         methods: {
-            tabClick(tab){
-                this.OrdersContent = this.pageDatas.content.filter(item => {
-                    let status = this.activeSubTab.split(' ')
-                    for (let i in status) {
-                        if (!status[i]||status[i]=='0'||status[i] == item.status) {
-                            return true
-                        }
-                    }
-                    return false;
-                })
+            tabClick(){
+                this.form.status = this.activeSubTab ? this.activeSubTab : ''
+                if (this.activeSubTab == '0') {
+                    this.form.status = ''
+                } else {
+                    this.form.status = this.activeSubTab
+                }
+                this.getWorkOrders();
+                /*this.OrdersContent = this.pageDatas.content.filter(item => {
+                 let status = this.activeSubTab.split(' ')
+                 for (let i in status) {
+                 if (!status[i]||status[i]=='0'||status[i] == item.status) {
+                 return true
+                 }
+                 }
+                 return false;
+                 })*/
             },
             getCinemas(){
                 this.cinemasOptions = [];
@@ -234,16 +249,15 @@
                 }
             },
             pageCurrentChange(currentPage){
-                this.form.pageNumber = currentPage -1
+                this.form.pageNumber = currentPage - 1
                 this.getWorkOrders();
             },
             pageSizeChange(size){
-                this.form.pageSize= size
+                this.form.pageSize = size
                 this.getWorkOrders();
 
             }
-        },
-
+        }
     }
 
 </script>
@@ -288,6 +302,15 @@
                 margin-bottom: 20px;
                 cursor: pointer;
                 padding: 24px 16px;
+                position: relative;
+                .star-tag {
+                    background: url("~assets/image/workorder/is_star.png") no-repeat center;
+                    position: absolute;
+                    height: 50px;
+                    width: 50px;
+                    top: 0;
+                    right: -2px;
+                }
                 .card_header {
 
                 }

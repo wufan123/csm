@@ -7,6 +7,8 @@ const _CREATE = `${prefix}/createWorkOrder.do`;//新建工单
 const _EXPORT = `${prefix}/export.do`;//导出execl
 const _IN_HANDLE = `${prefix}/workOrderhasInHandle.do`;//是否在沟通中
 const _JOIN = `${prefix}/joinTeam`;//加入工单聊天群
+const _CHAT_LIST = `${prefix}/communicateRecord/listCommunicateRecord.do`;//加入工单聊天群
+
 export default {
     //工单常量
     STATUS_WAITING: 1,  //等待处理
@@ -44,5 +46,8 @@ export default {
     },
     join(params){
         return httpApi.postForm(_JOIN, params)
+    },
+    chatList(params){
+        return httpApi.postForm(_CHAT_LIST, params)
     }
 }

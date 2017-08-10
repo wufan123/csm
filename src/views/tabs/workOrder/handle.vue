@@ -1,5 +1,6 @@
 <template>
     <div class="tab-form complaint">
+        <chat :workorder="this.viewState.data" v-if="this.viewState.data.teamId"></chat>
         <el-row class="tab-pane-title">
             处理客诉
         </el-row>
@@ -80,11 +81,11 @@
                 <el-form-item label=" 运维附件">
                     <qiniu-img v-model="form.workorderAttaches"></qiniu-img>
                 </el-form-item>
-                <el-form-item label="客诉状态">
-                    <el-radio class="radio" v-model="form.status" label="2">正在处理</el-radio>
-                    <el-radio class="radio" v-model="form.status" label="3">正在处理-转技术解决</el-radio>
-                    <el-radio class="radio" v-model="form.status" label="4">未解决</el-radio>
-                    <el-radio class="radio" v-model="form.status" label="5">处理完毕</el-radio>
+                <el-form-item label="客诉状态"  >
+                    <el-radio class="radio" v-model="form.status" label="2"  :disabled="disableStatus" >正在处理</el-radio>
+                    <el-radio class="radio" v-model="form.status" label="3"  :disabled="disableStatus">正在处理-转技术解决</el-radio>
+                    <el-radio class="radio" v-model="form.status" label="4"  :disabled="disableStatus">未解决</el-radio>
+                    <el-radio class="radio" v-model="form.status" label="5"  :disabled="disableStatus">处理完毕</el-radio>
                 </el-form-item>
                 <el-form-item class="form-button">
                     <el-button type="primary" v-on:click="save">
@@ -100,7 +101,11 @@
 </template>
 <script>
     import workOrderApi from 'api/workOrderApi'
+    import chat from './chat.vue'
     export default {
+        components:{
+            'chat':chat,
+        },
         props: {
             viewState: {
                 type: Object,
@@ -108,7 +113,14 @@
         },
         data(){
             let viewData = this.viewState.data;
-            console.log(viewData)
+            if(viewData.status <= 2)
+            {
+                viewData.status="2";
+            }
+            if(viewData.status >= 5){
+                viewData.status='5';
+            }
+            this.disableStatus =this.viewState.data.status>=5?true:false
             return {
                 form: {
                     id: viewData.id,
@@ -116,7 +128,7 @@
                     orderLevel: viewData.orderLevel ? viewData.orderLevel.toString() : '',
                     bugLevel: viewData.bugLevel ? viewData.orderLevel.toString() : '',
                     bugType: viewData.bugType ? viewData.bugType.toString() : '',
-                    status: viewData.status > 2 ? viewData.status.toString() : '2',
+                    status: viewData.status,
                     isStar: viewData.isStar.toString(),
                     operationRemark: viewData.operationRemark,
                     workorderAttaches:viewData.workorderAttaches?viewData.workorderAttaches.split(','):[],
@@ -180,7 +192,15 @@
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
+            },
+            fetchData(){
+                workOrderApi.detail({
+                    workorderId:this.form.id
+                })
             }
         }
     }
 </script>
+<style lang="less">
+
+</style>

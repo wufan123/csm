@@ -34,7 +34,6 @@
     export default {
         data() {
             const user = this.$storage.getUser();
-            console.log(user);
             return {
                 loginForm: user,
                 loginRules: {
@@ -57,8 +56,9 @@
                             } else {
                                 this.$storage.clearUser();
                             }
-                            response.resultData.menus = loginApi.reSortMenus(response.resultData.menus);
+                            response.resultData.sortedMenus = loginApi.reSortMenus(response.resultData.menus);
                             this.$storage.setItem(this.$storage.KEY_USER_DETAIL,response.resultData);
+//                            window._userDetail=response.resultData
                             this.$router.push({ path: 'home' });
                         })
                     } else {

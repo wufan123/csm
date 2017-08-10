@@ -24,10 +24,10 @@
                         存在客诉：
                         <span class="num">
                             <div>
-                                <a href="">{{workorderCount.existWorkorderCount}}</a>条
+                                <el-button type="text" size="large" class="t-info" @click="goWorkOrderTab('')">{{workorderCount.existWorkorderCount}}</el-button>条
                             </div>
                             <div>
-                                其中等待解决的客诉<a href="">{{workorderCount.waitingWorkorderCount}}</a>条
+                                其中等待解决的客诉<el-button type="text" size="large" class="t-info" @click="goWorkOrderTab('1')">{{workorderCount.waitingWorkorderCount}}</el-button>条
                             </div>
                         </span>
                     </div>
@@ -142,6 +142,11 @@
             };
         },
         methods: {
+            goWorkOrderTab(status){
+                this.$emit('goOtherTab',{name:"客诉列表",tabForm:{
+                    status:status
+                }})
+            },
             orderTypeChage(){
                 this.getOperationStar();
             },

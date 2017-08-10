@@ -21,7 +21,8 @@ export default {
     operationStar(params){
         return httpApi.postForm(_STAR, params)
     },
-    preHandleIndexData(res){
+    preHandleIndexData(res,type){
+
         let newRes ={
             xAxisDate:[],
             xAxisWeek:[],
@@ -49,7 +50,17 @@ export default {
         }
         for(let i in res)
         {
-            newRes.data.push(parseInt(res[i].workorderCount?res[i].workorderCount:'0'))
+            switch (type){
+                case "workorder":
+                    newRes.data.push(parseInt(res[i].workorderCount?res[i].workorderCount:'0'))
+                    break
+                case "complete":
+                    newRes.data.push(parseInt(res[i].completeTime?res[i].completeTime:'0'))
+                    break
+                case "respond":
+                    newRes.data.push(parseInt(res[i].respondTime?res[i].respondTime:'0'))
+                    break
+            }
             let date = new Date(res[i].workorderdate);
             newRes.xAxisDate.push(date.getMonth()+1+'-'+date.getDate())
             newRes.xAxisWeek.push(getWeekDay(date));
