@@ -53,8 +53,6 @@
     require('echarts/lib/component/tooltip');//引入提示框
     require('echarts/lib/component/title');//引入标题
     require('echarts/lib/component/toolbox');//引入标题
-
-
     export default {
         props: {
             chart:{
@@ -92,6 +90,7 @@
                     }
                 }
                 chartOpt.title.text =chart.chartTitle//单位标题
+                chartOpt.tooltip.tipText =chart.tipText//tip 
                 chartOpt.xAxis[0].data =chart.xAxisDate//x 轴第一行下标
                 chartOpt.xAxis[1].data =chart.xAxisWeek//x 轴第二行下标
                 chartOpt.series[0].data =chart.data//数据
@@ -114,7 +113,7 @@
                 this.form.dateEnd=this.form.dateEnd?this.form.dateEnd.format('yyyy-MM-dd'):'';
                 this.form.dateStart =this.form.dateStart?this.form.dateStart.format('yyyy-MM-dd'):'';
                 httpApi.postForm(this.chart.apiUrl,this.form).then(res=>{//请求图表数据
-                    let newRes = indexApi.preHandleIndexData(res.resultData);
+                    let newRes = indexApi.preHandleIndexData(res.resultData,this.chart.type);
                     for( let i in newRes)
                     {
                         this.chart[i] = newRes[i]
@@ -125,19 +124,26 @@
             viewReady(){
                 this.drawChart(this.chart)
                 this.dateStartOptions.disabledDate=time=>{//限制日期范围
-                   if(this.form.dateEnd instanceof Date){
-                       return time.getTime()<this.form.dateEnd.getTime()-14*24*60*60*1000||time.getTime()>=this.form.dateEnd.getTime();
-                   }else {
-                       return false;
-                   }
+                    if(time.getTime()>Date.now()){
+                        return true
+                    }else {
+                        if(this.form.dateEnd instanceof Date){
+                            return time.getTime()<this.form.dateEnd.getTime()-14*24*60*60*1000||time.getTime()>=this.form.dateEnd.getTime();
+                        }else {
+                            return false;
+                        }
+                    }
+
                 }
                 this.dateEndOptions.disabledDate=time=>{
-                    if(this.form.dateStart instanceof Date){
-                        return time.getTime()>this.form.dateStart.getTime()+14*24*60*60*1000||time.getTime()<=this.form.dateStart.getTime();
-                    }else if(time.getTime()>Date.now()){
+                    if(time.getTime()>Date.now()){
                         return true;
                     }else {
-                        return false;
+                        if(this.form.dateStart instanceof Date){
+                            return time.getTime()>this.form.dateStart.getTime()+14*24*60*60*1000||time.getTime()<=this.form.dateStart.getTime();
+                        }else {
+                            return false;
+                        }
                     }
                 }
             }

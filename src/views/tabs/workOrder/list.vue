@@ -1,5 +1,5 @@
 <template>
-    <div class="complain-list">
+    <div class="complain-list"  ref="workorder">
         <el-form ref="form" :model="form" label-width="85px" :inline="true">
             <el-form-item label="客诉类型">
                 <el-select v-model="form.orderType" placeholder="全部">
@@ -78,7 +78,7 @@
                 <el-tabs v-model="activeSubTab" type="card" v-on:tab-click="tabClick">
                     <el-tab-pane label="全部" name=""></el-tab-pane>
                     <el-tab-pane label="等待处理" name="1"></el-tab-pane>
-                    <el-tab-pane label="处理中" name="2 3"></el-tab-pane>
+                    <el-tab-pane label="处理中" name="2"></el-tab-pane>
                     <el-tab-pane label="处理完毕" name="5"></el-tab-pane>
                 </el-tabs>
             </el-row>
@@ -124,9 +124,9 @@
                         @current-change="pageCurrentChange"
                         :current-page="pageNumber"
                         :page-sizes="[21, 42, 63]"
-                        :page-size="this.form.pageSize"
+                        :page-size="form.pageSize"
                         layout="total, sizes, prev, pager, next, jumper"
-                        :total="this.pageDatas.totalElements">
+                        :total="pageDatas.totalElements">
                 </el-pagination>
             </el-row>
         </div>
@@ -142,7 +142,7 @@
                 createTimeStart: '',
                 createTimeEnd: '',
                 OrdersContent: [],
-                pageNumber:1,
+                pageNumber: 1,
                 form: {
                     orderType: '',
                     cinemaGroupId: '',
@@ -153,8 +153,8 @@
                     orderSource: '',
                     status: '',
                     isStar: '',
-                    pageSize:21,
-                    pageNumber:0,
+                    pageSize: 21,
+                    pageNumber: 0,
                 },
                 pageDatas: {
                     content: [],
@@ -165,16 +165,23 @@
             }
         },
         methods: {
-            tabClick(tab){
-                this.OrdersContent = this.pageDatas.content.filter(item => {
-                    let status = this.activeSubTab.split(' ')
-                    for (let i in status) {
-                        if (!status[i]||status[i]=='0'||status[i] == item.status) {
-                            return true
-                        }
-                    }
-                    return false;
-                })
+            tabClick(){
+                this.form.status = this.activeSubTab ? this.activeSubTab : ''
+                if (this.activeSubTab == '0') {
+                    this.form.status = ''
+                } else {
+                    this.form.status = this.activeSubTab
+                }
+                this.getWorkOrders();
+                /*this.OrdersContent = this.pageDatas.content.filter(item => {
+                 let status = this.activeSubTab.split(' ')
+                 for (let i in status) {
+                 if (!status[i]||status[i]=='0'||status[i] == item.status) {
+                 return true
+                 }
+                 }
+                 return false;
+                 })*/
             },
             getCinemas(){
                 this.cinemasOptions = [];
@@ -235,16 +242,15 @@
                 }
             },
             pageCurrentChange(currentPage){
-                this.form.pageNumber = currentPage -1
+                this.form.pageNumber = currentPage - 1
                 this.getWorkOrders();
             },
             pageSizeChange(size){
-                this.form.pageSize= size
+                this.form.pageSize = size
                 this.getWorkOrders();
 
             }
-        },
-
+        }
     }
 
 </script>
@@ -290,12 +296,12 @@
                 cursor: pointer;
                 padding: 24px 16px;
                 position: relative;
-                .star-tag{
-                    background:url("~assets/image/workorder/is_star.png") no-repeat center;
+                .star-tag {
+                    background: url("~assets/image/workorder/is_star.png") no-repeat center;
                     position: absolute;
                     height: 50px;
                     width: 50px;
-                    top:0;
+                    top: 0;
                     right: -2px;
                 }
                 .card_header {

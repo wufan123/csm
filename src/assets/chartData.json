@@ -11,7 +11,8 @@
     "xAxisDate": [],
     "xAxisWeek": [],
     "data": [],
-    "cinemaGroup":[]
+    "cinemaGroup":[],
+    "type":"workorder"
   },
   {
     "title": "平均响应时间趋势",
@@ -25,7 +26,8 @@
     "xAxisDate": [],
     "xAxisWeek": [],
     "data": [],
-    "cinemaGroup":[]
+    "cinemaGroup":[],
+    "type":"respond"
   },
   {
     "title": "平均解决时间趋势",
@@ -34,11 +36,12 @@
     "colorEnd": "#FFF",
     "lineColor": "#AAEE68",
     "id": "solve",
-    "tipText": "平均解决时间{c}秒",
+    "tipText": "平均解决时间{c}秒111111",
     "apiUrl": "/platformIndex/averageCompleteTime.do",
     "xAxisDate": [],
     "xAxisWeek": [],
     "data": [],
-    "cinemaGroup":[]
+    "cinemaGroup":[],
+    "type":"complete"
   }
 ]
