@@ -95,8 +95,6 @@
                 })
             },
             topMenuSelect(key) {
-                this.onCustomSysmsg();
-
                 if (key.indexOf('submenu') === -1) //
                 {
                     this.subMenus = this.topMenus[key].childMenus
