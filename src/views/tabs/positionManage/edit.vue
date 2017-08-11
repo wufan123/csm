@@ -25,7 +25,7 @@
               <el-collapse v-model="activeName" accordion>
                 <el-collapse-item v-for="(item,index) in fistMenu" :key="item.id" :name="index">
                   <template slot="title">
-                    <el-checkbox v-model="checkAll[index]" @change="handleCheckAllChange(item.id)">{{item.enable}}-{{item.name}}</el-checkbox>
+                    <el-checkbox v-model="checkAll[index]" @change="handleCheckAllChange(item.id)">{{item.name}}</el-checkbox>
                   </template>
                   <el-checkbox-group v-model="position.menuIds">
                     <div class="line" v-for="subItem in secondMenu(item)" :key="subItem.id">
