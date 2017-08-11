@@ -12,7 +12,7 @@ export default {
             template: 'src/index.html'
         }),
         new webpack.DefinePlugin({//运行时变量
-            BASE_URL:''
+            BASE_URL:JSON.stringify('api/')
         })
     ],
     devtool:'#source-map'//
