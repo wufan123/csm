@@ -1,6 +1,6 @@
 const path = require('path');
 const url = require('url');
-const options  = process.env.NODE_ENV ==='production'?require('./config/build.js'):require('./config/dev.js');
+const options = process.env.NODE_ENV === 'production' ? require('./config/build.js') : require('./config/dev.js');
 module.exports = () => ({
     entry: {
         vendor: './src/vendor',
@@ -14,15 +14,15 @@ module.exports = () => ({
     },
     module: {
         rules: [{
-            test: /\.vue$/,
-            loader: 'vue-loader',
-            options:{
-                loaders: {
-                    less: 'vue-style-loader!css-loader!less-loader'
-                }
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                options: {
+                    loaders: {
+                        less: 'vue-style-loader!css-loader!less-loader'
+                    }
 
-            }
-        },
+                }
+            },
             {
                 test: /\.js$/,
                 use: ['babel-loader'],
@@ -42,7 +42,7 @@ module.exports = () => ({
                     loader: 'url-loader',
                     options: {
                         limit: 10000,
-                        name:path.posix.join(options.staticPath,'image/[name].[hash:7].[ext]')
+                        name: path.posix.join(options.staticPath, 'image/[name].[hash:7].[ext]')
                     }
                 }]
 
@@ -53,15 +53,15 @@ module.exports = () => ({
     resolve: {
         alias: {
             '~': path.resolve(__dirname, 'src'),
-            'assets': path.resolve('src', 'assets'),//资源目录 "~assets"
-            'style': path.resolve('src', 'style'),//样式目录 "~style"
-            'api': path.resolve('src', 'api'),//api请求目录 "api"
+            'assets': path.resolve('src', 'assets'), //资源目录 "~assets"
+            'style': path.resolve('src', 'style'), //样式目录 "~style"
+            'api': path.resolve('src', 'api'), //api请求目录 "api"
             'views': path.resolve('src', 'views'), //视图目录 "views"
             'utils': path.resolve('src', 'utils') //视图目录 "utils"
         }
     },
     devServer: {
-        host: '192.168.10.160',
+        host: '192.168.10.161',
         port: 8010,
         proxy: {
             '/api': {
