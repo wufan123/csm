@@ -95,7 +95,7 @@
                 })
             },
             topMenuSelect(key) {
-//                this.onCustomSysmsg();
+                this.onCustomSysmsg();
 
                 if (key.indexOf('submenu') === -1) //
                 {
@@ -132,8 +132,10 @@
                 this.menuTabs.push(item)
             },
             showTabByName(targetTab){
+                console.log(targetTab)
                 for (let i in  this.menus) {
                     if (this.menus[i].name == targetTab.name) {
+                        console.log(targetTab)
                         this.menus[i].tabForm = targetTab.tabForm
                         this.showSelectTab(this.menus[i])
                     }
@@ -159,9 +161,11 @@
                     });
                     return
                 }
-                for (let i = 0; i < this.notifyList.length; i++) {
-                    if (sysMsg.time == this.notifyList[i].time) {
-                        return
+                if (sysMsg) {
+                    for (let i = 0; i < this.notifyList.length; i++) {
+                        if (sysMsg.time == this.notifyList[i].time) {
+                            return
+                        }
                     }
                 }
                 this.notifyList.push(sysMsg);
@@ -173,9 +177,9 @@
                 n.onclick = () => {
                     self.focus();
                     vm.showTabByName({name: '客诉列表'})
-                    console.log(vm.currentTabId)
                     n.close()
                 }
+                _vue.$bus.$emit('getWorkorders')
             },
             removeTab(targetId) {//关闭tab标签
                 let tabs = this.menuTabs;

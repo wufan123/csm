@@ -256,6 +256,9 @@
                 this.form.pageSize = size
                 this.getWorkOrders();
 
+            },
+            viewReady(){
+                _vue.$bus.$on('getWorkorders',this.getWorkOrders)
             }
         }
     }
