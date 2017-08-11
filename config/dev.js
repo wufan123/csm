@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+let ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
     publicPath:'',
     filename:'[name].js',
