@@ -25,15 +25,15 @@
               <el-collapse v-model="activeName" accordion>
                 <el-collapse-item v-for="(item,index) in fistMenu" :key="item.id" :name="index">
                   <template slot="title">
-                    <el-checkbox v-model="checkAll[index]" @change="handleCheckAllChange(item.id)">{{item.name}}</el-checkbox>
+                    <el-checkbox v-model="checkAll[index]" @change="handleCheckAllChange(item.id)">{{item.enable}}-{{item.name}}</el-checkbox>
                   </template>
                   <el-checkbox-group v-model="position.menuIds">
-                    <div class="line" v-for="subItem in item.children" :key="subItem.id">
+                    <div class="line" v-for="subItem in secondMenu(item)" :key="subItem.id">
                       <p>
                         <el-checkbox :label="subItem.id" :key="subItem.id">
                           <c-dot :count="subItem.hierarchy"></c-dot> {{subItem.name}}</el-checkbox>
                       </p>
-                      <div class="line" v-for="subsubItem in subItem.children" :key="subsubItem.id">
+                      <div class="line" v-for="subsubItem in thirdMenu(subItem)" :key="subsubItem.id">
                         <p>
                           <el-checkbox :label="subsubItem.id" :key="subsubItem.id">
                             <c-dot :count="subsubItem.hierarchy"></c-dot> {{subsubItem.name}}</el-checkbox>
@@ -115,7 +115,7 @@ export default {
     fistMenu() {
       let arr = []
       this.menuList && this.menuList.forEach(item => {
-        if (item.hierarchy == '1') {
+        if (item.enable&&item.hierarchy == '1') {
           arr.push(item)
         }
       })
@@ -123,32 +123,46 @@ export default {
     }
   },
   methods: {
+    thirdMenu(obj){
+      var arr=[]
+      this.menuList&&this.menuList.forEach(item=>{
+        if(item.parentId == obj.id){
+          arr.push(item)
+        }
+      })
+      return arr
+    },
+    secondMenu(obj){
+      var arr=[]
+      this.menuList&&this.menuList.forEach(item=>{
+        if(item.parentId == obj.id){
+          arr.push(item)
+        }
+      })
+      return arr
+    },
     getMenuList() {
-      menuApi.ListMenu().then(res => {
-        this.menuList = res.resultData.content
+      menuApi.ListMenu({enable:true}).then(res => {
+       this.menuList = res.resultData.content
       })
     },
     getPortClassList() {
-      portApi.ListPortGroup().then(res => {
+      portApi.ListPortGroup({enable:true}).then(res => {
         this.portClassList = res.resultData.content
         this.getPortList()
       })
     },
     getPortList() {
-      portApi.ListPort().then(res => {
+      portApi.ListPort({enable:true}).then(res => {
         this.portClassList && this.portClassList.forEach((subItem, subIndex) => {
           this.portClassList[subIndex].children = []
           res.resultData.content && res.resultData.content.forEach(item => {
             this.portList = res.resultData.content
             if (item.interfaceCategoryId == subItem.id) {
-              console.log('item', item)
-
               this.portClassList[subIndex].children.push(item)
             }
           })
         })
-
-        console.log('portClassList', this.portClassList)
       })
     },
     submitForm(position) {
@@ -206,7 +220,8 @@ export default {
       this.position.menuIds = event.target.checked ? arr : arr2;
     },
     handleCheckAllChange2(id) {
-      console.log('id', id)
+
+      console.log('id', id,this.portList)
       let arr = this.position.siteInterfaceIds
       let arr2 = this.position.siteInterfaceIds
       if (!event.target.checked) {
@@ -243,10 +258,14 @@ export default {
       this.position.enable = res.resultData.enable.toString()
       this.position.positionName = res.resultData.positionName
       res.resultData.menuList && res.resultData.menuList.forEach(item => {
-        brr.push(item.id)
+        if(item.enable){
+          brr.push(item.id)
+        }
       })
       res.resultData.siteInterfaces && res.resultData.siteInterfaces.forEach(item => {
-        brr2.push(item.id)
+        if(item.enable){
+          brr2.push(item.id)
+        }
       })
       this.position.menuIds = brr
       this.position.siteInterfaceIds = brr2

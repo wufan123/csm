@@ -123,6 +123,5 @@ Array.prototype.unique = function() {
             json[this[i]] = 1;
         }
     }
-    console.log('res', res)
     return res;
 }

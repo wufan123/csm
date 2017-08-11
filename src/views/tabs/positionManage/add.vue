@@ -28,14 +28,20 @@
                      <el-checkbox v-model="checkAll[index]" @change="handleCheckAllChange(item.id)">{{item.name}}</el-checkbox> 
                   </template>
                   <el-checkbox-group v-model="position.menuIds">
-                    <div class="line" v-for="subItem in item.children" :key="subItem.id" >
-                     <p><el-checkbox :label="subItem.id" :key="subItem.id"> <c-dot :count="subItem.hierarchy"></c-dot> {{subItem.name}}</el-checkbox>  </p>
-                      <div class="line" v-for="subsubItem in subItem.children" :key="subsubItem.id" >
-                        <p><el-checkbox :label="subsubItem.id" :key="subsubItem.id"> <c-dot :count="subsubItem.hierarchy"></c-dot> {{subsubItem.name}}</el-checkbox></p>
+                    <div class="line" v-for="subItem in secondMenu(item)" :key="subItem.id">
+                      <p>
+                        <el-checkbox :label="subItem.id" :key="subItem.id">
+                          <c-dot :count="subItem.hierarchy"></c-dot>{{subItem.name}}</el-checkbox>
+                      </p>
+                      <div class="line" v-for="subsubItem in thirdMenu(subItem)" :key="subsubItem.id">
+                        <p>
+                          <el-checkbox :label="subsubItem.id" :key="subsubItem.id">
+                            <c-dot :count="subsubItem.hierarchy"></c-dot>{{subsubItem.name}}</el-checkbox>
+                        </p>
                       </div>
-                    </div> 
-                       
-                    </el-checkbox-group>
+                    </div>
+  
+                  </el-checkbox-group>
                   </el-collapse-item>
                  
                 </el-collapse>
@@ -114,20 +120,38 @@ export default {
       return arr
     }
   },
-  methods:{
+  methods: {
+    thirdMenu(obj){
+      var arr=[]
+      this.menuList&&this.menuList.forEach(item=>{
+        if(item.parentId == obj.id){
+          arr.push(item)
+        }
+      })
+      return arr
+    },
+    secondMenu(obj){
+      var arr=[]
+      this.menuList&&this.menuList.forEach(item=>{
+        if(item.parentId == obj.id){
+          arr.push(item)
+        }
+      })
+      return arr
+    },
       getMenuList(){
-        menuApi.ListMenu().then(res=>{
+        menuApi.ListMenu({enable:true}).then(res=>{
           this.menuList = res.resultData.content
         })
       },
       getPortClassList(){
-        portApi.ListPortGroup().then(res=>{
+        portApi.ListPortGroup({enable:true}).then(res=>{
           this.portClassList = res.resultData.content
           this.getPortList()
         })
       },
       getPortList(){
-        portApi.ListPort().then(res=>{
+        portApi.ListPort({enable:true}).then(res=>{
           this.portClassList&&this.portClassList.forEach((subItem,subIndex)=>{
              this.portClassList[subIndex].children = []
           res.resultData.content&&res.resultData.content.forEach(item=>{
@@ -194,8 +218,8 @@ export default {
             }
           })
         }
-        arr = arr.unique()
-        arr2 = arr2.unique()
+        arr = arr&&arr.unique()
+        arr2 = arr2&&arr2.unique()
         console.log('arr',arr)
         console.log('arr2',arr2)
         this.position.menuIds = event.target.checked ? arr : arr2;
@@ -222,8 +246,8 @@ export default {
              }
           })
         }
-        arr = arr.unique()
-        arr2 = arr2.unique()
+        arr = arr&&arr.unique()
+        arr2 = arr2&&arr2.unique()
         console.log('arr',arr)
         console.log('arr2',arr2)
         this.position.siteInterfaceIds = event.target.checked ? arr : arr2;
