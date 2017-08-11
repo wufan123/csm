@@ -81,7 +81,8 @@
                 menuTabs: menuTabs,
                 topMenus: topMenus,
                 subMenus: subMenus,
-                menus: menus
+                menus: menus,
+                notifyList: []
             }
         },
         methods: {
@@ -94,22 +95,21 @@
                 })
             },
             topMenuSelect(key) {
+//                this.onCustomSysmsg();
+
                 if (key.indexOf('submenu') === -1) //
                 {
                     this.subMenus = this.topMenus[key].childMenus
                 } else {
-
                     switch (key) {
                         case 'submenu-1':
-                            this.showSelectTab({
-                                name: '头像修改',
-                                id: '头像修改'
+                            this.showTabByName({
+                                name: '头像修改'
                             })
                             break;
                         case 'submenu-2':
-                            this.showSelectTab({
-                                name: '密码修改',
-                                id: '密码修改'
+                            this.showTabByName({
+                                name: '密码修改'
                             })
                             break;
                         case 'submenu-3':
@@ -140,6 +140,43 @@
                 }
 
             },
+            onCustomSysmsg(sysMsg){
+                if (!("Notification" in window)) {
+                    this.$message({
+                        message: '不支持桌面通知,请使用谷歌浏览器',
+                        type: 'error'
+                    })
+                    return
+                }
+                if (Notification.permission === 'denied') {
+                    Notification.requestPermission(function (permission) {
+                        if (permission !== "granted") {
+                            this.$message({
+                                message: '无桌面通知权限,请开启权限',
+                                type: 'error'
+                            })
+                        }
+                    });
+                    return
+                }
+                for (let i = 0; i < this.notifyList.length; i++) {
+                    if (sysMsg.time == this.notifyList[i].time) {
+                        return
+                    }
+                }
+                this.notifyList.push(sysMsg);
+                let n = new Notification("您有新的工单", {
+                    icon: '',
+                    body: '有新的工单需要处理,请您尽快处理'
+                });
+                let vm = this
+                n.onclick = () => {
+                    self.focus();
+                    vm.showTabByName({name: '客诉列表'})
+                    console.log(vm.currentTabId)
+                    n.close()
+                }
+            },
             removeTab(targetId) {//关闭tab标签
                 let tabs = this.menuTabs;
                 let activeId = this.currentTabId;
@@ -157,6 +194,7 @@
                 this.menuTabs = tabs.filter(tab => tab.id.toString() != targetId);
             },
             viewReady(){
+                let vm = this;
                 if (!this.userDetail)
                     return
                 this.showTabByName({name: '趋势查询'})
@@ -177,7 +215,7 @@
 
                         },
                         onmsg: msg => {
-                            console.log('收到消息', msg.scene, msg.type, msg);
+                            console.log('IM收到消息', msg.scene, msg.type, msg);
                             try {
                                 msg.custom = JSON.parse(msg.custom)
                             }
@@ -204,17 +242,17 @@
 
                         },
                         onsysmsg: sysMsg => {
-                            console.log('收到系统通知',sysMsg)
+                            console.log('IM收到系统通知', sysMsg)
                         },
                         oncustomsysmsg: sysMsg => {
-                            console.log('收到自定义系统通知',sysMsg)
-
+                            console.log('IM收到自定义系统通知', sysMsg)
+                            vm.onCustomSysmsg(sysMsg)
                         },
-                        ondisconnect:error=>{
-                            console.log('断开连接',error)
+                        ondisconnect: error => {
+                            console.log('IM断开连接', error)
                         }
                     })
-                }else{
+                } else {
 
                     window._nim.setOptions({
                         account: this.userDetail.accid,

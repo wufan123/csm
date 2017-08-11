@@ -25,7 +25,7 @@
         data(){
             let qiniuHost = this.$storage.getItem(this.$storage.KEY_USER_DETAIL).qiniuHost;
             let fileList =[]
-            for(let i in this.value){
+            for(let i =0;i<this.value.length;i++){
                 fileList.push({
                     name:this.value[i],
                     url:this.value[i],
