@@ -49,8 +49,8 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">{{activeName2}}
-            <el-form-item label="选择接口权限" required prop="siteInterfaceIds">
+          <el-col :span="12">
+            <el-form-item label="接口权限" >
               <el-collapse v-model="activeName2" accordion>
                 <el-collapse-item v-for="(item,index) in portClassList" :key="item.id" :name="index">
                   <template slot="title">
@@ -103,8 +103,7 @@ export default {
       },
       rules: {
         positionName: [{ required: true, message: '请输入岗位名称', trigger: 'blur' }, { min: 2, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }],
-        menuIds: [{ type: 'array', required: true, message: '请至少选择一个职员状态', trigger: 'change' }],
-        siteInterfaceIds: [{ type: 'array', required: true, message: '请至少选择一个接口权限', trigger: 'change' }]
+        menuIds: [{ type: 'array', required: true, message: '请至少选择一个职员状态', trigger: 'change' }]
       }
     }
   },
