@@ -1,20 +1,19 @@
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-export default {
+module.exports =  {
     publicPath:'',
     filename:'[name].js?[chunkhash]',//
     staticPath:'assets',
     plugins:[
-        new webpack.optimize.CommonsChunkPlugin({
-            names: ['vendor', 'manifest']
-        }),
-        new HtmlWebpackPlugin({
-            template: 'src/index.html'
-        }),
         new webpack.DefinePlugin({//运行时变量
             BASE_URL:JSON.stringify('api/')
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        }),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
         })
-    ],
-    devtool:'#source-map'//
-
+    ]
 }

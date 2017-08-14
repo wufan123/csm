@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --hot --env.dev",
-    "theme": "et -c src/style/element-variables.css -o src/style/theme",
-    "build": "rimraf dist && webpack -p --progress --hide-modules"
+    "build": "rimraf dist&&set NODE_ENV=production&&webpack -p --progress --hide-modules",
+    "theme": "et -c src/style/element-variables.css -o src/style/theme"
   },
   "dependencies": {
     "axios": "^0.16.2",
@@ -24,6 +24,7 @@
     "axios-mock-adapter": "^1.9.0",
     "babel-core": "^6.24.1",
     "babel-loader": "^6.4.0",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-vue-app": "^1.2.0",
     "css-loader": "^0.27.0",
     "element-theme": "^0.7.2",
