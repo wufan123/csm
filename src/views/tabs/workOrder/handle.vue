@@ -41,7 +41,7 @@
                         </el-select>
                     </el-col>
                     <el-col :span="20" v-if="form.orderType == '9'">
-                        <el-input v-model="form.otherDetail">
+                        <el-input v-model="form.otherDetail" class="remark-input" placeholder="其他详情">
 
                         </el-input>
                     </el-col>
@@ -76,16 +76,17 @@
             </el-form>
             <el-form ref="form-c" :model="form">
                 <el-form-item label=" 运维备注">
-                    <el-input v-model="form.operationRemark"></el-input>
+                    <el-input v-model="form.operationRemark" class="remark-input"></el-input>
                 </el-form-item>
                 <el-form-item label=" 运维附件">
                     <qiniu-img v-model="form.workorderAttaches"></qiniu-img>
                 </el-form-item>
-                <el-form-item label="客诉状态"  >
-                    <el-radio class="radio" v-model="form.status" label="2"  :disabled="disableStatus" >正在处理</el-radio>
-                    <el-radio class="radio" v-model="form.status" label="3"  :disabled="disableStatus">正在处理-转技术解决</el-radio>
-                    <el-radio class="radio" v-model="form.status" label="4"  :disabled="disableStatus">未解决</el-radio>
-                    <el-radio class="radio" v-model="form.status" label="5"  :disabled="disableStatus">处理完毕</el-radio>
+                <el-form-item label="客诉状态">
+                    <el-radio class="radio" v-model="form.status" label="2" :disabled="disableStatus">正在处理</el-radio>
+                    <el-radio class="radio" v-model="form.status" label="3" :disabled="disableStatus">正在处理-转技术解决
+                    </el-radio>
+                    <el-radio class="radio" v-model="form.status" label="4" :disabled="disableStatus">未解决</el-radio>
+                    <el-radio class="radio" v-model="form.status" label="5" :disabled="disableStatus">处理完毕</el-radio>
                 </el-form-item>
                 <el-form-item class="form-button">
                     <el-button type="primary" v-on:click="save">
@@ -103,8 +104,8 @@
     import workOrderApi from 'api/workOrderApi'
     import chat from './chat.vue'
     export default {
-        components:{
-            'chat':chat,
+        components: {
+            'chat': chat,
         },
         props: {
             viewState: {
@@ -113,14 +114,13 @@
         },
         data(){
             let viewData = this.viewState.data;
-            if(viewData.status <= 2)
-            {
-                viewData.status="2";
+            if (viewData.status <= 2) {
+                viewData.status = "2";
             }
-            if(viewData.status >= 5){
-                viewData.status='5';
+            if (viewData.status >= 5) {
+                viewData.status = '5';
             }
-            this.disableStatus =this.viewState.data.status>=5?true:false
+            this.disableStatus = this.viewState.data.status >= 5 ? true : false
             return {
                 form: {
                     id: viewData.id,
@@ -131,13 +131,21 @@
                     status: viewData.status,
                     isStar: viewData.isStar.toString(),
                     operationRemark: viewData.operationRemark,
-                    workorderAttaches:viewData.workorderAttaches?viewData.workorderAttaches.split(','):[],
-            },
+                    workorderAttaches: viewData.workorderAttaches ? viewData.workorderAttaches.split(',') : [],
+                },
                 dialogImageUrl: '',
                 dialogVisible: false,
                 rules: {
                     orderType: [
-                        {required: true, message: '请选择客诉类型', trigger: 'blur'}
+                        {required: true, message: '请选择客诉类型', trigger: 'blur'},
+                        {
+                            validator: (rule, value, callback) => {
+                                if (value == 9) {
+                                    if (!this.form.otherDetail)
+                                        callback(new Error('请输入其他详情'));
+                                }
+                            }, trigger: 'blur'
+                        }
                     ],
                     orderLevel: [
                         {required: true, message: '请选择客诉等级', trigger: 'blur'}
@@ -195,12 +203,14 @@
             },
             fetchData(){
                 workOrderApi.detail({
-                    workorderId:this.form.id
+                    workorderId: this.form.id
                 })
             }
         }
     }
 </script>
 <style lang="less">
-
+    .remark-input {
+        width: 80% !important;
+    }
 </style>
