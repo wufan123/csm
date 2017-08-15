@@ -1,5 +1,5 @@
 <template>
-    <div class="complain-list"  ref="workorder">
+    <div class="complain-list" ref="workorder">
         <el-form ref="form" :model="form" label-width="85px" :inline="true">
             <el-form-item label="客诉类型">
                 <el-select v-model="form.orderType" placeholder="全部">
@@ -133,19 +133,27 @@
     import cinemaApi from 'api/cinemaApi'
     import workOrderApi from 'api/workOrderApi'
     export default {
-        props:['viewState'],
+        props: ['viewState'],
+        watch: {
+            viewState: function (newValue) {
+                if(newValue.tabForm)
+                {
+                    this.form.status = newValue.tabForm.status
+                    this.activeSubTab= this.form.status
+                    this.getWorkOrders()
+                }
+
+            }
+        },
         data(){
             let status = ''
-            if(this.viewState)
-            {
-                if(this.viewState.tabForm)
-                {
+            if (this.viewState) {
+                if (this.viewState.tabForm) {
                     status = this.viewState.tabForm.status
-                    console.log(status)
                 }
             }
             return {
-                activeSubTab: '',
+                activeSubTab: status,
                 createTimeStart: '',
                 createTimeEnd: '',
                 OrdersContent: [],
@@ -258,7 +266,7 @@
 
             },
             viewReady(){
-                _vue.$bus.$on('getWorkorders',this.getWorkOrders)
+                _vue.$bus.$on('getWorkorders', this.getWorkOrders)
             }
         }
     }

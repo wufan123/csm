@@ -44,7 +44,7 @@
                                 :name="item.id.toString()"
                         >
                             <component v-bind:is="item.page" v-on:goOtherTab="showTabByName"
-                                       :tabForm="item.tabForm"></component>
+                                       :tabForm="item.tabForm" :ref="'tab'+item.id"></component>
                         </el-tab-pane>
                     </el-tabs>
                     <p class="copyright">Copyright 2014-2015 福州最美影视网络科技有限公司 版权所有 4008-12345678  </p>
@@ -54,7 +54,7 @@
     </div>
 </template>
 <script>
-    import indexPage from 'views/tabs/TrendsPage.vue'
+    import indexPage from 'views/tabs/trendsPage.vue'
     import complaintListPage from 'views/tabs/workOrder/index.vue'
     import loginApi from 'api/loginApi'
     import rooter from  '~/rooter'//
@@ -123,6 +123,13 @@
                 this.currentTabId = item.id.toString();
                 for (let i in this.menuTabs) {
                     if (item.id === this.menuTabs[i].id) {
+                        console.log(this.$refs['tab' + item.id])
+                        if (this.$refs['tab' + item.id][0].changeViewState)
+                            this.$refs['tab' + item.id][0].changeViewState({
+                                tabForm: {
+                                    status: '1'
+                                }
+                            })
                         return;
                     }
                 }
@@ -133,7 +140,6 @@
                 console.log(targetTab)
                 for (let i in  this.menus) {
                     if (this.menus[i].name == targetTab.name) {
-                        console.log(targetTab)
                         this.menus[i].tabForm = targetTab.tabForm
                         this.showSelectTab(this.menus[i])
                     }
@@ -255,14 +261,16 @@
                         }
                     })
                 } else {
-
                     window._nim.setOptions({
                         account: this.userDetail.accid,
 
                     });
                     window._nim.connect();
                 }
-
+                /*window.onbeforeunload = function() {
+                 alert('确定离开页面码');
+                 return false; // 可以阻止关闭
+                 }*/
             },
         },
 

@@ -21,6 +21,7 @@
         },
         methods: {
             changeViewState(state){
+                console.log(state)
                 this.viewState = state;
                 switch (state.type)
                 {
