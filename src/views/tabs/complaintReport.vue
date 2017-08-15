@@ -54,69 +54,104 @@
             <el-table-column
                     prop="orderSourceName"
                     label="客诉来源"
+                    width="120"
             >
             </el-table-column>
             <el-table-column
                     prop="initiatorName"
-                    label="发起人">
+                    label="发起人"
+                    width="100">
             </el-table-column>
             <el-table-column
                     prop="cinemaName"
-                    label="客诉影院">
+                    label="客诉影院"
+                    width="100">
             </el-table-column>
             <el-table-column
                     prop="cinemaGroupName"
-                    label="影院组">
+                    label="影院组"
+                    width="100">
             </el-table-column>
             <el-table-column
-                    prop="cinemaGroupName"
+                    prop="firstHandler"
                     label="处理人">
             </el-table-column>
             <el-table-column
                     prop="statusName"
                     label="客诉状态"
+                    width="100"
                      >
             </el-table-column>
             <el-table-column
                     label="发起时间"
-                    width="120" >
+                    width="150"  >
                 <template scope="scope">
                     {{new Date(scope.row.createTime).format("yyyy-MM-dd hh:mm")}}
                 </template>
             </el-table-column>
             <el-table-column
                     label="解决时间"
-                    width="120" >
+                    width="150" >
                 <template scope="scope">
-                    {{scope.row.completeTime?new Date(scope.row.completeTime).format("yyyy-MM-dd hh:mm"):''}}
+                    {{scope.row.completeDateTime?new Date(scope.row.completeDateTime).format("yyyy-MM-dd hh:mm"):''}}
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="orderSourceName"
-                    label="客诉类型">
+                    prop="orderTypeName"
+                    label="客诉类型"
+                    width="120">
             </el-table-column>
             <el-table-column
                     prop="otherDetail"
-                    label="其他详情">
+                    label="其他详情"
+                    width="100">
+                <template scope="scope" style="text-align: center">
+                {{scope.row.orderTypeName?(scope.row.orderTypeName==='其他'?scope.row.otherDetail:'一'):''}}
+                </template>
             </el-table-column>
             <el-table-column
                     prop="scoreName"
-                    label="客诉评价">
+                    label="客诉评价"
+                    width="100">
             </el-table-column>
             <el-table-column
                     prop="orderLevelName"
                     label="客诉等级"
+                    width="100"
                     >
             </el-table-column>
             <el-table-column
                     prop="orderBugLevelName"
                     label="bug等级"
+                    width="100"
                     >
             </el-table-column>
             <el-table-column
                     prop="bugTypeName"
                     label="bug类型"
+                    width="100"
                     >
+            </el-table-column>
+            <el-table-column
+                    prop="operationRemark"
+                    label="运维备注"
+                    width="100"
+            >
+                <template scope="scope" style="text-align: center">
+                    {{scope.row.operationRemark?scope.row.operationRemark:'一'}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="hasAttachName"
+                    label="是否附件"
+                    width="100"
+            >
+            </el-table-column>
+            <el-table-column
+                    prop="isStarName"
+                    label="是否星标"
+                    width="100"
+            >
             </el-table-column>
         </el-table>
         <el-row type="flex" justify="end" class="pagination">

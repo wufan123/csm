@@ -9,7 +9,8 @@
                 :before-upload="beforeUpload"
                 :data="form"
                 :on-success="success"
-                :on-error="error">
+                :on-error="error"
+        >
             <i class="el-icon-plus"></i>
         </el-upload>
         <el-dialog v-model="dialogVisible" size="tiny">
@@ -24,52 +25,78 @@
         props: ['value'],
         data(){
             let qiniuHost = this.$storage.getItem(this.$storage.KEY_USER_DETAIL).qiniuHost;
-            let fileList =[]
-            for(let i =0;i<this.value.length;i++){
+            let fileList = []
+            for (let i = 0; i < this.value.length; i++) {
                 fileList.push({
-                    name:this.value[i],
-                    url:this.value[i],
+                    name: this.value[i],
+                    url: this.value[i],
                     status: 'finished'
                 })
             }
             return {
-                qiniuHost:qiniuHost,
+                qiniuHost: qiniuHost,
                 fileList: fileList,
                 dialogImageUrl: '',
                 dialogVisible: false,
                 form: {
-                    token:'',
+                    token: '',
                     key: ''
                 }
             }
         },
         watch: {
             value: function (val) {
-                console.log(val)
-                let fileList =[]
-                for(let i in val){
+                /*let fileList = []
+                for (let i = 0; i < val.length; i++) {
                     fileList.push({
-                        name:val[i],
-                        url:val[i],
+                        name: val[i],
+                        url: val[i],
                         status: 'finished'
                     })
                 }
-                this.fileList=fileList
+                this.fileList = fileList*/
             }
         },
         methods: {
             handleRemove(file, fileList) {
-                let newValue=  this.value.filter(item=>{
-                    return item !== file.url;
-                })
-                console.log('1111111',newValue);
-                this.$emit('input',newValue)
+                if (file) {
+                    console.log(fileList)
+                    /*let newValue = this.value.filter(item => {
+                        return item !== file.url;
+                    })
+
+                    this.$emit('input', newValue)*/
+                    let newValue=[]
+                    for(let i =0;i<fileList.length;i++){
+                        newValue.push(fileList[i].url)
+                    }
+                    this.$emit('input', newValue)
+                }
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
             beforeUpload(file){
+                if (this.fileList.length >= 5) {
+                    this.$message({
+                        message: '图片最多只能上传5张',
+                        type: 'error'
+                    })
+                    return false
+                }
+                if (file.size / 1024 / 1024 > 4) {
+                    this.$message({
+                        message: '图片大小不能超过 4MB!',
+                        type: 'error'
+                    })
+                    return false
+                }
+                for(let i=0;i<this.fileList.length;i++){
+                    if(file.name ===this.fileList[i].name){
+                        return false
+                    }
+                }
                 let prefix = new Date(file.lastModified).format('yyyyMMddhhmmss').toString()
                 let suffix = file.name;
                 return httpApi.postForm(TOKEN_URL).then(res => { //获取最新的上传token
@@ -79,15 +106,14 @@
             },
             success(response, file){
                 this.fileList.push(file)
-                let url ;
-                if(response.key)
-                {
-                    url =`${this.qiniuHost}/${encodeURI(response.key)}`
-                }else{
-                    url =`${this.qiniuHost}/${encodeURI(response.hash)}`
+                let url;
+                if (response.key) {
+                    url = `${this.qiniuHost}/${encodeURI(response.key)}`
+                } else {
+                    url = `${this.qiniuHost}/${encodeURI(response.hash)}`
                 }
                 this.value.push(url)
-                this.$emit('input',this.value)
+                this.$emit('input', this.value)
             },
             error(err){
                 this.$message({
