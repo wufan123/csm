@@ -13,12 +13,12 @@
                         <el-option label="其他" value="4"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="影院组名称" prop="cinemaGroupId" required>
+                <el-form-item label="来源影院组" prop="cinemaGroupId" required>
                     <el-select v-model="form.cinemaGroupId"  placeholder="请选择" v-on:change="getCinemas()">
                         <group-options ></group-options>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="影院名称" prop="cinemaId" required>
+                <el-form-item label="来源影院" prop="cinemaId" required>
                     <el-select v-model="form.cinemaId" placeholder="请选择" >
                         <cinema-options   ref="cinemaOp"></cinema-options>
                     </el-select>
