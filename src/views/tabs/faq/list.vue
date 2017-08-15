@@ -55,9 +55,9 @@
                     label="问答数量">
             </el-table-column>
             <el-table-column
-                    prop="cinemaGroupIds"
                     label="适用影院组">
                 <template scope="scope">
+                    <label v-for="(item,key) in scope.row.cinemaGroups" v-bind:key="key">{{item.name+(key < scope.row.cinemaGroups.length-1?'、':'')}}</label>
                 </template>
             </el-table-column>
             <el-table-column

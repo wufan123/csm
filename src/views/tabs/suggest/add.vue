@@ -33,6 +33,7 @@
                             type="textarea"
                             :rows="12"
                             placeholder="请输入内容"
+                            maxlength="200"
                             >
                     </el-input>
                 </el-form-item>
@@ -71,7 +72,8 @@
                         { type:'number', required: true, message: '请选择来源影院', trigger: 'blur' }
                     ],
                     content:[
-                        { required: true, message: '请输入建议内容', trigger: 'blur' }
+                        { required: true, message: '请输入建议内容', trigger: 'blur' },
+                        { max: 200, message: '长度不超过200 个字符', trigger: 'blur' }
                     ],
                     title:[
                         { required: true, message: '请输入标题', trigger: 'blur' }
