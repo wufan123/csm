@@ -5,13 +5,14 @@ module.exports =  {
     staticPath:'assets',
     plugins:[
         new webpack.DefinePlugin({//运行时变量
-            BASE_URL:JSON.stringify('api/')
+            _BASE_URL:JSON.stringify('api/'),
+            _MOCK:false//模拟数据
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        }),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     compress: {
+        //         warnings: false
+        //     }
+        // }),
         new webpack.LoaderOptionsPlugin({
             minimize: true
         })

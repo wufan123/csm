@@ -11,7 +11,7 @@ let plugins = [
         template: 'src/index.html'
     })
 ]
-plugins.concat(options.plugins)
+plugins =plugins.concat(options.plugins)
 
 module.exports = () => ({
     entry: {
