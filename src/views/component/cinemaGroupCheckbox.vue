@@ -1,6 +1,7 @@
 <template>
     <div>
-        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选(不可选影院组表示已有FAQ)</el-checkbox>
+        <br/>
         <el-checkbox-group v-model="checkedOptions" @change="handleCheckedChange">
             <el-checkbox v-for="(item,index) in groupOptions" :key="index" :label="item.id"
                          :disabled="item[diableField]&& firstValue.indexOf(item.id)==-1">

@@ -205,6 +205,19 @@
             fetchData(){
                 workOrderApi.detail({
                     workorderId: this.form.id
+                }).then(res => {
+                    let viewData = res.resultData
+                    this.form ={
+                        id: viewData.id,
+                        orderType: viewData.orderType ? viewData.orderType.toString() : '',
+                        orderLevel: viewData.orderLevel ? viewData.orderLevel.toString() : '',
+                        bugLevel: viewData.bugLevel ? viewData.orderLevel.toString() : '',
+                        bugType: viewData.bugType ? viewData.bugType.toString() : '',
+                        status: viewData.status.toString(),
+                        isStar: viewData.isStar.toString(),
+                        operationRemark: viewData.operationRemark,
+                        workorderAttaches: viewData.workorderAttaches ? viewData.workorderAttaches.split(',') : [],
+                    }
                 })
             }
         }

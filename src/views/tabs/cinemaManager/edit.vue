@@ -103,7 +103,12 @@
             save(){
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
-                        cinemaManagerApi.save(this.dialogEdit.data).then(res=>{
+                        cinemaManagerApi.save({
+                            id:this.dialogEdit.data.id,
+                            fullName:this.dialogEdit.data.fullName,
+                            password:this.dialogEdit.data.password,
+                            mobile:this.dialogEdit.data.mobile,
+                        }).then(res=>{
                             this.dialogEdit.dialogVisible = false
                         })
                         this.$emit('dialog', {
