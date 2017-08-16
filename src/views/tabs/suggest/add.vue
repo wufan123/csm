@@ -33,7 +33,6 @@
                             type="textarea"
                             :rows="12"
                             placeholder="请输入内容"
-                            maxlength="200"
                             >
                     </el-input>
                 </el-form-item>

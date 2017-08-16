@@ -40,6 +40,9 @@
             <el-table-column
                     prop="cinemaGroup"
                     label="影院组名称">
+                <template scope="scope">
+                    {{scope.row.cinemaGroup?scope.row.cinemaGroup.name:''}}
+                </template>
             </el-table-column>
             <el-table-column
                     prop="mobile"
@@ -79,7 +82,7 @@
                     :total="this.pageDatas.totalElements">
             </el-pagination>
         </el-row>
-        <add-dialog :dialogAdd="dialogAdd"></add-dialog>
+        <add-dialog :dialogAdd="dialogAdd" v-on:addSuccess="getList"></add-dialog>
         <edit-dialog :dialogEdit="dialogEdit"></edit-dialog>
     </div>
 </template>
@@ -131,7 +134,8 @@
                 this.dialogEdit.dialogVisible =true
             },
             handleDelete(index, row) {
-                this.$alert(`确定删除${row.cinemaGroup}的管理账号${row.loginName}么`, '温馨提示', {
+                console.log(row.cinemaGroup)
+                this.$alert(`确定删除${row.cinemaGroup?row.cinemaGroup.name:''}的管理账号${row.loginName}么`, '温馨提示', {
                     confirmButtonText: '确定',
                     callback: action => {
                         if(action=='confirm')
