@@ -1,6 +1,6 @@
 <<template>
   <div class="page">
-    <div class="p-title">新建职员 </div>
+    <div class="p-title">编辑职员 </div>
      <div class="h20"></div>
     <div class="content addForm">
       <el-form :rules="rules" ref="employee"   :model="employee" label-width="100px" >
@@ -18,8 +18,8 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="职员账号" required prop="loginName">
-              <el-input v-model="employee.loginName"></el-input>
+            <el-form-item label="职员账号" required prop="loginName"  >
+              <el-input v-model="employee.loginName" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -118,9 +118,7 @@ export default {
   methods:{
     submitForm(employee){
       this.$refs[employee].validate((valid) => {
-        
           if (valid) {
-
             if(this.employee.hireDate){
                 this.employee.hireDate = new Date(this.employee.hireDate).format("yyyy-MM-dd")
             }else{
@@ -133,7 +131,6 @@ export default {
             },error=>this.$message.error(error))
           } else {
             console.log('error submit!!');
-            
             return false;
           }
         });

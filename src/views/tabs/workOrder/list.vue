@@ -222,6 +222,11 @@
                             type: 'handle',
                             data: item
                         })
+                    }else{
+                        this.$message({
+                            message: "当前有人正在处理，请稍后再试",
+                            type: 'info'
+                        })
                     }
                 })
             },
