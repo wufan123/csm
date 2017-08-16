@@ -7,7 +7,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="影院名称">
-                <el-select v-model="form.cinemaName" placeholder="全部">
+                <el-select v-model="form.cinemaId" placeholder="全部">
                     <cinema-options :showAll="true" ref="cinemaOp"></cinema-options>
                 </el-select>
             </el-form-item>
@@ -111,7 +111,7 @@
                 pageNumber: 0,
                 form: {
                     cinemaGroupId: '',
-                    cinemaName: '',
+                    cinemaId: '',
                     createTimeStart: '',
                     createTimeEnd: '',
                     serviceName:'',
@@ -125,7 +125,7 @@
         },
         methods: {
             getCinemas(){
-                this.form.cinemaName = ''
+                this.form.cinemaId = ''
                 this.$refs.cinemaOp.getCinemas(this.form.cinemaGroupId);
             },
             getList(){

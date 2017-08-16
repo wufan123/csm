@@ -23,7 +23,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="影院名称">
-                <el-select v-model="form.cinemaName" placeholder="全部">
+                <el-select v-model="form.cinemaId" placeholder="全部">
                     <el-option v-for="(item,index) in cinemasOptions" :key="index" :label="item.name"
                                :value="item.id"></el-option>
                 </el-select>
@@ -161,11 +161,10 @@
                 form: {
                     orderType: '',
                     cinemaGroupId: '',
-                    cinemaName: '',
+                    cinemaId: '',
                     createTimeStart: '',
                     createTimeEnd: '',
                     orderLevel: '',
-                    orderSource: '',
                     status: status,
                     isStar: '',
                     pageSize: 21,
@@ -200,6 +199,7 @@
             },
             getCinemas(){
                 this.cinemasOptions = [];
+                this.form.cinemaId =''
                 cinemaApi.listCinema({
                     cinemaGroupId: this.form.cinemaGroupId
                 }).then(res => {

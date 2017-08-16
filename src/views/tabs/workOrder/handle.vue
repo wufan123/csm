@@ -1,6 +1,6 @@
 <template>
     <div class="tab-form complaint">
-        <chat :workorder="this.viewState.data" v-if="this.viewState.data.teamId"></chat>
+        <chat :workorder="this.viewState.data" v-if="this.viewState.data||this.viewState.data.teamId"></chat>
         <el-row class="tab-pane-title">
             处理客诉
         </el-row>
@@ -128,7 +128,7 @@
                     orderLevel: viewData.orderLevel ? viewData.orderLevel.toString() : '',
                     bugLevel: viewData.bugLevel ? viewData.orderLevel.toString() : '',
                     bugType: viewData.bugType ? viewData.bugType.toString() : '',
-                    status: viewData.status,
+                    status: viewData.status.toString(),
                     isStar: viewData.isStar.toString(),
                     operationRemark: viewData.operationRemark,
                     workorderAttaches: viewData.workorderAttaches ? viewData.workorderAttaches.split(',') : [],
@@ -140,9 +140,10 @@
                         {required: true, message: '请选择客诉类型', trigger: 'blur'},
                         {
                             validator: (rule, value, callback) => {
-                                if (value == 9) {
-                                    if (!this.form.otherDetail)
-                                        callback(new Error('请输入其他详情'));
+                                if (value == 9 && !this.form.otherDetail) {
+                                    callback(new Error('请输入其他详情'));
+                                } else {
+                                    callback();
                                 }
                             }, trigger: 'blur'
                         }

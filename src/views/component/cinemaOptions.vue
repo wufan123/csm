@@ -30,6 +30,9 @@
                     ops = ops.concat(res.resultData.content);
                     this.cinemasOptions = ops
                 })
+            },
+            fetchData(){
+                this.getCinemas('')
             }
         }
 

@@ -135,7 +135,7 @@
                 });
             },
             getCinemas(){
-                this.form.cinemaName = ''
+                this.form.cinemaId = ''
                 this.$refs.cinemaOp.getCinemas(this.form.cinemaGroupId);
             },
             getList(){

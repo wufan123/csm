@@ -157,7 +157,10 @@ export default {
     this.employee.loginName = this.dataObj.loginName
     this.employee.cardId = this.dataObj.cardId
     this.employee.enable = this.dataObj.enable.toString()
-    this.employee.cinemaGroupIds = [1,2]
+    this.employee.cinemaGroupIds = [];
+    for(let i =0;i<this.dataObj.manageGroups.length;i++){
+        this.employee.cinemaGroupIds.push(this.dataObj.manageGroups[i].id)
+    }
     this.employee.positionId = this.dataObj.positionId
     this.employee.mobile = this.dataObj.mobile
     this.employee.hireDate = this.dataObj.hireDate
