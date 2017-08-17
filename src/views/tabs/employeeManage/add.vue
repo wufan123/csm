@@ -101,7 +101,7 @@ export default {
       cinemaGroupList:[],
       positionList:[],
       rules:{
-        fullName: [{ required: true, message: '请输入职员姓名', trigger: 'blur' },{ min: 4, max: 8, message: '长度在 4 到 8 个字符', trigger: 'blur' }],
+        fullName: [{ required: true, message: '请输入职员姓名', trigger: 'blur' },{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }],
         mobile: [{ validator: validateMobile, trigger: 'blur' } ],
         loginName:[{ required: true, message: '请输入职员账号', trigger: 'blur' },{ min: 4, max: 8, message: '长度在 4 到 8 个字符', trigger: 'blur' }],
         cardId:[{ validator: validateCardId, trigger: 'blur' }],
