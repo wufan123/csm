@@ -10,24 +10,31 @@
                 </div>
                 <div class="body">
                     <div class="title">欢迎你</div>
-                    <div class="name">{{userDetail.positionName?userDetail.positionName:''  + ' ' + userDetail.fullName}}</div>
+                    <div class="name">
+                        {{userDetail.positionName ? userDetail.positionName : '' + ' ' + userDetail.fullName}}
+                    </div>
                     <div class='des'>
                         <label>负责范围：</label>
                         <el-row :gutter="20" class="range">
                             <el-col :span="12" v-for="(item,index) in userDetail.manageGroups" :key="index"
                                     v-if="index<4">{{item.name}}
                             </el-col>
-                            <el-col :span="12" v-if="userDetail.manageGroups.length>=4"><a href="">查看详情</a></el-col>
+                            <el-col :span="12" v-if="userDetail.manageGroups.length>=4">
+                                <el-button type="text" size="large" class="t-info" @click="dialogVisible=true">查看详情
+                                </el-button>
+                            </el-col>
                         </el-row>
                     </div>
                     <div class='des'>
                         存在客诉：
                         <span class="num">
                             <div>
-                                <el-button type="text" size="large" class="t-info" @click="goWorkOrderTab('')">{{workorderCount.existWorkorderCount}}</el-button>条
+                                <el-button type="text" size="large" class="t-info"
+                                           @click="goWorkOrderTab('')">{{workorderCount.existWorkorderCount}}</el-button>条
                             </div>
                             <div>
-                                其中等待解决的客诉<el-button type="text" size="large" class="t-info" @click="goWorkOrderTab('1')">{{workorderCount.waitingWorkorderCount}}</el-button>条
+                                其中等待解决的客诉<el-button type="text" size="large" class="t-info"
+                                                    @click="goWorkOrderTab('1')">{{workorderCount.waitingWorkorderCount}}</el-button>条
                             </div>
                         </span>
                     </div>
@@ -46,8 +53,11 @@
                     </el-select>
                 </div>
                 <div>
-                    <el-radio-group v-model="rankForm.statisticsType" class="statisticsType" v-on:change="statisticsChage" >
-                        <el-radio-button v-for="(item,index) in statisticsOptions"  :key="index"  :label="item.value" >{{item.label}}</el-radio-button>
+                    <el-radio-group v-model="rankForm.statisticsType" class="statisticsType"
+                                    v-on:change="statisticsChage">
+                        <el-radio-button v-for="(item,index) in statisticsOptions" :key="index" :label="item.value">
+                            {{item.label}}
+                        </el-radio-button>
                     </el-radio-group>
 
                     <el-table
@@ -58,7 +68,7 @@
                                 prop="index"
                         >
                             <template scope="scope">
-                                {{ scope.$index +1}}
+                                {{ scope.$index + 1}}
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -85,6 +95,26 @@
                 </div>
             </el-card>
         </el-col>
+        <el-dialog
+                title="查看影城详情"
+                :visible.sync="dialogVisible"
+                size="small"
+                class="cinema-detail">
+            <div><label
+                    class="name">{{userDetail.positionName ? userDetail.positionName : '' + ' ' + userDetail.fullName}}</label>  负责的影城
+            </div>
+            <div class="content">
+                <div v-for="(item,index) in userDetail.manageGroups" :key="index"
+                >
+                    <div class="cinemagroup">
+                        {{item.name}}
+                    </div>
+                    <el-row class="cinema">
+                        <el-col v-for="subItem in item.cinemas" :key="subItem.name" :span="6">{{subItem.name}}</el-col>
+                    </el-row>
+                </div>
+            </div>
+        </el-dialog>
     </el-row>
 </template>
 <script>
@@ -117,35 +147,38 @@
                         id: 3
                     },
                 ],
-                statisticsOptions:[
+                statisticsOptions: [
                     {
-                        label:'今日',
-                        value:1
+                        label: '今日',
+                        value: 1
                     },
                     {
-                        label:'月',
-                        value:2
+                        label: '月',
+                        value: 2
                     },
                     {
-                        label:'总',
-                        value:3
+                        label: '总',
+                        value: 3
                     },
 
                 ],
-                rankForm:{
-                    orderType:1,
-                    statisticsType:1,
-                    pageSize:10,
-                    pageNumber:0
+                rankForm: {
+                    orderType: 1,
+                    statisticsType: 1,
+                    pageSize: 10,
+                    pageNumber: 0
                 },
-                tableData:[],
+                tableData: [],
+                dialogVisible: false
             };
         },
         methods: {
             goWorkOrderTab(status){
-                this.$emit('goOtherTab',{name:"客诉列表",tabForm:{
-                    status:status
-                }})
+                this.$emit('goOtherTab', {
+                    name: "客诉列表", tabForm: {
+                        status: status
+                    }
+                })
             },
             orderTypeChage(){
                 this.getOperationStar();
@@ -159,15 +192,26 @@
                 indexApi.workorderCount().then(res => {
                     this.workorderCount = res.resultData
                 })
+                for(let i=0; i<this.userDetail.manageGroups.length;i++){
+                    this.userDetail.manageGroups[i].cinemas =[];
+                    cinemaApi.listCinema({
+                        cinemaGroupId:this.userDetail.manageGroups[i].id
+                    }).then(res=>{
+                        this.userDetail.manageGroups[i].cinemas = res.resultData.content
+                    })
+                }
                 this.getOperationStar();
             },
             statisticsChage(){
                 this.getOperationStar();
             },
             getOperationStar(){
-                indexApi.operationStar(this.rankForm).then(res=>{
+                indexApi.operationStar(this.rankForm).then(res => {
                     this.tableData = res.resultData;
                 })
+            },
+            getCinemaByGroupId(id){
+
             },
             tableRowClassName(row, index){
                 if (index === 0) {
@@ -185,10 +229,29 @@
 </script>
 <style lang="less">
     @import "~style/base-variables";
+
     #index {
         padding: 0 20px 0 20px;
         .el-card {
             margin-top: 20px;
+        }
+        .name {
+            font-size: @size-large-x;
+            color: @color-info;
+            margin-top: 24px;
+        }
+        .cinema-detail {
+            .content{
+                margin-top: 18px;
+            }
+            .cinemagroup {
+                padding: 10px;
+                background: @color-base-bg;
+            }
+            .cinema{
+                text-align: center;
+                padding: 10px;
+            }
         }
         .login-info { //登录信息样式
             height: 433px;
@@ -197,13 +260,9 @@
                 .title {
                     font-weight: bold;
                 }
-                .name {
-                    font-size: @size-large-x;
-                    color: @color-info;
-                    margin-top: 24px;
-                }
+
                 .des {
-                    margin-top: 30px;
+                    margin-top: 10px;
                     span {
                         display: inline-table;
                     }
@@ -219,7 +278,7 @@
 
                     }
                     .el-col:not(:last-child) {
-                        margin-bottom: 30px;
+                        margin-bottom: 10px;
                     }
 
                 }
@@ -228,10 +287,10 @@
         .rank { //排行样式
             height: 886px;
             .el-table {
-                th,td{
+                th, td {
                     text-align: center;
                 }
-                tr{
+                tr {
                     height: 70px;
                 }
             }
@@ -255,8 +314,8 @@
                 float: right;
                 top: -8px;
             }
-            .statisticsType{
-                margin:14px 0;
+            .statisticsType {
+                margin: 14px 0;
                 text-align: center;
                 display: block;
             }

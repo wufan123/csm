@@ -6,7 +6,7 @@
         <div class="box">
             <img :src="image" class="img-avatar">
             <h4>admin</h4>
-            <p>上次登录：{{new Date(userInfo.lastLoginTime).format("yyyy-MM-dd hh:mm:ss")}}</p>
+            <p>上次登录：{{new Date(userInfo.preLoginTime).format("yyyy-MM-dd hh:mm:ss")}}</p>
             <div class="h20"></div>
             <div class="h20"></div>
             <el-button type="primary" :plain="true"  @click="imagecropperShow=true" style="width:100%">上传头像</el-button>

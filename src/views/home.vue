@@ -151,30 +151,15 @@
 
             },
             onCustomSysmsg(sysMsg){
-                if (!("Notification" in window)) {
-                    this.$message({
-                        message: '不支持桌面通知,请使用谷歌浏览器',
-                        type: 'error'
-                    })
-                    return
-                }
-                if (Notification.permission === 'denied') {
-                    Notification.requestPermission(function (permission) {
-                        if (permission !== "granted") {
-                            this.$message({
-                                message: '无桌面通知权限,请开启权限',
-                                type: 'error'
-                            })
-                        }
-                    });
-                    return
-                }
                 if (sysMsg) {
                     for (let i = 0; i < this.notifyList.length; i++) {
                         if (sysMsg.time == this.notifyList[i].time) {
                             return
                         }
                     }
+                }
+                if(this.notifyList.length>50){
+                    this.notifyList =[]
                 }
                 this.notifyList.push(sysMsg);
                 let n = new Notification("您有新的工单", {
@@ -267,10 +252,38 @@
                 } else {
                     window._nim.setOptions({
                         account: this.userDetail.accid,
-
                     });
                     window._nim.connect();
                 }
+                if (!window.Notification) {
+                    this.$notify({
+                        title: '无法启用桌面通知',
+                        message: '该浏览器或版本不支持桌面通知，请使用较新版本的谷歌浏览器',
+                        duration: 0,
+                        type:"error"
+                    });
+                    return
+                }
+                console.log(Notification.permission);
+                function notifyNoPermission() {
+                    vm.$notify({
+                        title: '无法启用桌面通知',
+                        message: '无桌面通知权限，为不影响正常使用，请点击浏览器中链接左侧的 i 图标开启桌面通知权限',
+                        duration: 0,
+                        type:"error"
+                    });
+                }
+                if(Notification.permission ==='denied'){
+                    notifyNoPermission();
+                }
+                if (Notification.permission === 'default') {
+                    Notification.requestPermission(function (permission) {
+                        if (permission !== "granted") {
+                            notifyNoPermission();
+                        }
+                    });
+                }
+
                 /*window.onbeforeunload = function() {
                  alert('确定离开页面码');
                  return false; // 可以阻止关闭

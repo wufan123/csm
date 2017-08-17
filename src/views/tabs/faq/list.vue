@@ -2,12 +2,12 @@
     <div class="table-list">
         <el-form ref="form" :model="form" label-width="85px" :inline="true">
             <el-form-item label="影院组名称">
-                <el-select v-model="form.cinemaGroupId" placeholder="全部" v-on:change="getCinemas()">
+                <el-select v-model="form.cinemaGroupId" placeholder="全部">
                     <group-options :showAll="true"></group-options>
                 </el-select>
             </el-form-item>
             <el-form-item label="添加职员">
-                <el-input v-model="form.serviceName" placeholder="">
+                <el-input v-model="form.serviceUserName" placeholder="">
                 </el-input>
             </el-form-item>
             <el-form-item label="添加日期">
@@ -22,9 +22,6 @@
             <el-form-item>
                 <el-button type="info" @click="getList">查询</el-button>
                 <el-button type="success" v-on:click="add">新建</el-button>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="text" class="t-info" v-on:click="exportReport">导出Excel</el-button>
             </el-form-item>
         </el-form>
         <el-table
@@ -81,9 +78,9 @@
                     @current-change="pageCurrentChange"
                     :current-page="pageNumber"
                     :page-sizes="[20, 40, 60, 80]"
-                    :page-size="this.form.pageSize"
+                    :page-size="form.pageSize"
                     layout="total, sizes, prev, pager, next, jumper"
-                    :total="this.pageDatas.totalElements">
+                    :total="pageDatas.totalElements">
             </el-pagination>
         </el-row>
     </div>
@@ -97,12 +94,12 @@
                 tableData: tableData,
                 createTimeStart: '',
                 createTimeEnd: '',
-                pageNumber: 0,
+                pageNumber: 1,
                 form: {
                     cinemaGroupId: '',
                     createTimeStart: '',
                     createTimeEnd: '',
-                    serviceName: '',
+                    serviceUserName: '',
                     pageSize: 20,
                     pageNumber: 0
                 },
@@ -160,9 +157,6 @@
             pageSizeChange(size){
                 this.form.pageSize = size
                 this.getList()
-            },
-            exportReport(){
-                platformFaqApi.exportReport(this.form)
             }
         }
     }

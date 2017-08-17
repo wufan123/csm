@@ -140,7 +140,7 @@
             return {
                 createTimeStart: '',
                 createTimeEnd: '',
-                pageNumber: 0,
+                pageNumber: 1,
                 form: {
                     cinemaGroupId: '',
                     cinemaId: '',
@@ -206,6 +206,8 @@
                 this.getList()
             },
             getList(){
+                this.form.createTimeStart = this.createTimeStart ? this.createTimeStart.format('yyyy-MM-dd') : '';
+                this.form.createTimeEnd = this.createTimeEnd ? this.createTimeEnd.format('yyyy-MM-dd') : '';
                 suggestApi.list(this.form).then(res => {
                     this.pageDatas = res.resultData
                 })
