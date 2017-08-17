@@ -12,14 +12,12 @@ import cinemaGroupCheckbox from 'views/component/cinemaGroupCheckbox.vue'
 import qiniuImg from 'views/component/qiniuImgUpload.vue'
 import baseMixin from 'utils/baseMixin'
 import * as util from 'utils'
-
-
 Vue.use(ElementUI);
 Vue.use(VueRouter);
-Vue.component('group-options',cinemaGroupOptions)
-Vue.component('cinema-options',cinemations)
-Vue.component('cinema-checkbox',cinemaGroupCheckbox)
-Vue.component('qiniu-img',qiniuImg)
+Vue.component('group-options', cinemaGroupOptions)
+Vue.component('cinema-options', cinemations)
+Vue.component('cinema-checkbox', cinemaGroupCheckbox)
+Vue.component('qiniu-img', qiniuImg)
 Vue.mixin(baseMixin)
 Vue.prototype.$storage = storage;
 Vue.prototype.$util = util //工具类
@@ -29,6 +27,5 @@ window._vue = new Vue({
     render: h => h(App),
 });
 window._vue.$bus = new Vue();
-
 _MOCK ? require('../src/api/mock') : ''
 export default _vue;

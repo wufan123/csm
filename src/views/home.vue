@@ -44,7 +44,7 @@
                                 :name="item.id.toString()"
                         >
                             <component v-bind:is="item.page" v-on:goOtherTab="showTabByName"  @setAdvertImg="setAdvertImgFn"
-                                       :tabForm="item.tabForm"></component>
+                                       :tabForm="item.tabForm" :ref="'tab'+item.id"></component>
                         </el-tab-pane>
                     </el-tabs>
                     <p class="copyright">Copyright 2014-2015 福州最美影视网络科技有限公司 版权所有 4008-12345678  </p>
@@ -54,7 +54,7 @@
     </div>
 </template>
 <script>
-    import indexPage from 'views/tabs/TrendsPage.vue'
+    import indexPage from 'views/tabs/trendsPage.vue'
     import complaintListPage from 'views/tabs/workOrder/index.vue'
     import loginApi from 'api/loginApi'
     import rooter from  '~/rooter'//
@@ -81,7 +81,8 @@
                 menuTabs: menuTabs,
                 topMenus: topMenus,
                 subMenus: subMenus,
-                menus: menus
+                menus: menus,
+                notifyList: []
             }
         },
         methods: {
@@ -102,18 +103,15 @@
                 {
                     this.subMenus = this.topMenus[key].childMenus
                 } else {
-
                     switch (key) {
                         case 'submenu-1':
-                            this.showSelectTab({
-                                name: '头像修改',
-                                id: '头像修改'
+                            this.showTabByName({
+                                name: '头像修改'
                             })
                             break;
                         case 'submenu-2':
-                            this.showSelectTab({
-                                name: '密码修改',
-                                id: '密码修改'
+                            this.showTabByName({
+                                name: '密码修改'
                             })
                             break;
                         case 'submenu-3':
@@ -129,6 +127,13 @@
                 this.currentTabId = item.id.toString();
                 for (let i in this.menuTabs) {
                     if (item.id === this.menuTabs[i].id) {
+                        console.log(this.$refs['tab' + item.id])
+                        if (this.$refs['tab' + item.id][0].changeViewState)
+                            this.$refs['tab' + item.id][0].changeViewState({
+                                tabForm: {
+                                    status: '1'
+                                }
+                            })
                         return;
                     }
                 }
@@ -136,6 +141,7 @@
                 this.menuTabs.push(item)
             },
             showTabByName(targetTab){
+                console.log(targetTab)
                 for (let i in  this.menus) {
                     if (this.menus[i].name == targetTab.name) {
                         this.menus[i].tabForm = targetTab.tabForm
@@ -143,6 +149,45 @@
                     }
                 }
 
+            },
+            onCustomSysmsg(sysMsg){
+                if (!("Notification" in window)) {
+                    this.$message({
+                        message: '不支持桌面通知,请使用谷歌浏览器',
+                        type: 'error'
+                    })
+                    return
+                }
+                if (Notification.permission === 'denied') {
+                    Notification.requestPermission(function (permission) {
+                        if (permission !== "granted") {
+                            this.$message({
+                                message: '无桌面通知权限,请开启权限',
+                                type: 'error'
+                            })
+                        }
+                    });
+                    return
+                }
+                if (sysMsg) {
+                    for (let i = 0; i < this.notifyList.length; i++) {
+                        if (sysMsg.time == this.notifyList[i].time) {
+                            return
+                        }
+                    }
+                }
+                this.notifyList.push(sysMsg);
+                let n = new Notification("您有新的工单", {
+                    icon: '',
+                    body: '有新的工单需要处理,请您尽快处理'
+                });
+                let vm = this
+                n.onclick = () => {
+                    self.focus();
+                    vm.showTabByName({name: '客诉列表'})
+                    n.close()
+                }
+                _vue.$bus.$emit('getWorkorders')
             },
             removeTab(targetId) {//关闭tab标签
                 let tabs = this.menuTabs;
@@ -161,6 +206,7 @@
                 this.menuTabs = tabs.filter(tab => tab.id.toString() != targetId);
             },
             viewReady(){
+                let vm = this;
                 if (!this.userDetail)
                     return
                 this.showTabByName({name: '趋势查询'})
@@ -181,7 +227,7 @@
 
                         },
                         onmsg: msg => {
-                            console.log('收到消息', msg.scene, msg.type, msg);
+                            console.log('IM收到消息', msg.scene, msg.type, msg);
                             try {
                                 msg.custom = JSON.parse(msg.custom)
                             }
@@ -208,25 +254,27 @@
 
                         },
                         onsysmsg: sysMsg => {
-                            console.log('收到系统通知',sysMsg)
+                            console.log('IM收到系统通知', sysMsg)
                         },
                         oncustomsysmsg: sysMsg => {
-                            console.log('收到自定义系统通知',sysMsg)
-
+                            console.log('IM收到自定义系统通知', sysMsg)
+                            vm.onCustomSysmsg(sysMsg)
                         },
-                        ondisconnect:error=>{
-                            console.log('断开连接',error)
+                        ondisconnect: error => {
+                            console.log('IM断开连接', error)
                         }
                     })
-                }else{
-
+                } else {
                     window._nim.setOptions({
                         account: this.userDetail.accid,
 
                     });
                     window._nim.connect();
                 }
-
+                /*window.onbeforeunload = function() {
+                 alert('确定离开页面码');
+                 return false; // 可以阻止关闭
+                 }*/
             },
         },
 

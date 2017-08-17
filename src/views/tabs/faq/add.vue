@@ -4,23 +4,24 @@
             新建FAQ
         </el-row>
         <el-row>
-            <el-form ref="form" :model="form" label-width="140px">
-                <el-form-item label="请选择适用影院组" required>
-                    <cinema-checkbox v-model="form.cinemaGroupIds"></cinema-checkbox>
+            <el-form ref="form" :model="form" label-width="140px" :rules="rules">
+                <el-form-item label="请选择适用影院组" required prop="cinemaGroupIds">
+                    <cinema-checkbox v-model="form.cinemaGroupIds" :diableField="'hasFaq'"></cinema-checkbox>
                 </el-form-item>
-                <el-form-item label="来源影院" required>
+                <el-form-item label="来源影院" required prop="content">
                     <div class="form-item-des">
                         <label class="t-danger">请注意:问题与答案请用换行分割,上下两个问题间使用";"分割,参考以下示例:</label><br/>
                         问:这是问题1标题<br/>
-                        答:这是问题1的答案;<br/>
+                        答:这是问题1的答案；<br/>
                         问:这是问题2标题<br/>
-                        答:这是问题2的答案;<br/>
+                        答:这是问题2的答案；<br/>
                     </div>
                     <el-input
                             type="textarea"
                             :rows="12"
                             placeholder="请输入内容"
-                            v-model="form.content">
+                            v-model="form.content"
+                    >
                     </el-input>
                 </el-form-item>
                 <el-form-item class="form-button">
@@ -37,22 +38,60 @@
         data(){
             return {
                 form: {
-                    cinemaGroupIds:[],
-                    content:''
+                    cinemaGroupIds: [],
+                    content: ''
                 },
+                rules: {
+                    cinemaGroupIds: [
+                        {validator: (rule, value, callback) => {
+                            console.log(value)
+                            if(value.length<=0){
+                                callback(new Error('请选择适用影院'));
+                            }
+                            callback()
+                        }}
+                    ],
+                    content: [
+                        {required: true, message: '请输入FAQ内容', trigger: 'blur'},
+                        {
+                            validator: (rule, value, callback) => {
+                                let questionArray = value.split('；\n');
+                                console.log(questionArray);
+                                if (!questionArray.length > 0) {
+                                    callback(new Error('FAQ内容格式有误,请检查'));
+                                }
+                                for (let i = 0; i < questionArray.length; i++) {
+                                    let faqItem = questionArray[i].split(/[\r\n]/g);
+                                    if (!faqItem||faqItem.length !== 2||!faqItem[0]||!faqItem[1]) {
+                                        callback(new Error('FAQ内容格式有误,请检查'));
+                                    }
+                                    console.log(faqItem);
+                                }
+                                return callback();
+                            }, trigger: 'blur'
+                        }
+                    ]
+                }
             }
         },
         methods: {
             save(){
-                platformFaqApi.create(this.form).then(res=>{
-                    this.$emit('view', {
-                        type:'list'
-                    })
-                })
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        platformFaqApi.create(this.form).then(res => {
+                            this.$emit('view', {
+                                type: 'list'
+                            })
+                        })
+                    } else {
+                        return false;
+                    }
+                });
+
             },
             close(){
                 this.$emit('view', {
-                    type:'list'
+                    type: 'list'
                 })
             },
         }
@@ -60,8 +99,9 @@
 </script>
 <style lang="less">
     @import "~style/base-variables";
-    .tab-form{
-        .form-item-des{
+
+    .tab-form {
+        .form-item-des {
             background: @color-base-bg;
             padding: 10px;
             color: @color-base-gray;

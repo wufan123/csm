@@ -122,7 +122,7 @@ export default {
     switchFn(row,values){
       var params = {}
       params.menuId = row.id
-      params.enable = (!row.enable).toString()
+      params.enable = (row.enable).toString()
       menuApi.enableMenu(params).then(res=>{
 
       },error=>this.$message.error(error))

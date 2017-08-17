@@ -6,6 +6,7 @@ const _SAVE = `${prefix}/saveEdit.do`;//保存
 const _CREATE = `${prefix}/createFaq.do`;//新建
 const _DELETE = `${prefix}/del.do`;//新建
 const _EXPORT = `${prefix}/export.do`;//导出execl
+const _CHECK = `${prefix}/checkCinemaGrouphasFAQ.do`;//导出execl
 
 
 export default {
@@ -23,6 +24,9 @@ export default {
     },
     delete(params){
         return httpApi.postForm(_DELETE, params)
+    },
+    check(params){
+        return httpApi.postForm(_CHECK, params)
     },
     exportReport(params){
         let exportUrl =httpApi.defaults.baseURL+_EXPORT+'?'

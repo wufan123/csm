@@ -48,7 +48,7 @@ export default {
                     return '';
             }
         }
-        for(let i in res)
+        for(let i=0;i<res.length;i++)
         {
             switch (type){
                 case "workorder":

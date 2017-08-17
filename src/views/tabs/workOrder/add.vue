@@ -24,8 +24,8 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item label="是否星标" prop="isStartHandle" required>
-                    <el-radio class="radio" v-model="form.isStartHandle" label="true">是</el-radio>
-                    <el-radio class="radio" v-model="form.isStartHandle" label="false">否</el-radio>
+                    <el-radio class="radio" v-model="form.isStar" label="true">是</el-radio>
+                    <el-radio class="radio" v-model="form.isStar" label="false">否</el-radio>
                 </el-form-item>
                 <el-form-item label="运维附件">
                     <qiniu-img v-model="form.workorderAttaches"></qiniu-img>
@@ -53,7 +53,7 @@
                     cinemaGroupId:'',
                     cinemaId:'',
                     content:'',
-                    isStartHandle:'false',
+                    isStar:'false',
                     workorderAttaches:[]
                 },
                 dialogImageUrl: '',

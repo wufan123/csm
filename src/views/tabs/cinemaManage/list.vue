@@ -42,8 +42,8 @@
                     <el-input type="text" v-model="ruleForm.name" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="影院组名称" required prop="cinemaGroupId">
-                    <el-select v-model="ruleForm.cinemaGroupId" placeholder="全部">
-                        <group-options :showAll="true"></group-options>
+                    <el-select v-model="ruleForm.cinemaGroupId" placeholder="请选择影院组" > 
+                        <group-options ></group-options>
                     </el-select>
                 </el-form-item>
             </el-form>
@@ -73,11 +73,11 @@
                 ruleForm: {
                     type: 0,
                     name: '',
-                    cinemaGroupId: null
+                    cinemaGroupId: ''
                 },
                 search: {
-                    cinemaGroupId: null,
-                    name: null
+                    cinemaGroupId: '',
+                    name: ''
                 },
                 rules: {
                     name: [{required: true, message: '请输入职员姓名', trigger: 'blur'}, {
@@ -121,11 +121,13 @@
             },
             addFn(_index, row){
                 this.dialogVisible = true;
-                this.ruleForm = {}
-                this.ruleForm.type = 0
+                this.ruleForm = {
+                    type: 0,
+                    name: '',
+                    cinemaGroupId: ''
+                }
             },
             editFn(_index, row){
-
                 this.dialogVisible = true;
                 this.ruleForm = row
                 this.ruleForm.type = 1

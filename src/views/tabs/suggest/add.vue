@@ -13,12 +13,12 @@
                         <el-option label="其他" value="4"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="影院组名称" prop="cinemaGroupId" required>
+                <el-form-item label="来源影院组" prop="cinemaGroupId" required>
                     <el-select v-model="form.cinemaGroupId"  placeholder="请选择" v-on:change="getCinemas()">
                         <group-options ></group-options>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="影院名称" prop="cinemaId" required>
+                <el-form-item label="来源影院" prop="cinemaId" required>
                     <el-select v-model="form.cinemaId" placeholder="请选择" >
                         <cinema-options   ref="cinemaOp"></cinema-options>
                     </el-select>
@@ -71,7 +71,8 @@
                         { type:'number', required: true, message: '请选择来源影院', trigger: 'blur' }
                     ],
                     content:[
-                        { required: true, message: '请输入建议内容', trigger: 'blur' }
+                        { required: true, message: '请输入建议内容', trigger: 'blur' },
+                        { max: 200, message: '长度不超过200 个字符', trigger: 'blur' }
                     ],
                     title:[
                         { required: true, message: '请输入标题', trigger: 'blur' }

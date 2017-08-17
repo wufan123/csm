@@ -11,8 +11,8 @@
                     <el-input v-model="dialogEdit.data.loginName" placeholder="请输入账号" disabled>
                     </el-input>
                 </el-form-item>
-                <el-form-item label="管理子账号数量" required prop="loginName" >
-                    <el-input v-model="dialogEdit.data.loginName" placeholder="管理子账号数量" disabled>
+                <el-form-item label="管理子账号数量" required prop="hasSubCount" >
+                    <el-input v-model="dialogEdit.data.hasSubCount" placeholder="管理子账号数量" disabled>
                     </el-input>
                 </el-form-item>
                 <el-form-item label="归属影院组" required prop="cinemaGroupId">
@@ -103,7 +103,12 @@
             save(){
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
-                        cinemaManagerApi.save(this.dialogEdit.data).then(res=>{
+                        cinemaManagerApi.save({
+                            id:this.dialogEdit.data.id,
+                            fullName:this.dialogEdit.data.fullName,
+                            password:this.dialogEdit.data.password,
+                            mobile:this.dialogEdit.data.mobile,
+                        }).then(res=>{
                             this.dialogEdit.dialogVisible = false
                         })
                         this.$emit('dialog', {

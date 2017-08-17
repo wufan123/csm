@@ -101,6 +101,7 @@
                     if (valid) {
                         cinemaManagerApi.create(this.dialogAdd.data).then(res=>{
                             this.dialogAdd.dialogVisible = false
+                            this.$emit('addSuccess','')
                         })
                     } else {
                         return false;

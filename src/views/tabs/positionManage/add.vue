@@ -21,7 +21,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-               <el-form-item label="职员状态" required prop="menuIds">
+               <el-form-item label="菜单权限" required prop="menuIds">
                  <el-collapse v-model="activeName" accordion>
                   <el-collapse-item v-for="(item,index) in fistMenu" :key="item.id"  :name="index">
                     <template slot="title">

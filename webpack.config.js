@@ -1,6 +1,18 @@
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const url = require('url');
-const options = process.env.NODE_ENV === 'production' ? require('./config/build.js') : require('./config/dev.js');
+let options = process.env.NODE_ENV === 'production'?require('./config/build.js'):require('./config/dev.js');
+let plugins = [
+    new webpack.optimize.CommonsChunkPlugin({
+        names: ['vendor', 'manifest']
+    }),
+    new HtmlWebpackPlugin({
+        template: 'src/index.html'
+    })
+]
+plugins =plugins.concat(options.plugins)
+
 module.exports = () => ({
     entry: {
         vendor: './src/vendor',
@@ -49,7 +61,7 @@ module.exports = () => ({
             }
         ]
     },
-    plugins: options.plugins,
+    plugins: plugins,
     resolve: {
         alias: {
             '~': path.resolve(__dirname, 'src'),
@@ -61,7 +73,7 @@ module.exports = () => ({
         }
     },
     devServer: {
-        host: '192.168.10.161',
+        host: '192.168.10.160',
         port: 8010,
         proxy: {
             '/api': {

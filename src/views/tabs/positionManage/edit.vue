@@ -21,7 +21,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="职员状态" required prop="menuIds">
+            <el-form-item label="菜单权限" required prop="menuIds">
               <el-collapse v-model="activeName" accordion>
                 <el-collapse-item v-for="(item,index) in fistMenu" :key="item.id" :name="index">
                   <template slot="title">
@@ -43,7 +43,6 @@
   
                   </el-checkbox-group>
                 </el-collapse-item>
-  
               </el-collapse>
             </el-form-item>
           </el-col>
@@ -84,6 +83,7 @@ import positionApi from 'api/positionApi'
 import cDot from 'views/component/dot.vue'
 import menuApi from 'api/menuApi'
 import portApi from 'api/siteInterfaceApi'
+import loginApi from 'api/loginApi'
 export default {
   data() {
     return {
@@ -113,32 +113,32 @@ export default {
   components: { 'c-dot': cDot },
   computed: {
     fistMenu() {
-      let arr = []
+      let arr = [];
       this.menuList && this.menuList.forEach(item => {
         if (item.enable&&item.hierarchy == '1') {
           arr.push(item)
         }
-      })
+      });
       return arr
     }
   },
   methods: {
     thirdMenu(obj){
-      var arr=[]
+      var arr=[];
       this.menuList&&this.menuList.forEach(item=>{
         if(item.parentId == obj.id){
           arr.push(item)
         }
-      })
+      });
       return arr
     },
     secondMenu(obj){
-      var arr=[]
+      var arr=[];
       this.menuList&&this.menuList.forEach(item=>{
         if(item.parentId == obj.id){
           arr.push(item)
         }
-      })
+      });
       return arr
     },
     getMenuList() {
@@ -148,16 +148,16 @@ export default {
     },
     getPortClassList() {
       portApi.ListPortGroup({enable:true}).then(res => {
-        this.portClassList = res.resultData.content
+        this.portClassList = res.resultData.content;
         this.getPortList()
       })
     },
     getPortList() {
       portApi.ListPort({enable:true}).then(res => {
         this.portClassList && this.portClassList.forEach((subItem, subIndex) => {
-          this.portClassList[subIndex].children = []
+          this.portClassList[subIndex].children = [];
           res.resultData.content && res.resultData.content.forEach(item => {
-            this.portList = res.resultData.content
+            this.portList = res.resultData.content;
             if (item.interfaceCategoryId == subItem.id) {
               this.portClassList[subIndex].children.push(item)
             }
@@ -168,7 +168,7 @@ export default {
     submitForm(position) {
       this.$refs[position].validate((valid) => {
         if (valid) {
-          this.position.positionId = this.dataObj.id
+          this.position.positionId = this.dataObj.id;
           positionApi.editPosition(this.position).then(res => {
             this.$emit('setType', {
               type: 'list'
@@ -180,11 +180,11 @@ export default {
       })
     },
     handleCheckAllChange(id) {
-      console.log('id', id)
-      let arr = this.position.menuIds
-      let arr2 = this.position.menuIds
-      console.log('arr', arr)
-      console.log('arr2', arr2)
+      console.log('id', id);
+      let arr = this.position.menuIds;
+      let arr2 = this.position.menuIds;
+      console.log('arr', arr);
+      console.log('arr2', arr2);
       if (!event.target.checked) {
         arr2 && arr2.forEach(arrItem => {
           this.menuList && this.menuList.forEach((item, index) => {
@@ -203,9 +203,9 @@ export default {
       } else {
         this.menuList && this.menuList.forEach(item => {
           if (item.id == id) {
-            arr.push(item.id)
+            arr.push(item.id);
             item.children && item.children.forEach(subItem => {
-              arr.push(subItem.id)
+              arr.push(subItem.id);
               subItem.children && subItem.children.forEach(subsubItem => {
                 arr.push(subsubItem.id)
               })
@@ -213,17 +213,17 @@ export default {
           }
         })
       }
-      arr = arr.unique()
-      arr2 = arr2.unique()
-      console.log('arr', arr)
-      console.log('arr2', arr2)
+      arr = arr.unique();
+      arr2 = arr2.unique();
+      console.log('arr', arr);
+      console.log('arr2', arr2);
       this.position.menuIds = event.target.checked ? arr : arr2;
     },
     handleCheckAllChange2(id) {
 
-      console.log('id', id,this.portList)
-      let arr = this.position.siteInterfaceIds
-      let arr2 = this.position.siteInterfaceIds
+      console.log('id', id,this.portList);
+      let arr = this.position.siteInterfaceIds;
+      let arr2 = this.position.siteInterfaceIds;
       if (!event.target.checked) {
         this.portList && this.portList.forEach(item => {
           if (item.interfaceCategoryId == id) {
@@ -237,10 +237,10 @@ export default {
           }
         })
       }
-      arr = arr.unique()
-      arr2 = arr2.unique()
-      console.log('arr', arr)
-      console.log('arr2', arr2)
+      arr = arr.unique();
+      arr2 = arr2.unique();
+      console.log('arr', arr);
+      console.log('arr2', arr2);
       this.position.siteInterfaceIds = event.target.checked ? arr : arr2;
     },
     closeFn() {
@@ -250,29 +250,30 @@ export default {
     }
   },
   created() {
-    var brr = []
-    var brr2 = []
+    var brr = [];
+    var brr2 = [];
     //console.log('data', this.dataObj)
     positionApi.detailPostion({ positionId: this.dataObj.id }).then(res => {
       //console.log('res', res.resultData)
-      this.position.enable = res.resultData.enable.toString()
-      this.position.positionName = res.resultData.positionName
+      this.position.enable = res.resultData.enable.toString();
+      this.position.positionName = res.resultData.positionName;
       res.resultData.menuList && res.resultData.menuList.forEach(item => {
         if(item.enable){
           brr.push(item.id)
         }
-      })
+      });
       res.resultData.siteInterfaces && res.resultData.siteInterfaces.forEach(item => {
         if(item.enable){
           brr2.push(item.id)
         }
-      })
-      this.position.menuIds = brr
-      this.position.siteInterfaceIds = brr2
-      console.log('menuIds', this.position.menuIds)
+      });
+
+      this.position.menuIds = brr;
+      this.position.siteInterfaceIds = brr2;
+      console.log('menuIds', this.position.menuIds);
       console.log('siteInterfaceIds', this.position.siteInterfaceIds)
-    })
-    this.getMenuList()
+    });
+    this.getMenuList();
     this.getPortClassList()
   }
 }

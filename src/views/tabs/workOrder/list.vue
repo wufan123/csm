@@ -1,5 +1,5 @@
 <template>
-    <div class="complain-list"  ref="workorder">
+    <div class="complain-list" ref="workorder">
         <el-form ref="form" :model="form" label-width="85px" :inline="true">
             <el-form-item label="客诉类型">
                 <el-select v-model="form.orderType" placeholder="全部">
@@ -23,7 +23,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="影院名称">
-                <el-select v-model="form.cinemaName" placeholder="全部">
+                <el-select v-model="form.cinemaId" placeholder="全部">
                     <el-option v-for="(item,index) in cinemasOptions" :key="index" :label="item.name"
                                :value="item.id"></el-option>
                 </el-select>
@@ -133,19 +133,27 @@
     import cinemaApi from 'api/cinemaApi'
     import workOrderApi from 'api/workOrderApi'
     export default {
-        props:['viewState'],
+        props: ['viewState'],
+        watch: {
+            viewState: function (newValue) {
+                if(newValue.tabForm)
+                {
+                    this.form.status = newValue.tabForm.status
+                    this.activeSubTab= this.form.status
+                    this.getWorkOrders()
+                }
+
+            }
+        },
         data(){
             let status = ''
-            if(this.viewState)
-            {
-                if(this.viewState.tabForm)
-                {
+            if (this.viewState) {
+                if (this.viewState.tabForm) {
                     status = this.viewState.tabForm.status
-                    console.log(status)
                 }
             }
             return {
-                activeSubTab: '',
+                activeSubTab: status,
                 createTimeStart: '',
                 createTimeEnd: '',
                 OrdersContent: [],
@@ -153,11 +161,10 @@
                 form: {
                     orderType: '',
                     cinemaGroupId: '',
-                    cinemaName: '',
+                    cinemaId: '',
                     createTimeStart: '',
                     createTimeEnd: '',
                     orderLevel: '',
-                    orderSource: '',
                     status: status,
                     isStar: '',
                     pageSize: 21,
@@ -192,6 +199,7 @@
             },
             getCinemas(){
                 this.cinemasOptions = [];
+                this.form.cinemaId =''
                 cinemaApi.listCinema({
                     cinemaGroupId: this.form.cinemaGroupId
                 }).then(res => {
@@ -213,6 +221,11 @@
                         this.$emit('view', {
                             type: 'handle',
                             data: item
+                        })
+                    }else{
+                        this.$message({
+                            message: "当前有人正在处理，请稍后再试",
+                            type: 'info'
                         })
                     }
                 })
@@ -256,6 +269,9 @@
                 this.form.pageSize = size
                 this.getWorkOrders();
 
+            },
+            viewReady(){
+                _vue.$bus.$on('getWorkorders', this.getWorkOrders)
             }
         }
     }

@@ -71,7 +71,9 @@
                 if (!this.isWindowShow) {
                     this.unread++;
                 }
-                this.chatRec.push(msg)
+                if(msg.file)
+                    msg.url = msg.file.url
+                 this.chatRec.push(msg)
                 this.updateMessageUI()
             },
             updateMessageUI(){
