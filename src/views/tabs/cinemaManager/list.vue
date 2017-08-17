@@ -97,7 +97,7 @@
         },
         data(){
             return {
-                pageNumber:0,
+                pageNumber:1,
                 form: {
                     fullName:'',
                     loginName:'',

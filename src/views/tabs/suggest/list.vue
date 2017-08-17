@@ -140,7 +140,7 @@
             return {
                 createTimeStart: '',
                 createTimeEnd: '',
-                pageNumber: 0,
+                pageNumber: 1,
                 form: {
                     cinemaGroupId: '',
                     cinemaId: '',
