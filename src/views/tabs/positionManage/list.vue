@@ -140,16 +140,16 @@
             },
             pageCurrentChange(currentPage){
                 this.page.pageNumber = currentPage - 1
-                this.getPositionList();
+                this.getPositionList(this.page);
             },
             pageSizeChange(size){
                 this.page.pageSize = size
-                this.getPositionList();
+                this.getPositionList(this.page);
 
             }
         },
         created: function () {
-            this.getPositionList()
+            this.getPositionList(this.page)
         }
     }
 </script>

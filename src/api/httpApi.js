@@ -15,7 +15,7 @@ const preHandleError = (data) => {
         })
 };
 
-axios.interceptors.response.use(function (response) {
+axios.interceptors.response.use(function(response) {
     let data;
     try {
         data = JSON.parse(response.data);
@@ -25,14 +25,17 @@ axios.interceptors.response.use(function (response) {
     if (MOCK) {
         console.log(data) //如果是模拟数据,打印出模拟的数据
     }
+    if (data.resultCode === '80000') {
+        _vue.$router.push({ path: 'login' })
+    }
     if (data.resultCode === '0') {
         return data;
     } else {
         preHandleError(data);
         return Promise.reject(data);
     }
-}, function (error) {
-    let data = error?error.data:'';
+}, function(error) {
+    let data = error ? error.data : '';
     preHandleError(data);
     return Promise.reject(data);
 });
@@ -41,8 +44,7 @@ axios.postForm = (url, params) => {
     let form = new URLSearchParams();
     for (let i in params) {
         {
-            if (params[i]||params[i]===0)
-            {
+            if (params[i] || params[i] === 0) {
                 /*if(params[i] instanceof  Array )
                 {
                     form.append(i, JSON.stringify(params[i]))

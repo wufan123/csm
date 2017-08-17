@@ -83,7 +83,7 @@
             </el-pagination>
         </el-row>
         <add-dialog :dialogAdd="dialogAdd" v-on:addSuccess="getList"></add-dialog>
-        <edit-dialog :dialogEdit="dialogEdit"></edit-dialog>
+        <edit-dialog :dialogEdit="dialogEdit" @onRefirm="getList"></edit-dialog>
     </div>
 </template>
 <script>
@@ -130,7 +130,7 @@
         },
         methods: {
             handleEdit(index, row) {
-                this.dialogEdit.data = row
+                this.dialogEdit.data = JSON.parse(JSON.stringify(row))
                 this.dialogEdit.dialogVisible =true
             },
             handleDelete(index, row) {

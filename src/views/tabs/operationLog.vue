@@ -12,7 +12,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="操作职员">
-                <el-input v-model="form.serviceName" placeholder="">
+                <el-input v-model="form.serviceUserName" placeholder="">
                 </el-input>
             </el-form-item>
             <el-form-item label="客诉日期">
@@ -114,7 +114,7 @@
                     cinemaId: '',
                     createTimeStart: '',
                     createTimeEnd: '',
-                    serviceName:'',
+                    serviceUserName:'',
                     pageSize: 20,
                     pageNumber: 0
                 },

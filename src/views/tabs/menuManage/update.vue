@@ -47,7 +47,7 @@ export default {
             rules: {
                 name: [{ required: true, message: '请输入菜单名称', trigger: 'blur' },{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }],
                 url: [{ required: true, message: '请输入菜单地址', trigger: 'blur' }],
-                parentId:[{ type: 'number', required: true, message: '请选择岗位', trigger: 'change' }]
+                parentId:[{ type: 'number', required: true, message: '请选择上级菜单', trigger: 'change' }]
             }
         }
     },

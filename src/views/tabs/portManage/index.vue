@@ -139,7 +139,7 @@ export default {
         },
         editFn(_index,row){
             this.dialogVisible = true;
-            this.ruleForm = row
+            this.ruleForm = JSON.parse(JSON.stringify(row))
             this.ruleForm.enable = row.enable.toString()
             this.ruleForm.portClassId = row.interfaceCategoryId
             this.ruleForm.type = 1

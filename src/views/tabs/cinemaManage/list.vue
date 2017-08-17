@@ -80,7 +80,7 @@
                     name: ''
                 },
                 rules: {
-                    name: [{required: true, message: '请输入职员姓名', trigger: 'blur'}, {
+                    name: [{required: true, message: '请输入影院名称', trigger: 'blur'}, {
                         min: 3,
                         max: 8,
                         message: '长度在 2 到 8 个字符',
@@ -129,7 +129,7 @@
             },
             editFn(_index, row){
                 this.dialogVisible = true;
-                this.ruleForm = row
+                this.ruleForm = JSON.parse(JSON.stringify(row))
                 this.ruleForm.type = 1
             },
             deleteFn(_index, row){

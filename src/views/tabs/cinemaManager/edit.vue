@@ -78,7 +78,7 @@
                     ],
                     password: [
                         { validator: (rule, value, callback) => {
-                            if (/[a-zA-Z0-9]{8,}.*/.test(value)) {
+                            if (value&&/[a-zA-Z0-9]{9,}.*/.test(value)) {
                                 callback(new Error('不超过8个字符,数字,字母均可'));
                             } else {
                                 callback();
@@ -108,6 +108,7 @@
                             mobile:this.dialogEdit.data.mobile,
                         }).then(res=>{
                             this.dialogEdit.dialogVisible = false
+                            this.$emit('onRefirm')
                         })
                         this.$emit('dialog', {
                             type: 'edit'

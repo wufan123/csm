@@ -43,7 +43,8 @@
         </el-row>
         <el-row>
           <el-form-item label="管理影院组" required prop="cinemaGroupIds">
-            <el-checkbox-group  v-model="employee.cinemaGroupIds">
+            <el-checkbox  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+            <el-checkbox-group  v-model="employee.cinemaGroupIds"  @change="handleCheckedChange">
               <el-checkbox v-for="item in cinemaGroupList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
             </el-checkbox-group>
             </el-form-item>
@@ -99,6 +100,7 @@ export default {
         cinemaGroupIds:[],
         positionId:''
       },
+      checkAll:false,
       cinemaGroupList:[],
       positionList:[],
       rules:{
@@ -116,6 +118,19 @@ export default {
     dataObj: Object
   },
   methods:{
+    handleCheckAllChange(event){
+      if(event.target.checked){
+        this.cinemaGroupList&&this.cinemaGroupList.forEach(item=>{
+          this.employee.cinemaGroupIds.push(item.id)
+        })
+      }else{
+        this.employee.cinemaGroupIds=[]
+      }
+      
+    },
+    handleCheckedChange(value){
+        this.checkAll = value.length === this.cinemaGroupList.length
+    },
     submitForm(employee){
       this.$refs[employee].validate((valid) => {
           if (valid) {
