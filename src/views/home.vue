@@ -43,7 +43,7 @@
                                 :label="item.name"
                                 :name="item.id.toString()"
                         >
-                            <component v-bind:is="item.page" v-on:goOtherTab="showTabByName"
+                            <component v-bind:is="item.page" v-on:goOtherTab="showTabByName"  @setAdvertImg="setAdvertImgFn"
                                        :tabForm="item.tabForm"></component>
                         </el-tab-pane>
                     </el-tabs>
@@ -85,6 +85,10 @@
             }
         },
         methods: {
+            setAdvertImgFn(val){
+                this.headImageLink = val
+                console.log('emit',val)
+            },
             logout(){
                 loginApi.logout({
                     userId: this.userDetail.id

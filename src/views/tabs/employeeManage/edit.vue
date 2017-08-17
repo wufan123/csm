@@ -1,6 +1,6 @@
 <<template>
   <div class="page">
-    <div class="p-title">新建职员 </div>
+    <div class="p-title">编辑职员 </div>
      <div class="h20"></div>
     <div class="content addForm">
       <el-form :rules="rules" ref="employee"   :model="employee" label-width="100px" >
@@ -102,9 +102,9 @@ export default {
       cinemaGroupList:[],
       positionList:[],
       rules:{
-        fullName: [{ required: true, message: '请输入职员姓名', trigger: 'blur' },{ min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }],
+        fullName: [{ required: true, message: '请输入职员姓名', trigger: 'blur' },{ min: 4, max: 8, message: '长度在 4 到 8 个字符', trigger: 'blur' }],
         mobile: [{ validator: validateMobile, trigger: 'blur' } ],
-        loginName:[{ required: true, message: '请输入职员账号', trigger: 'blur' },{ min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }],
+        loginName:[{ required: true, message: '请输入职员账号', trigger: 'blur' },{ min: 4, max: 8, message: '长度在 4 到 8 个字符', trigger: 'blur' }],
         cardId:[{ validator: validateCardId, trigger: 'blur' }],
         cinemaGroupIds:[{ type: 'array', required: true, message: '请至少选择一个影院组', trigger: 'change' }],
         positionId:[{ type: 'number', required: true, message: '请选择岗位', trigger: 'change' }],

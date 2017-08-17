@@ -57,9 +57,11 @@ export default {
         },
         updateAvatar(){
             let params ={}
+           
             params.userId = this.userInfo.id
             params.imgFile = this.image;
             commonApi.updateAvatar(params).then(res => {
+                this.$emit('setAdvertImg',this.image)
                 this.$message({
                 message: '修改成功',
                 type: 'success'
