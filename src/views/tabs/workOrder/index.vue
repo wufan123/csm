@@ -48,6 +48,7 @@
             margin-bottom: 20px;
             font-size: @size-medium;
             padding: 10px;
+            line-height: 25px;
         }
         .el-input {
             width: auto;

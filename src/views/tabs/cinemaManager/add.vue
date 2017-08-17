@@ -28,7 +28,7 @@
                     <el-input type="password" v-model="dialogAdd.data.password" placeholder="不超过8个字符,数字,字母均可">
                     </el-input>
                 </el-form-item>
-                <el-form-item label="重复初始密码" required prop="checkPassword">
+                <el-form-item label="确认初始密码" required prop="checkPassword">
                     <el-input type="password" v-model="dialogAdd.data.checkPassword" placeholder="请确认初始密码">
                     </el-input>
                 </el-form-item>
@@ -57,10 +57,10 @@
                         {type: 'number', required: true, message: '请选择来源影院组', trigger: 'blur'}
                     ],
                     loginName: [
-                        {required: true, message: '请输入账号', trigger: 'blur'}
+                        {required: true, message: '请输入账号', trigger: 'blur'},{ min: 4, max: 8, message: '长度在 4 到 8 个字符', trigger: 'blur' }
                     ],
                     fullName: [
-                        {required: true, message: '请输入管理人员姓名', trigger: 'blur'}
+                        {required: true, message: '请输入管理人员姓名', trigger: 'blur'},{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
                     ],
                     mobile: [
                         {required: true, message: '请输入手机号码', trigger: 'blur'},

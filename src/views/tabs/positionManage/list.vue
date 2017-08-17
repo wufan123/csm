@@ -83,17 +83,6 @@
             }
         },
         methods: {
-            getData: function (params) {
-                if (!params) {
-                    params = {}
-                }
-                params.pageNumber = this.page.pageNumber
-                params.pageSize = this.page.pageSize
-                employeeApi.ListEmployee(params).then(res => {
-                    this.page.totalElements = res.resultData.totalElements
-                    this.employeeList = res.resultData.content
-                })
-            },
             searchSubmit(){
                 var params = {}
                 if (this.search.positionId) {
@@ -102,7 +91,7 @@
                 if (this.search.enable) {
                     params.isEnable = this.search.enable == 1 ? true : false
                 }
-                this.getData(params)
+                this.getPositionList(params)
             },
             addSubmit(){
                 this.$emit('setType', {
@@ -126,8 +115,8 @@
                 })
                 return str
             },
-            getPositionList(){
-                positionApi.ListPosition().then(res => {
+            getPositionList(params){
+                positionApi.ListPosition(params).then(res => {
                     this.page.totalElements = res.resultData.totalElements
                     this.positionList = res.resultData.content;
                     this.$storage.setItem('position', res.resultData.content)
@@ -140,7 +129,7 @@
                     type: 'warning'
                 }).then(() => {
                     positionApi.delPosition({positionId: row.id}).then(res => {
-                        this.getData();
+                        this.getPositionList();
                         this.$message({
                             type: 'success',
                             message: '删除成功!'
@@ -151,16 +140,15 @@
             },
             pageCurrentChange(currentPage){
                 this.page.pageNumber = currentPage - 1
-                this.getData();
+                this.getPositionList();
             },
             pageSizeChange(size){
                 this.page.pageSize = size
-                this.getData();
+                this.getPositionList();
 
             }
         },
         created: function () {
-            this.getData()
             this.getPositionList()
         }
     }

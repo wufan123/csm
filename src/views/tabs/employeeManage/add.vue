@@ -82,9 +82,7 @@ export default {
         }
     }
     var validateCardId = (rule, value, callback) =>{
-       if (value&&!_vue.$util.isNumber(value)) {
-          callback(new Error('请输入数字值'));
-        }else if(value&&!_vue.$util.isIDCard(value)){
+       if(value&&!_vue.$util.isIDCard(value)){
           callback(new Error('请输入正确的身份证号'));
         }else{
           callback()

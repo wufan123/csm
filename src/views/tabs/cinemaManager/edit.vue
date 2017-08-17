@@ -28,11 +28,11 @@
                     <el-input v-model="dialogEdit.data.mobile" placeholder="请输入手机号码">
                     </el-input>
                 </el-form-item>
-                <el-form-item label="设置初始密码" required prop="password">
+                <el-form-item label="设置初始密码" prop="password">
                     <el-input type="password" v-model="dialogEdit.data.password" placeholder="不超过8个字符,数字,字母均可">
                     </el-input>
                 </el-form-item>
-                <el-form-item label="重复初始密码" required prop="checkPassword">
+                <el-form-item label="确认初始密码"  prop="checkPassword">
                     <el-input type="password" v-model="dialogEdit.data.checkPassword" placeholder="请确认初始密码">
                     </el-input>
                 </el-form-item>
@@ -61,10 +61,10 @@
                         {type: 'number', required: true, message: '请选择来源影院组', trigger: 'blur'}
                     ],
                     loginName: [
-                        {required: true, message: '请输入账号', trigger: 'blur'}
+                        {required: true, message: '请输入账号', trigger: 'blur'},{ min: 4, max: 8, message: '长度在 4 到 8 个字符', trigger: 'blur' }
                     ],
                     fullName: [
-                        {required: true, message: '请输入管理人员姓名', trigger: 'blur'}
+                        {required: true, message: '请输入管理人员姓名', trigger: 'blur'},{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
                     ],
                     mobile: [
                         {required: true, message: '请输入手机号码', trigger: 'blur'},
@@ -77,7 +77,6 @@
                         }, trigger: 'blur' }
                     ],
                     password: [
-                        {required: true, message: '请输入初始密码', trigger: 'blur'},
                         { validator: (rule, value, callback) => {
                             if (/[a-zA-Z0-9]{8,}.*/.test(value)) {
                                 callback(new Error('不超过8个字符,数字,字母均可'));
@@ -87,7 +86,6 @@
                         }, trigger: 'blur' }
                     ],
                     checkPassword: [
-                        {required: true, message: '请确认初始密码', trigger: 'blur'},
                         { validator: (rule, value, callback) => {
                             if (value !== this.dialogEdit.data.password) {
                                 callback(new Error('两次输入密码不一致!'));

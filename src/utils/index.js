@@ -1,6 +1,6 @@
 var phoneReg = /^1[3578]\d{9}$/;
 var numberReg = /^[0-9]*$/;
-var IDCardReg = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+var IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/;
 
 export function isPhone(val) {
     return phoneReg.test(val)
