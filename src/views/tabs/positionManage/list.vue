@@ -4,18 +4,15 @@
         <div class="seatch">
             <el-form :inline="true" :model="search" class="demo-form-inline">
                 <el-form-item label="岗位名称">
-                    <el-select v-model="search.positionId" placeholder="请选择">
-                        <el-option label="全部" value=""></el-option>
-                        <el-option v-for="item in positionList" :key="item.id"
-                                   :label="item.positionName" :value="item.id">
-                        </el-option>
-                    </el-select>
+                    <el-input v-model="search.positionName" placeholder="全部">
+
+                    </el-input>
                 </el-form-item>
                 <el-form-item label="状态">
                     <el-select v-model="search.enable" placeholder="请选择">
                         <el-option label="全部" value=""></el-option>
-                        <el-option label="正常" value="1"></el-option>
-                        <el-option label="停用" value="2"></el-option>
+                        <el-option label="正常" value="true"></el-option>
+                        <el-option label="停用" value="false"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item>
@@ -34,7 +31,7 @@
                 <el-table-column prop="enable" label="状态" width="180">
                     <template scope="scope">
                         <em>
-                            {{scope.row.enable ? '启用' : '禁用'}}</em>
+                            {{scope.row.enable ? '正常' : '禁用'}}</em>
                     </template>
                 </el-table-column>
                 <el-table-column label="操作">
@@ -77,20 +74,16 @@
                     totalElements: 0
                 },
                 search: {
-                    positionId: null,
-                    enable: null
+                    positionName: '',
+                    enable: ''
                 }
             }
         },
         methods: {
             searchSubmit(){
                 var params = {}
-                if (this.search.positionId) {
-                    params.positionId = this.search.positionId
-                }
-                if (this.search.enable) {
-                    params.isEnable = this.search.enable == 1 ? true : false
-                }
+                params.positionName = this.search.positionName
+                params.enable = this.search.enable
                 this.getPositionList(params)
             },
             addSubmit(){

@@ -52,7 +52,7 @@
             <el-form-item label="所属岗位" required prop="positionId">
               <el-select v-model="employee.positionId" placeholder="请选择">
                <el-option   v-for="item in positionList"  :key="item.id"
-                  :label="item.positionName"  :value="item.id">
+                  :label="item.positionName"  :value="item.id" v-if="item.enable">
                 </el-option>
                 </el-select>
             </el-form-item>
