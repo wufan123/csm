@@ -199,10 +199,10 @@
 
             },
             viewReady(){
-                window.onbeforeunload = function() {
-                    alert('确定离开页面码');
-                    return false; // 可以阻止关闭
-                }
+//                window.onbeforeunload = function() {
+//                    alert('确定离开页面码');
+//                    return false; // 可以阻止关闭
+//                }
                 let vm = this;
                 if (!this.userDetail)
                     return

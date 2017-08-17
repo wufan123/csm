@@ -12,11 +12,11 @@
             </el-col>
         </el-row>
         <el-row>
-            <el-form ref="form" :model="form" label-width="140px">
-                <el-form-item label="请选择适用影院组" required>
+            <el-form ref="form" :model="form" label-width="140px" :rules="rules">
+                <el-form-item label="请选择适用影院组" prop="cinemaGroupIds" required>
                     <cinema-checkbox v-model="form.cinemaGroupIds" :diableField="'hasFaq'"></cinema-checkbox>
                 </el-form-item>
-                <el-form-item label="来源影院" required>
+                <el-form-item label="来源影院" required prop="content">
                     <div class="form-item-des">
                         <label class="t-danger">请注意:问题与答案请用换行分割,上下两个问题间使用";"分割,参考以下示例:</label><br/>
                         问:这是问题1标题<br/>
@@ -67,7 +67,7 @@
                         {required: true, message: '请输入FAQ内容', trigger: 'blur'},
                         {
                             validator: (rule, value, callback) => {
-                                let questionArray = value.split('；\n');
+                                let questionArray = value.split(/[；\n]/g);
                                 console.log(questionArray);
                                 if (!questionArray.length > 0) {
                                     callback(new Error('FAQ内容格式有误,请检查'));

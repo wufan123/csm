@@ -68,6 +68,8 @@
                 window._nim.onMsg = this.onMsg
             },
             onMsg(msg){
+                if(this.workorder.teamId!=msg.to)
+                    return
                 if (!this.isWindowShow) {
                     this.unread++;
                 }

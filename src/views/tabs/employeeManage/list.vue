@@ -13,8 +13,8 @@
             <el-form-item label="状态">
                 <el-select v-model="search.enable" placeholder="请选择">
                     <el-option label="全部" value=""></el-option>
-                    <el-option label="正常" value="1"></el-option>
-                    <el-option label="停用" value="2"></el-option>
+                    <el-option label="正常" value="true"></el-option>
+                    <el-option label="停用" value="false"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="职员姓名">
@@ -112,7 +112,7 @@ export default {
                params.positionId = this.search.positionId
            }
            if(this.search.enable){
-                params.isEnable = this.search.enable==1?true:false
+                params.enable = this.search.enable
            }
            if(this.search.fullName){
                 params.fullNameLike = this.search.fullName

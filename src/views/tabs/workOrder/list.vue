@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-popover="http://www.w3.org/1999/xhtml">
     <div class="complain-list" ref="workorder">
         <el-form ref="form" :model="form" label-width="85px" :inline="true">
             <el-form-item label="客诉类型">
@@ -69,7 +69,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button type="info" v-on:click="getWorkOrders">查询</el-button>
+                <el-button type="info" v-on:click="getWorkOrders" >查询</el-button>
                 <el-button type="success" v-on:click="add">新建</el-button>
             </el-form-item>
         </el-form>
@@ -100,10 +100,12 @@
                 </el-col>
             </el-row>
             <el-row :gutter="21" class="list-card">
+
                 <el-col :span="8" v-for="(item,index) in OrdersContent" :key="index">
                     <el-card :class="getStatusClass(item.status)" @click.native="handleComplaint(item)">
                         <span v-if="item.isStar" class="star-tag"></span>
-                        <div class="card_header">
+                        <span v-if="item.hasMessage" class="message-tag"></span>
+                        <div class="card_header" >
                             {{item.orderNo}}
                         </div>
                         <div class="card_body">
@@ -136,10 +138,9 @@
         props: ['viewState'],
         watch: {
             viewState: function (newValue) {
-                if(newValue.tabForm)
-                {
+                if (newValue.tabForm) {
                     this.form.status = newValue.tabForm.status
-                    this.activeSubTab= this.form.status
+                    this.activeSubTab = this.form.status
                     this.getWorkOrders()
                 }
 
@@ -199,7 +200,7 @@
             },
             getCinemas(){
                 this.cinemasOptions = [];
-                this.form.cinemaId =''
+                this.form.cinemaId = ''
                 cinemaApi.listCinema({
                     cinemaGroupId: this.form.cinemaGroupId
                 }).then(res => {
@@ -222,7 +223,7 @@
                             type: 'handle',
                             data: item
                         })
-                    }else{
+                    } else {
                         this.$message({
                             message: "当前有人正在处理，请稍后再试",
                             type: 'info'
@@ -327,8 +328,13 @@
                     top: 0;
                     right: -2px;
                 }
-                .card_header {
-
+                .message-tag{
+                    background: url("~assets/image/workorder/new_message.png") no-repeat center;
+                    position: absolute;
+                    height: 50px;
+                    width: 100px;
+                    top: -20px;
+                    left: -5px;
                 }
                 .card_body {
                     margin-top: 24px;

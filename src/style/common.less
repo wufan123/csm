@@ -60,6 +60,10 @@ div{
   }
 }
 
+//修改element popover 细节
+.el-popover{
+  min-width: 50px;
+}
 //修改element notify 细节
 .el-notification__content{
   color: @color-base-gray;
@@ -128,7 +132,9 @@ input {
   float: right;
 }
 //修改element submenu 左侧细节
-
+.el-menu--horizontal .el-submenu > .el-menu{
+  z-index: 10000;
+}
 .slide-menu{
   background-color: @color-base-bg ;
   overflow: auto;
@@ -186,6 +192,9 @@ input {
 }
 
 // 修改element card 细节
+.el-card{
+  overflow: visible;
+}
 .el-card__header{
   height: 50px;
   padding: 16px;
