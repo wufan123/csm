@@ -125,10 +125,10 @@
             },
             showSelectTab(item){
                 this.currentTabId = item.id.toString();
-                for (let i in this.menuTabs) {
+                console.log(this.menuTabs)
+                for (let i=0;i<this.menuTabs.length;i++) {
                     if (item.id === this.menuTabs[i].id) {
-                        console.log(this.$refs['tab' + item.id])
-                        if (this.$refs['tab' + item.id][0].changeViewState)
+                        if (this.$refs['tab' + item.id]&&this.$refs['tab' + item.id][0]&&this.$refs['tab' + item.id][0].changeViewState)
                             this.$refs['tab' + item.id][0].changeViewState({
                                 tabForm: {
                                     status: '1'
@@ -139,10 +139,11 @@
                 }
                 item.page = rooter.mapTabPage(item)
                 this.menuTabs.push(item)
+
             },
             showTabByName(targetTab){
-                console.log(targetTab)
-                for (let i in  this.menus) {
+                console.log(this.menuTabs)
+                for (let i =0;i<this.menus.length;i++) {
                     if (this.menus[i].name == targetTab.name) {
                         this.menus[i].tabForm = targetTab.tabForm
                         this.showSelectTab(this.menus[i])
@@ -158,14 +159,17 @@
                         }
                     }
                 }
-                if(this.notifyList.length>50){
-                    this.notifyList =[]
+                if (this.notifyList.length > 50) {
+                    this.notifyList = []
                 }
                 this.notifyList.push(sysMsg);
-                let n = new Notification("您有新的工单", {
+                if (window._audioNotify)
+                    window._audioNotify.play();
+                let n = new Notification("你有新的客诉订单", {
                     icon: '',
-                    body: '有新的工单需要处理,请您尽快处理'
+                    body: '你有新的客诉订单,请及时处理'
                 });
+
                 let vm = this
                 n.onclick = () => {
                     self.focus();
@@ -188,9 +192,17 @@
                     });
                 }
                 this.currentTabId = activeId.toString();
-                this.menuTabs = tabs.filter(tab => tab.id.toString() != targetId);
+                this.menuTabs = tabs.filter(tab => {
+                   return tab.id != targetId
+                });
+                console.log(this.menuTabs);
+
             },
             viewReady(){
+                window.onbeforeunload = function() {
+                    alert('确定离开页面码');
+                    return false; // 可以阻止关闭
+                }
                 let vm = this;
                 if (!this.userDetail)
                     return
@@ -255,12 +267,15 @@
                     });
                     window._nim.connect();
                 }
+                if (!window._audioNotify) {
+                    window._audioNotify = new Audio(require('assets/mp3/notify.mp3'));
+                }
                 if (!window.Notification) {
                     this.$notify({
                         title: '无法启用桌面通知',
                         message: '该浏览器或版本不支持桌面通知，请使用较新版本的谷歌浏览器',
                         duration: 0,
-                        type:"error"
+                        type: "error"
                     });
                     return
                 }
@@ -270,10 +285,11 @@
                         title: '无法启用桌面通知',
                         message: '无桌面通知权限，为不影响正常使用，请点击浏览器中链接左侧的 i 图标开启桌面通知权限',
                         duration: 0,
-                        type:"error"
+                        type: "error"
                     });
                 }
-                if(Notification.permission ==='denied'){
+
+                if (Notification.permission === 'denied') {
                     notifyNoPermission();
                 }
                 if (Notification.permission === 'default') {
@@ -284,10 +300,6 @@
                     });
                 }
 
-                /*window.onbeforeunload = function() {
-                 alert('确定离开页面码');
-                 return false; // 可以阻止关闭
-                 }*/
             },
         },
 

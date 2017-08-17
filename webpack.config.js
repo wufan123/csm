@@ -58,6 +58,17 @@ module.exports = () => ({
                     }
                 }]
 
+            },
+            {
+                test: /\.mp3$/,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: path.posix.join(options.staticPath, 'mp3/[name].[ext]')
+                    }
+                }]
+
             }
         ]
     },
