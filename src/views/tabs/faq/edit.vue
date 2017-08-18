@@ -12,11 +12,11 @@
             </el-col>
         </el-row>
         <el-row>
-            <el-form ref="form" :model="form" label-width="140px">
-                <el-form-item label="请选择适用影院组" required>
+            <el-form ref="form" :model="form" label-width="140px" :rules="rules">
+                <el-form-item label="请选择适用影院组" prop="cinemaGroupIds" required>
                     <cinema-checkbox v-model="form.cinemaGroupIds" :diableField="'hasFaq'"></cinema-checkbox>
                 </el-form-item>
-                <el-form-item label="来源影院" required>
+                <el-form-item label="来源影院" required prop="content">
                     <div class="form-item-des">
                         <label class="t-danger">请注意:问题与答案请用换行分割,上下两个问题间使用";"分割,参考以下示例:</label><br/>
                         问:这是问题1标题<br/>
@@ -56,7 +56,6 @@
                 rules: {
                     cinemaGroupIds: [
                         {validator: (rule, value, callback) => {
-                            console.log(value)
                             if(value.length<=0){
                                 callback(new Error('请选择适用影院'));
                             }
@@ -65,19 +64,19 @@
                     ],
                     content: [
                         {required: true, message: '请输入FAQ内容', trigger: 'blur'},
+                        { max: 5000, message: '长度不超过5000个字符', trigger: 'blur' },
                         {
                             validator: (rule, value, callback) => {
                                 let questionArray = value.split('；\n');
-                                console.log(questionArray);
-                                if (!questionArray.length > 0) {
-                                    callback(new Error('FAQ内容格式有误,请检查'));
+                                if(value.lastIndexOf('；')!==value.length-1||!questionArray.length > 0)
+                                {
+                                    callback(new Error('FAQ内容格式有误,每对问答间以；结尾并换行，最后一对问答无需换行。'));
                                 }
                                 for (let i = 0; i < questionArray.length; i++) {
                                     let faqItem = questionArray[i].split(/[\r\n]/g);
                                     if (!faqItem||faqItem.length !== 2||!faqItem[0]||!faqItem[1]) {
-                                        callback(new Error('FAQ内容格式有误,请检查'));
+                                        callback(new Error(`FAQ内容格式有误,问与答之间请回车换行，且只有一个问一个答。在第${i+1}对问答`));
                                     }
-                                    console.log(faqItem);
                                 }
                                 return callback();
                             }, trigger: 'blur'

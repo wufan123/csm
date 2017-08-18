@@ -66,7 +66,8 @@
                         { type:'number', required: true, message: '请输入来源影院', trigger: 'blur' }
                     ],
                     content:[
-                        { required: true, message: '请描述问题', trigger: 'blur' }
+                        { required: true, message: '请描述问题', trigger: 'blur' },
+                        { max: 200, message: '长度不超过200个字符', trigger: 'blur' }
                     ]
                 }
             }

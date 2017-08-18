@@ -53,17 +53,18 @@
                     ],
                     content: [
                         {required: true, message: '请输入FAQ内容', trigger: 'blur'},
+                        { max: 5000, message: '长度不超过5000个字符', trigger: 'blur' },
                         {
                             validator: (rule, value, callback) => {
                                 let questionArray = value.split('；\n');
-                                console.log(questionArray);
-                                if (!questionArray.length > 0) {
-                                    callback(new Error('FAQ内容格式有误,请检查'));
+                                if(value.lastIndexOf('；')!==value.length-1||!questionArray.length > 0)
+                                {
+                                    callback(new Error('FAQ内容格式有误,每对问答间以；结尾并换行，最后一对问答无需换行。'));
                                 }
                                 for (let i = 0; i < questionArray.length; i++) {
                                     let faqItem = questionArray[i].split(/[\r\n]/g);
                                     if (!faqItem||faqItem.length !== 2||!faqItem[0]||!faqItem[1]) {
-                                        callback(new Error('FAQ内容格式有误,请检查'));
+                                        callback(new Error(`FAQ内容格式有误,问与答之间请回车换行，且只有一个问一个答。在第${i+1}对问答`));
                                     }
                                     console.log(faqItem);
                                 }

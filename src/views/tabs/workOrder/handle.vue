@@ -1,6 +1,6 @@
 <template>
     <div class="tab-form complaint">
-        <chat :workorder="this.viewState.data" v-if="this.viewState.data||this.viewState.data.teamId"></chat>
+        <chat :workorder="this.viewState.data" v-if="this.viewState.data&&this.viewState.data.teamId"></chat>
         <el-row class="tab-pane-title">
             处理客诉
         </el-row>
@@ -18,7 +18,7 @@
                 客诉发起人: {{viewState.data.initiatorName}}
             </el-col>
             <el-col :span="6">
-                客诉时间: {{new Date(viewState.data.createTime).format('yyyy-MM-dd hh-mm-ss')}}
+                客诉时间: {{new Date(viewState.data.createTime).format('yyyy-MM-dd hh:mm:ss')}}
             </el-col>
         </el-row>
         <el-row class="des">
@@ -41,7 +41,7 @@
                         </el-select>
                     </el-col>
                     <el-col :span="20" v-if="form.orderType == '9'">
-                        <el-input v-model="form.otherDetail" class="remark-input" placeholder="其他详情">
+                        <el-input v-model="form.otherDetail" class="remark-input" placeholder="其他详情" :maxlength="50">
 
                         </el-input>
                     </el-col>
@@ -76,7 +76,7 @@
             </el-form>
             <el-form ref="form-c" :model="form">
                 <el-form-item label=" 运维备注">
-                    <el-input v-model="form.operationRemark" class="remark-input"></el-input>
+                    <el-input v-model="form.operationRemark" class="remark-input" :maxlength="80"></el-input>
                 </el-form-item>
                 <el-form-item label=" 运维附件">
                     <qiniu-img v-model="form.workorderAttaches"></qiniu-img>
@@ -132,6 +132,7 @@
                     isStar: viewData.isStar.toString(),
                     operationRemark: viewData.operationRemark,
                     workorderAttaches: viewData.workorderAttaches ? viewData.workorderAttaches.split(',') : [],
+                    otherDetail:viewData.otherDetail
                 },
                 dialogImageUrl: '',
                 dialogVisible: false,
@@ -156,7 +157,7 @@
                     ],
                     bugLevel: [
                         {required: true, message: '请选择bug等级', trigger: 'blur'}
-                    ],
+                    ]
                 }
             }
         },
@@ -217,6 +218,7 @@
                         isStar: viewData.isStar.toString(),
                         operationRemark: viewData.operationRemark,
                         workorderAttaches: viewData.workorderAttaches ? viewData.workorderAttaches.split(',') : [],
+                        otherDetail:viewData.otherDetail
                     }
                 })
             }

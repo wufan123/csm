@@ -16,11 +16,9 @@
     export default {
         props: ['value', 'diableField'],
         data(){
-            console.log(this.value, this.diableField)
             this.firstValue =[]
             for(let i =0;i<this.value.length;i++){
                 this.firstValue.push(this.value[i])
-                console.log(this.firstValue)
             }
             return {
                 groupOptions: [],
@@ -41,7 +39,6 @@
             handleCheckAllChange(event) {
                 if (event.target.checked) {
                     for (let i = 0; i < this.groupOptions.length; i++) {
-                        console.log(this.groupOptions[i][this.diableField])
                         if (this.firstValue.indexOf(this.groupOptions[i].id)>=0||!this.groupOptions[i][this.diableField]) {
                             this.checkedOptions.push(this.groupOptions[i].id)
                         }
@@ -54,7 +51,6 @@
                 this.isIndeterminate = false;
             },
             handleCheckedChange() {
-                console.log(this.checkedOptions.length)
                 this.checkAll = this.checkedOptions.length === this.groupOptions.length;
                 this.isIndeterminate = this.checkedOptions.length > 0 && this.checkedOptions.length < this.groupOptions.length;
                 this.$emit('input', this.checkedOptions)

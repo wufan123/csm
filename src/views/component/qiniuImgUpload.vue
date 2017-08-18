@@ -60,12 +60,8 @@
         methods: {
             handleRemove(file, fileList) {
                 if (file) {
-                    console.log(fileList)
-                    /*let newValue = this.value.filter(item => {
-                        return item !== file.url;
-                    })
-
-                    this.$emit('input', newValue)*/
+                    console.log(this.fileList)
+                    this.fileList =fileList
                     let newValue=[]
                     for(let i =0;i<fileList.length;i++){
                         newValue.push(fileList[i].url)
