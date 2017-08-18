@@ -79,6 +79,8 @@
                     <el-tab-pane label="全部" name=""></el-tab-pane>
                     <el-tab-pane label="等待处理" name="1"></el-tab-pane>
                     <el-tab-pane label="处理中" name="2"></el-tab-pane>
+                    <el-tab-pane label="处理中-转技术解决" name="3"></el-tab-pane>
+                    <el-tab-pane label="未解决" name="4"></el-tab-pane>
                     <el-tab-pane label="处理完毕" name="5"></el-tab-pane>
                 </el-tabs>
             </el-row>

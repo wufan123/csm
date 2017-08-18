@@ -16,13 +16,12 @@
                      :class="item.custom.identity==1?'chat-rec-right':'chat-rec-left'">
                     <div class="get-avatar"></div>
                     <div class="content">
-                        <span class="time">{{new Date(item.time).format('yyyy-MM-dd hh:mm:ss')}}</span><br/>
+                        <span class="time">{{formateDate(item.time)}}</span><br/>
                         <div class="message"><img :src="item.url"/>{{item.text}}</div>
                     </div>
                 </div>
             </div>
             <div class="chat-input-box" v-if="workorder.status<5">
-
                 <el-input class="chat-input" v-model="textMessage" type="textarea" :rows="6" @keyup.enter="sendtxt">
                 </el-input>
                 <div class="chat-button">
@@ -35,8 +34,9 @@
                     </el-upload>
                     <el-button class="send-text" size="small" type="info" v-on:click="sendtxt">发送</el-button>
                 </div>
-
-
+            </div>
+            <div class="chat-score" v-if="workorder.status==5">
+                  <i class="el-icon-check"></i>  该客诉已经解决，评价为：{{workorder.scoreName}} 
             </div>
         </div>
     </div>
@@ -59,6 +59,12 @@
             }
         },
         methods: {
+            formateDate(time){
+                let now = new Date()
+                let today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+                let formDate = new Date(time)
+               return formDate.getTime()<today.getTime()?formDate.format("yyyy-MM-dd hh:mm:ss"):formDate.format("hh:mm:ss")
+            },
             showChatWindow(){
                 this.isWindowShow = true;
                 this.unread = 0;
@@ -225,6 +231,17 @@
                 color: @color-base-gray;
                 text-align: center;
                 margin-top: 10px;
+            }
+            .chat-score{
+                text-align: center;
+                position: absolute;
+                bottom: 0;
+                width: 330px;
+                height: 40px;
+                line-height: 40px;
+                color: #3f5a04;
+                background: #dfedc0;
+                font-size: @size-medium;
             }
             .chat-body {
                 padding: 0 21px;
