@@ -47,15 +47,15 @@
             <el-radio class="radio" v-model="ruleForm.enable" label="true">正常</el-radio>
             <el-radio class="radio" v-model="ruleForm.enable" label="false">停用</el-radio>
         </el-form-item>
-
-         <el-form-item label="接口分类" required prop="portClassId" >
-            <el-select v-model="ruleForm.portClassId" placeholder="全部" >
+         <el-form-item label="接口分类" required prop="interfaceCategoryId" >
+            <el-select v-model="ruleForm.interfaceCategoryId" placeholder="全部" >
                 <el-option   v-for="item in portClassList"  :key="item.id"
                 :label="item.name"  :value="item.id">
                 </el-option>
             </el-select>
         </el-form-item>
     </el-form>
+    {{ruleForm}}
     <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="submitFn('ruleForm')">确 定</el-button>
@@ -90,7 +90,7 @@ export default {
                 interfaceName:'',
                 url:'',
                 enable:"true",
-                portClassId:null
+                interfaceCategoryId:null
             },
             search: {
                 portClassId: null,
@@ -98,7 +98,7 @@ export default {
             },
             rules:{
                interfaceName:[{ required: true, message: '请输入接口名称', trigger: 'blur' },{ min: 3, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }] ,
-               portClassId:[{ validator: validateportClassId, trigger: 'blur' }],
+               interfaceCategoryId:[{ validator: validateportClassId, trigger: 'blur' }],
                url:[{ required: true, message: '请输入接口地址', trigger: 'blur' }] ,
             }
         }
@@ -133,15 +133,15 @@ export default {
             this.dialogVisible = true;
             this.ruleForm = {
                 enable:'true',
-                portClassId:null
+                interfaceCategoryId:null
             }
             this.ruleForm.type = 0
         },
         editFn(_index,row){
+            console.log('确定是编辑吗')
             this.dialogVisible = true;
             this.ruleForm = JSON.parse(JSON.stringify(row))
             this.ruleForm.enable = row.enable.toString()
-            this.ruleForm.portClassId = row.interfaceCategoryId
             this.ruleForm.type = 1
         },
         deleteFn(_index,row){
@@ -167,7 +167,7 @@ export default {
                     params.interfaceName = this.ruleForm.interfaceName
                     params.url = this.ruleForm.url
                     params.enable = this.ruleForm.enable
-                    params.interfaceCategoryId = this.ruleForm.portClassId
+                    params.interfaceCategoryId = this.ruleForm.interfaceCategoryId
                     if(this.ruleForm.type){
                         params.id = this.ruleForm.id
                         portApi.editPort(params).then(res =>{
