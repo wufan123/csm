@@ -22,29 +22,7 @@
         <el-row>
           <el-col :span="12">
                <el-form-item label="菜单权限" required prop="menuIds">
-                 <el-collapse v-model="activeName" accordion>
-                  <el-collapse-item v-for="(item,index) in fistMenu" :key="item.id"  :name="index">
-                    <template slot="title">
-                     <el-checkbox v-model="checkAll[index]" @change="handleCheckAllChange(item.id)">{{item.name}}</el-checkbox> 
-                  </template>
-                  <el-checkbox-group v-model="position.menuIds">
-                    <div class="line" v-for="subItem in secondMenu(item)" :key="subItem.id">
-                      <p>
-                        <el-checkbox :label="subItem.id" :key="subItem.id">
-                          <c-dot :count="subItem.hierarchy"></c-dot>{{subItem.name}}</el-checkbox>
-                      </p>
-                      <div class="line" v-for="subsubItem in thirdMenu(subItem)" :key="subsubItem.id">
-                        <p>
-                          <el-checkbox :label="subsubItem.id" :key="subsubItem.id">
-                            <c-dot :count="subsubItem.hierarchy"></c-dot>{{subsubItem.name}}</el-checkbox>
-                        </p>
-                      </div>
-                    </div>
-  
-                  </el-checkbox-group>
-                  </el-collapse-item>
-                 
-                </el-collapse>
+                   <menus-collapse v-model="position.menuIds"></menus-collapse>
               </el-form-item>
           </el-col>
         </el-row>
@@ -81,9 +59,8 @@
 var onOff = true
 var onOff2 = true
 import positionApi from 'api/positionApi'
-import cDot from 'views/component/dot.vue' 
-import menuApi from 'api/menuApi' 
-import portApi from 'api/siteInterfaceApi' 
+import portApi from 'api/siteInterfaceApi'
+import menusCollapse from 'views/component/menusCollapse.vue'
 export default {
    
   data(){
@@ -93,7 +70,6 @@ export default {
           menuList:[],
           activeName: 0,
           activeName2: 0,
-          
           portClassList:[],
           portList:[],
           position:{
@@ -108,42 +84,8 @@ export default {
           }
       }
   },
-  components: { 'c-dot': cDot },
-  computed:{
-    fistMenu(){
-      let arr = []
-      this.menuList&&this.menuList.forEach(item=>{
-        if(item.hierarchy=='1'){
-          arr.push(item)
-        }
-      })
-      return arr
-    }
-  },
+    components: {'menus-collapse': menusCollapse},
   methods: {
-    thirdMenu(obj){
-      var arr=[]
-      this.menuList&&this.menuList.forEach(item=>{
-        if(item.parentId == obj.id){
-          arr.push(item)
-        }
-      })
-      return arr
-    },
-    secondMenu(obj){
-      var arr=[]
-      this.menuList&&this.menuList.forEach(item=>{
-        if(item.parentId == obj.id){
-          arr.push(item)
-        }
-      })
-      return arr
-    },
-      getMenuList(){
-        menuApi.ListMenu({enable:true}).then(res=>{
-          this.menuList = res.resultData.content
-        })
-      },
       getPortClassList(){
         portApi.ListPortGroup({enable:true}).then(res=>{
           this.portClassList = res.resultData.content
@@ -182,48 +124,6 @@ export default {
             }
             })
       },
-      handleCheckAllChange(id){
-        if(onOff){
-          var arr = []
-          onOff = false
-        }else{
-          arr = this.position.menuIds
-          var arr2 = this.position.menuIds
-        }
-        if (!event.target.checked) {
-          arr2 && arr2.forEach(arrItem => {
-            this.menuList && this.menuList.forEach((item, index) => {
-              if (item.id == id) {
-                arr2.remove(item.id);
-                item.children && item.children.forEach(subItem => {
-                  arr2.remove(subItem.id);
-                  subItem.children && subItem.children.forEach(subsubItem => {
-                    arr2.remove(subsubItem.id);
-                  })
-                })
-              }
-            })
-          })
-          
-        }else{
-          this.menuList&&this.menuList.forEach(item=>{
-            if(item.id == id){
-              arr.push(item.id)
-              item.children&&item.children.forEach(subItem =>{
-                arr.push(subItem.id)
-                subItem.children&&subItem.children.forEach(subsubItem =>{
-                  arr.push(subsubItem.id)
-                })
-              })
-            }
-          })
-        }
-        arr = arr&&arr.unique()
-        arr2 = arr2&&arr2.unique()
-        console.log('arr',arr)
-        console.log('arr2',arr2)
-        this.position.menuIds = event.target.checked ? arr : arr2;
-      },
       handleCheckAllChange2(id){
         console.log('id',id)
         if(onOff){
@@ -259,7 +159,6 @@ export default {
       }
   },
   created(){
-    this.getMenuList()
     this.getPortClassList()
   }
 }

@@ -1,11 +1,11 @@
 <template>
     <div class="tab-form">
         <el-row class="tab-pane-title">
-             编辑FAQ
+            编辑FAQ
         </el-row>
         <el-row class="property">
             <el-col :span="6">
-                添加日期:{{form.createTime}}
+                添加日期:{{new Date(form.createTime).format('yyyy-MM-dd hh:mm:ss')}}
             </el-col>
             <el-col :span="4">
                 添加职员:{{form.serviceUserName}}
@@ -49,33 +49,34 @@
             }
         },
         data(){
-            let form =this.viewState.data;
-            form.faqId =form.id //字段不同
+            let form = this.viewState.data;
+            form.faqId = form.id //字段不同
             return {
                 form: form,
                 rules: {
                     cinemaGroupIds: [
-                        {validator: (rule, value, callback) => {
-                            if(value.length<=0){
-                                callback(new Error('请选择适用影院'));
+                        {
+                            validator: (rule, value, callback) => {
+                                if (value.length <= 0) {
+                                    callback(new Error('请选择适用影院'));
+                                }
+                                callback()
                             }
-                            callback()
-                        }}
+                        }
                     ],
                     content: [
                         {required: true, message: '请输入FAQ内容', trigger: 'blur'},
-                        { max: 5000, message: '长度不超过5000个字符', trigger: 'blur' },
+                        {max: 5000, message: '长度不超过5000个字符', trigger: 'blur'},
                         {
                             validator: (rule, value, callback) => {
                                 let questionArray = value.split('；\n');
-                                if(value.lastIndexOf('；')!==value.length-1||!questionArray.length > 0)
-                                {
+                                if (value.lastIndexOf('；') !== value.length - 1 || !questionArray.length > 0) {
                                     callback(new Error('FAQ内容格式有误,每对问答间以；结尾并换行，最后一对问答无需换行。'));
                                 }
                                 for (let i = 0; i < questionArray.length; i++) {
                                     let faqItem = questionArray[i].split(/[\r\n]/g);
-                                    if (!faqItem||faqItem.length !== 2||!faqItem[0]||!faqItem[1]) {
-                                        callback(new Error(`FAQ内容格式有误,问与答之间请回车换行，且只有一个问一个答。在第${i+1}对问答`));
+                                    if (!faqItem || faqItem.length !== 2 || !faqItem[0] || !faqItem[1]) {
+                                        callback(new Error(`FAQ内容格式有误,问与答之间请回车换行，且只有一个问一个答。在第${i + 1}对问答`));
                                     }
                                 }
                                 return callback();
@@ -87,15 +88,21 @@
         },
         methods: {
             save(){
-                platformFaqApi.save(this.form).then(res=>{
-                    this.$emit('view', {
-                        type:'list'
-                    })
-                })
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        platformFaqApi.save(this.form).then(res => {
+                            this.$emit('view', {
+                                type: 'list'
+                            })
+                        })
+                    } else {
+                        return false;
+                    }
+                });
             },
             close(){
                 this.$emit('view', {
-                    type:'list'
+                    type: 'list'
                 })
             },
         }
@@ -103,8 +110,9 @@
 </script>
 <style lang="less">
     @import "~style/base-variables";
-    .tab-form{
-        .form-item-des{
+
+    .tab-form {
+        .form-item-des {
             background: @color-base-bg;
             padding: 10px;
             color: @color-base-gray;
