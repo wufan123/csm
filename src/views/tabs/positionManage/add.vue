@@ -68,8 +68,7 @@ export default {
           checkAll: [],
           checkAll2:[],
           menuList:[],
-          activeName: 0,
-          activeName2: 0,
+          activeName2: '',
           portClassList:[],
           portList:[],
           position:{

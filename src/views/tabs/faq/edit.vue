@@ -101,8 +101,18 @@
                 });
             },
             close(){
-                this.$emit('view', {
-                    type: 'list'
+                this.$confirm('你确定要放弃吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$message({
+                        message: "你已放弃本次操作",
+                        type: 'info'
+                    })
+                    this.$emit('view', {
+                        type:'list'
+                    })
                 })
             },
         }

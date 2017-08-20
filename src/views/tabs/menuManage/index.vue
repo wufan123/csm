@@ -12,7 +12,7 @@
             <c-dot :count="scope.row.hierarchy"></c-dot> {{scope.row.name}}
           </template>
         </el-table-column>
-        <el-table-column prop="url" label="菜单地址"> </el-table-column>
+        <!--<el-table-column prop="url" label="菜单地址"> </el-table-column>-->
         <el-table-column prop="enable" label="是否启用" width="180">
           <template scope="scope">
             <el-switch v-model="scope.row.enable" on-color="#13ce66" off-color="#ccc" @change="switchFn(scope.row)" >

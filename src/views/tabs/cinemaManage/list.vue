@@ -42,8 +42,8 @@
                     <el-input type="text" v-model="ruleForm.name" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="影院组名称" required prop="cinemaGroupId">
-                    <el-select v-model="ruleForm.cinemaGroupId" placeholder="请选择影院组" > 
-                        <group-options ></group-options>
+                    <el-select v-model="ruleForm.cinemaGroupId" placeholder="请选择影院组">
+                        <group-options></group-options>
                     </el-select>
                 </el-form-item>
             </el-form>
@@ -91,9 +91,11 @@
             }
         },
         methods: {
-            getData: function (params) {
+            getData: function (params,callBack) {
                 cinemaApi.listCinema(params).then(res => {
                     this.cinemaList = res.resultData.content
+                    if(callBack)
+                        callBack(res)
                 })
             },
             searchSubmit(){
@@ -138,40 +140,57 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    cinemaApi.delCinema({id: row.id}).then(res => {
-                        this.getData()
-                        this.$message({
-                            type: 'success',
-                            message: '删除成功!'
-                        });
-                     },error=>this.$message.error(error))
-                
+                    this.getData({},()=>{
+                        if (row.hasWeiXinAcc) {
+                            this.$confirm('该影院已与微信端普通账号关联，如删除将导致普通账号无法登陆，确定要删除吗?', '提示', {
+                                confirmButtonText: '确定',
+                                cancelButtonText: '取消',
+                                type: 'warning'
+                            }).then(() => {
+                                cinemaApi.delCinema({id: row.id}).then(res => {
+                                    this.getData()
+                                    this.$message({
+                                        type: 'success',
+                                        message: '删除成功!'
+                                    });
+                                }, error => this.$message.error(error))
+                            })
+                        } else {
+                            cinemaApi.delCinema({id: row.id}).then(res => {
+                                this.getData()
+                                this.$message({
+                                    type: 'success',
+                                    message: '删除成功!'
+                                });
+                            }, error => this.$message.error(error))
+                        }
+                    });
                 })
             },
             submitFn(ruleForm) {
                 this.$refs['ruleForm'].validate((valid) => {
-                    if(valid){
+                    if (valid) {
                         let params = {}
                         params.name = this.ruleForm.name
                         params.cinemaGroupId = this.ruleForm.cinemaGroupId
-                        if(this.ruleForm.type){
+                        if (this.ruleForm.type) {
                             params.id = this.ruleForm.id
-                            cinemaApi.editCinema(params).then(res =>{
+                            cinemaApi.editCinema(params).then(res => {
                                 this.getData()
-                            },error=>this.$message.error(error))
-                        }else(
-                            cinemaApi.addCinema(params).then(res =>{
+                            }, error => this.$message.error(error))
+                        } else(
+                            cinemaApi.addCinema(params).then(res => {
                                 this.getData()
-                            },error=>this.$message.error(error))
+                            }, error => this.$message.error(error))
                         )
                         this.dialogVisible = false;
                     }
-                    
+
                 })
-        }
+            }
         },
-    created:function () {
-        this.getData()
-    }
+        created: function () {
+            this.getData()
+        }
     }
 </script>

@@ -192,8 +192,18 @@
                 });
             },
             close(){
-                this.$emit('view', {
-                    type: 'list'
+                this.$confirm('你确定放弃处理该客诉订单吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$message({
+                        message: "你放弃了处理客诉订单",
+                        type: 'info'
+                    })
+                    this.$emit('view', {
+                        type:'list'
+                    })
                 })
             },
             handleRemove(file, fileList) {

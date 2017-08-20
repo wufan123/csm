@@ -127,8 +127,18 @@
                 });
             },
             close(){
-                this.$emit('view', {
-                    type:'list'
+                this.$confirm('你确定放弃编辑该建议吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$message({
+                        message: "你放弃了编辑编辑建议",
+                        type: 'info'
+                    })
+                    this.$emit('view', {
+                        type:'list'
+                    })
                 })
             },
             fetchData(){

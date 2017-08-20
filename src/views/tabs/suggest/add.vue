@@ -109,8 +109,18 @@
                 });
             },
             close(){
-                this.$emit('view', {
-                    type:'list'
+                this.$confirm('你确定放弃新建建议吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$message({
+                        message: "你放弃了新建建议",
+                        type: 'info'
+                    })
+                    this.$emit('view', {
+                        type:'list'
+                    })
                 })
             }
         }
