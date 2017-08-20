@@ -55,7 +55,6 @@
             </el-select>
         </el-form-item>
     </el-form>
-    {{ruleForm}}
     <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="submitFn('ruleForm')">确 定</el-button>
