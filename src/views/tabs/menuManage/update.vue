@@ -55,7 +55,7 @@ export default {
     computed: {  
         data: function () {  
             var obj={};  
-            obj=JSON.parse(JSON.stringify(this.dialogData)); //this.templateData是父组件传递的对象  
+            obj=JSON.parse(JSON.stringify(this.dialogData)); 
             return obj  
         },
         menuDataObj:function(){
