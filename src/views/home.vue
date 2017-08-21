@@ -43,7 +43,8 @@
                                 :label="item.name"
                                 :name="item.id.toString()"
                         >
-                            <component v-bind:is="item.page" v-on:goOtherTab="showTabByName"  @setAdvertImg="setAdvertImgFn"
+                            <component v-bind:is="item.page" v-on:goOtherTab="showTabByName"
+                                       @setAdvertImg="setAdvertImgFn"
                                        :tabForm="item.tabForm" :ref="'tab'+item.id"></component>
                         </el-tab-pane>
                     </el-tabs>
@@ -88,7 +89,7 @@
         methods: {
             setAdvertImgFn(val){
                 this.headImageLink = val
-                console.log('emit',val)
+                console.log('emit', val)
             },
             logout(){
                 loginApi.logout({
@@ -96,7 +97,7 @@
                 }).then((response) => {
                     clearInterval(window.loginHeart);
                     window._nim.disconnect();
-                    this.menuTabs =[]
+                    this.menuTabs = []
                     this.$router.push({path: 'login'})
                 })
             },
@@ -128,10 +129,10 @@
             },
             showSelectTab(item){
                 this.currentTabId = item.id.toString();
-                console.log('show123',this.menuTabs)
-                for (let i=0;i<this.menuTabs.length;i++) {
+                console.log('show123', this.menuTabs)
+                for (let i = 0; i < this.menuTabs.length; i++) {
                     if (item.id === this.menuTabs[i].id) {
-                        if (this.$refs['tab' + item.id]&&this.$refs['tab' + item.id][0]&&this.$refs['tab' + item.id][0].changeViewState)
+                        if (this.$refs['tab' + item.id] && this.$refs['tab' + item.id][0] && this.$refs['tab' + item.id][0].changeViewState)
                             this.$refs['tab' + item.id][0].changeViewState({
                                 tabForm: {
                                     status: '1'
@@ -144,7 +145,7 @@
                 this.menuTabs.push(item)
             },
             showTabByName(targetTab){
-                for (let i =0;i<this.menus.length;i++) {
+                for (let i = 0; i < this.menus.length; i++) {
                     if (this.menus[i].name == targetTab.name) {
                         this.menus[i].tabForm = targetTab.tabForm
                         this.showSelectTab(this.menus[i])
@@ -193,8 +194,8 @@
                     });
                 }
                 this.currentTabId = activeId.toString();
-                for(let i in tabs){
-                    if(tabs[i].id==targetId){
+                for (let i in tabs) {
+                    if (tabs[i].id == targetId) {
                         tabs.remove(tabs[i])
                     }
                 }
@@ -203,7 +204,7 @@
 //                });
             },
             viewReady(){
-                window.onbeforeunload = function() {
+                window.onbeforeunload = function () {
                     alert('确定离开页面码');
                     return false; // 可以阻止关闭
                 }
@@ -310,6 +311,7 @@
 </script>
 <style lang="less">
     @import "~style/base-variables";
+
     #main {
         height: 100%;
         .logo {
@@ -340,11 +342,11 @@
                         }
                         .el-tabs__content {
                             height: calc(~"100% - 40px");
-                            .el-tab-pane{
+                            .el-tab-pane {
                                 height: 100%;
-                                .tab-content{
+                                .tab-content {
                                     height: 100%;
-                                    >div{
+                                    > div {
                                         height: 100%;
                                         overflow-y: scroll;
                                         overflow-x: hidden;

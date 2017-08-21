@@ -43,7 +43,7 @@ export default {
     },
     methods: {
         getData(params) {
-            portApi.ListPortGroup(params).then(res => {
+            portApi.ListPortGroup(this.page).then(res => {
                 this.page.totalElements = res.resultData.totalElements
                 this.tableList = res.resultData.content
             },error=>this.$message.error(error))
