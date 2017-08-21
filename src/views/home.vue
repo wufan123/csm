@@ -208,6 +208,7 @@
                     return
                 this.showTabByName({name: '趋势查询'})
                 if (!window._nim) {
+                    console.log(this.userDetail)
                     window._nim = NIM.getInstance({//初始化im
                         appKey: this.userDetail.appKey,
                         account: this.userDetail.accid,
@@ -338,7 +339,17 @@
                         }
                         .el-tabs__content {
                             height: calc(~"100% - 40px");
-                            overflow-y: auto;
+                            .el-tab-pane{
+                                height: 100%;
+                                .tab-content{
+                                    height: 100%;
+                                    >div{
+                                        height: 100%;
+                                        overflow-y: scroll;
+                                        overflow-x: hidden;
+                                    }
+                                }
+                            }
                         }
                         .el-tabs__item {
                             font-size: @size-small;

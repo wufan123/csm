@@ -1,6 +1,7 @@
 <template>
-    <div id="complaint-list">
-        <component v-bind:is="view" v-on:view="changeViewState" :viewState="viewState">
+    <div class="tab-content">
+        <list v-show="!view" v-on:view="changeViewState" :viewState="viewState"></list>
+        <component v-if="view" v-bind:is="view" v-on:view="changeViewState" :viewState="viewState">
 
         </component>
     </div>
@@ -10,28 +11,30 @@
     import add from 'views/tabs/workOrder/add.vue'
     import handle from 'views/tabs/workOrder/handle.vue'
     export default {
-        props:['tabForm'],
+        components: {
+            'list': list,
+        },
+        props: ['tabForm'],
         data(){
             return {
                 viewState: {
-                    tabForm:this.tabForm
+                    tabForm: this.tabForm
                 },
-                view:list
+                view: ''
             }
         },
         methods: {
             changeViewState(state){
                 this.viewState = state;
-                switch (state.type)
-                {
+                switch (state.type) {
                     case 'add':
-                        this.view =add;
+                        this.view = add;
                         break;
                     case 'list':
-                        this.view =list;
+                        this.view = '';
                         break;
                     case 'handle':
-                        this.view =handle;
+                        this.view = handle;
                         break;
                 }
             }
@@ -40,7 +43,6 @@
 </script>
 <style lang="less">
     @import "~style/base-variables";
-
     .complaint {
         .des {
             background: #fffad5;
@@ -52,6 +54,9 @@
         }
         .el-input {
             width: auto;
+        }
+        .operateView {
+            position: absolute;
         }
     }
 </style>

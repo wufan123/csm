@@ -1,5 +1,6 @@
 <template xmlns:v-popover="http://www.w3.org/1999/xhtml">
-    <div class="complain-list" ref="workorder">
+    <div>
+        <div class="complain-list">
         <el-form ref="form" :model="form" label-width="85px" :inline="true">
             <el-form-item label="客诉类型">
                 <el-select v-model="form.orderType" placeholder="全部">
@@ -102,7 +103,6 @@
                 </el-col>
             </el-row>
             <el-row :gutter="21" class="list-card">
-
                 <el-col :span="8" v-for="(item,index) in OrdersContent" :key="index">
                     <el-card :class="getStatusClass(item.status)" @click.native="handleComplaint(item)">
                         <span v-if="item.isStar" class="star-tag"></span>
@@ -130,6 +130,7 @@
                         :total="pageDatas.totalElements">
                 </el-pagination>
             </el-row>
+        </div>
         </div>
     </div>
 </template>
@@ -275,6 +276,9 @@
             },
             viewReady(){
                 _vue.$bus.$on('getWorkorders', this.getWorkOrders)
+                window._nim.onMsg = this.onMsg
+            },
+            onMsg(msg){
             }
         }
     }
@@ -291,7 +295,7 @@
     @unsolvedBg: #fffad5;
     @workedOutColor: #be0000;
     .complain-list {
-        padding: 30px 20px 20px 20px;
+        margin: 30px 20px 20px 20px;
         .el-form-item {
             margin-bottom: 10px;
         }

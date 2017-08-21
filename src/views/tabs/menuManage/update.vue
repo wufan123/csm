@@ -1,7 +1,6 @@
 <template>
     <div>
         <el-dialog :title="dialogData.type?'编辑菜单':'新增菜单'" :visible.sync="dialogData.dialogVisible" size="tiny" @open="initFn" >
-    
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                 <el-form-item label="菜单名称" required prop="name" >
                     <el-input v-model="ruleForm.name" placeholder="请输入菜单名称" ></el-input>

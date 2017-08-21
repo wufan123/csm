@@ -1,5 +1,5 @@
 <template>
-    <div class="table-list">
+    <div class="tab-content"><div class="table-list">
         <el-form ref="form" :model="form" label-width="85px" :inline="true">
             <el-form-item label="影院组名称">
                 <el-select v-model="form.cinemaGroupId" placeholder="全部" v-on:change="getCinemas()">
@@ -80,7 +80,7 @@
                     prop="statusName"
                     label="客诉状态"
                     width="100"
-                     >
+            >
             </el-table-column>
             <el-table-column
                     label="发起时间"
@@ -106,7 +106,7 @@
                     label="其他详情"
                     width="100">
                 <template scope="scope" style="text-align: center">
-                {{scope.row.orderTypeName?(scope.row.orderTypeName==='其他'?scope.row.otherDetail:'一'):''}}
+                    {{scope.row.orderTypeName?(scope.row.orderTypeName==='其他'?scope.row.otherDetail:'一'):''}}
                 </template>
             </el-table-column>
             <el-table-column
@@ -118,19 +118,19 @@
                     prop="orderLevelName"
                     label="客诉等级"
                     width="100"
-                    >
+            >
             </el-table-column>
             <el-table-column
                     prop="orderBugLevelName"
                     label="bug等级"
                     width="100"
-                    >
+            >
             </el-table-column>
             <el-table-column
                     prop="bugTypeName"
                     label="bug类型"
                     width="100"
-                    >
+            >
             </el-table-column>
             <el-table-column
                     prop="operationRemark"
@@ -165,7 +165,7 @@
                     :total="this.pageDatas.totalElements">
             </el-pagination>
         </el-row>
-    </div>
+    </div></div>
 </template>
 <script>
     import workOrderApi from 'api/workOrderApi'

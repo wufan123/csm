@@ -1,11 +1,9 @@
 <template>
-    <div>
-        <div>
+        <div class="tab-content">
             <component v-bind:is="view" v-on:view="changeViewState">
 
             </component>
         </div>
-    </div>
 </template>
 <script>
     import list from 'views/tabs/cinemaManager/list.vue'

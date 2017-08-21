@@ -1,62 +1,64 @@
 <
 <template>
-    <div class="page">
-        <div class="seatch">
-            <el-form :inline="true" :model="search" class="demo-form-inline">
-                <el-form-item label="岗位名称">
-                    <el-input v-model="search.positionName" placeholder="全部">
+    <div>
+        <div class="page">
+            <div class="seatch">
+                <el-form :inline="true" :model="search" class="demo-form-inline">
+                    <el-form-item label="岗位名称">
+                        <el-input v-model="search.positionName" placeholder="全部">
 
-                    </el-input>
-                </el-form-item>
-                <el-form-item label="状态">
-                    <el-select v-model="search.enable" placeholder="请选择">
-                        <el-option label="全部" value=""></el-option>
-                        <el-option label="正常" value="true"></el-option>
-                        <el-option label="停用" value="false"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="info" @click="searchSubmit">查询</el-button>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="success" @click="addSubmit">新增</el-button>
-                </el-form-item>
-            </el-form>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="状态">
+                        <el-select v-model="search.enable" placeholder="请选择">
+                            <el-option label="全部" value=""></el-option>
+                            <el-option label="正常" value="true"></el-option>
+                            <el-option label="停用" value="false"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="info" @click="searchSubmit">查询</el-button>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="success" @click="addSubmit">新增</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+
+            <div class="content">
+                <el-table :data="positionList" border stripe style="width: 100%">
+                    <el-table-column type="index" label="序号" width="100"></el-table-column>
+                    <el-table-column prop="positionName" label="岗位名称" width="180"></el-table-column>
+                    <el-table-column prop="enable" label="状态" width="180">
+                        <template scope="scope">
+                            <em>
+                                {{scope.row.enable ? '正常' : '禁用'}}</em>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="操作">
+                        <template scope="scope">
+                            <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)">
+                                编辑
+                            </el-button>
+                            <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div class="h20"></div>
+                <el-row type="flex" justify="end" class="pagination">
+                    <el-pagination
+                            @size-change="pageSizeChange"
+                            @current-change="pageCurrentChange"
+                            :current-page="pageNumber"
+                            :page-sizes="[10, 20, 30, 40]"
+                            :page-size="this.page.pageSize"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="this.page.totalElements">
+                    </el-pagination>
+                </el-row>
+            </div>
+
         </div>
-
-        <div class="content">
-            <el-table :data="positionList" border stripe style="width: 100%">
-                <el-table-column type="index" label="序号" width="100"></el-table-column>
-                <el-table-column prop="positionName" label="岗位名称" width="180"></el-table-column>
-                <el-table-column prop="enable" label="状态" width="180">
-                    <template scope="scope">
-                        <em>
-                            {{scope.row.enable ? '正常' : '禁用'}}</em>
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作">
-                    <template scope="scope">
-                        <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)">
-                            编辑
-                        </el-button>
-                        <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <div class="h20"></div>
-            <el-row type="flex" justify="end" class="pagination">
-                <el-pagination
-                        @size-change="pageSizeChange"
-                        @current-change="pageCurrentChange"
-                        :current-page="pageNumber"
-                        :page-sizes="[10, 20, 30, 40]"
-                        :page-size="this.page.pageSize"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="this.page.totalElements">
-                </el-pagination>
-            </el-row>
-        </div>
-
     </div>
 </template>
 <

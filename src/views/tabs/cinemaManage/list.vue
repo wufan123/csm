@@ -1,57 +1,59 @@
 <template>
-    <div class="page">
-        <div class="seatch">
-            <el-form :inline="true" :model="search" class="demo-form-inline">
-                <el-form-item label="影院组名称">
-                    <el-select v-model="search.cinemaGroupId" placeholder="全部">
-                        <group-options :showAll="true"></group-options>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="影院">
-                    <el-input v-model="search.name" placeholder="">
-                    </el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="info" @click="searchSubmit">查询</el-button>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="success" @click="addFn">新增</el-button>
-                </el-form-item>
-            </el-form>
-        </div>
-        <div class="content">
-            <el-table :data="cinemaList" border stripe style="width: 100%">
-                <el-table-column type="index" label="序号" width="100"></el-table-column>
-                <el-table-column prop="name" label="影院名称" width="180"></el-table-column>
-                <el-table-column prop="cinemaGroup.name" label="归属影院组" width="180"></el-table-column>
-                <el-table-column prop="createTime" :formatter="formateDate" label="创建时间" width="180"></el-table-column>
-                <el-table-column label="操作">
-                    <template scope="scope">
-                        <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)">编辑</el-button>
-                        <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-        </div>
-        <el-dialog
-                title="提示"
-                :visible.sync="dialogVisible"
-                size="tiny">
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="影院名称" prop="name" required>
-                    <el-input type="text" v-model="ruleForm.name" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="影院组名称" required prop="cinemaGroupId">
-                    <el-select v-model="ruleForm.cinemaGroupId" placeholder="请选择影院组">
-                        <group-options></group-options>
-                    </el-select>
-                </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
+    <div>
+        <div class="page">
+            <div class="seatch">
+                <el-form :inline="true" :model="search" class="demo-form-inline">
+                    <el-form-item label="影院组名称">
+                        <el-select v-model="search.cinemaGroupId" placeholder="全部">
+                            <group-options :showAll="true"></group-options>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="影院">
+                        <el-input v-model="search.name" placeholder="">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="info" @click="searchSubmit">查询</el-button>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="success" @click="addFn">新增</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <div class="content">
+                <el-table :data="cinemaList" border stripe style="width: 100%">
+                    <el-table-column type="index" label="序号" width="100"></el-table-column>
+                    <el-table-column prop="name" label="影院名称" width="180"></el-table-column>
+                    <el-table-column prop="cinemaGroup.name" label="归属影院组" width="180"></el-table-column>
+                    <el-table-column prop="createTime" :formatter="formateDate" label="创建时间" width="180"></el-table-column>
+                    <el-table-column label="操作">
+                        <template scope="scope">
+                            <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)">编辑</el-button>
+                            <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
+            <el-dialog
+                    title="提示"
+                    :visible.sync="dialogVisible"
+                    size="tiny">
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                    <el-form-item label="影院名称" prop="name" required>
+                        <el-input type="text" v-model="ruleForm.name" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="影院组名称" required prop="cinemaGroupId">
+                        <el-select v-model="ruleForm.cinemaGroupId" placeholder="请选择影院组">
+                            <group-options></group-options>
+                        </el-select>
+                    </el-form-item>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="submitFn('ruleForm')">确 定</el-button>
     </span>
-        </el-dialog>
+            </el-dialog>
+        </div>
     </div>
 </template>
 

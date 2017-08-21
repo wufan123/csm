@@ -1,33 +1,34 @@
 <template>
-    <el-row id="index" :gutter="20">
-        <el-col :span="16" class="index-body">
-            <chart-card v-for="(item,index) in charts" :chart="item" :key="index"></chart-card>
-        </el-col>
-        <el-col :span="8" class="index-body">
-            <el-card class="login-info">
-                <div slot="header">
-                    <span>登录人员</span>
-                </div>
-                <div class="body">
-                    <div class="title">欢迎你</div>
-                    <div class="name">
-                        {{userDetail.positionName ? userDetail.positionName : '' + ' ' + userDetail.fullName}}
+    <div class="tab-content">
+        <el-row id="index" :gutter="20">
+            <el-col :span="16" class="index-body">
+                <chart-card v-for="(item,index) in charts" :chart="item" :key="index"></chart-card>
+            </el-col>
+            <el-col :span="8" class="index-body">
+                <el-card class="login-info">
+                    <div slot="header">
+                        <span>登录人员</span>
                     </div>
-                    <div class='des'>
-                        <label>负责范围：</label>
-                        <el-row :gutter="20" class="range">
-                            <el-col :span="12" v-for="(item,index) in userDetail.manageGroups" :key="index"
-                                    v-if="index<4">{{item.name}}
-                            </el-col>
-                            <el-col :span="12" v-if="userDetail.manageGroups.length>=4">
-                                <el-button type="text" size="large" class="t-info" @click="dialogVisible=true">查看详情
-                                </el-button>
-                            </el-col>
-                        </el-row>
-                    </div>
-                    <div class='des'>
-                        存在客诉：
-                        <span class="num">
+                    <div class="body">
+                        <div class="title">欢迎你</div>
+                        <div class="name">
+                            {{userDetail.positionName ? userDetail.positionName : '' + ' ' + userDetail.fullName}}
+                        </div>
+                        <div class='des'>
+                            <label>负责范围：</label>
+                            <el-row :gutter="20" class="range">
+                                <el-col :span="12" v-for="(item,index) in userDetail.manageGroups" :key="index"
+                                        v-if="index<4">{{item.name}}
+                                </el-col>
+                                <el-col :span="12" v-if="userDetail.manageGroups.length>=4">
+                                    <el-button type="text" size="large" class="t-info" @click="dialogVisible=true">查看详情
+                                    </el-button>
+                                </el-col>
+                            </el-row>
+                        </div>
+                        <div class='des'>
+                            存在客诉：
+                            <span class="num">
                             <div>
                                 <el-button type="text" size="large" class="t-info"
                                            @click="goWorkOrderTab('')">{{workorderCount.existWorkorderCount}}</el-button>条
@@ -37,85 +38,86 @@
                                                     @click="goWorkOrderTab('1')">{{workorderCount.waitingWorkorderCount}}</el-button>条
                             </div>
                         </span>
+                        </div>
                     </div>
-                </div>
-            </el-card>
-            <el-card class="rank">
-                <div slot="header">
-                    <span>运维之星</span>
-                    <el-select v-model="rankForm.orderType" placeholder="请选择" v-on:change="orderTypeChage">
-                        <el-option
-                                v-for="item in rankOptions"
-                                :key="item.id"
-                                :label="item.label"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div>
-                    <el-radio-group v-model="rankForm.statisticsType" class="statisticsType"
-                                    v-on:change="statisticsChage">
-                        <el-radio-button v-for="(item,index) in statisticsOptions" :key="index" :label="item.value">
-                            {{item.label}}
-                        </el-radio-button>
-                    </el-radio-group>
+                </el-card>
+                <el-card class="rank">
+                    <div slot="header">
+                        <span>运维之星</span>
+                        <el-select v-model="rankForm.orderType" placeholder="请选择" v-on:change="orderTypeChage">
+                            <el-option
+                                    v-for="item in rankOptions"
+                                    :key="item.id"
+                                    :label="item.label"
+                                    :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </div>
+                    <div>
+                        <el-radio-group v-model="rankForm.statisticsType" class="statisticsType"
+                                        v-on:change="statisticsChage">
+                            <el-radio-button v-for="(item,index) in statisticsOptions" :key="index" :label="item.value">
+                                {{item.label}}
+                            </el-radio-button>
+                        </el-radio-group>
 
-                    <el-table
-                            :data="tableData" stripe :row-class-name="tableRowClassName"
-                    >
-                        <el-table-column
-                                label="排名"
-                                prop="index"
+                        <el-table
+                                :data="tableData" stripe :row-class-name="tableRowClassName"
                         >
-                            <template scope="scope">
-                                {{ scope.$index + 1}}
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                                prop="userFullName"
-                                label="职员姓名"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                                prop="completeNum"
-                                label="解决数量"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                                prop="averageRespondTime"
-                                label="平均响应时间(秒)"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                                prop="averageCompleteTime"
-                                label="平均解决时间(秒)"
-                        >
-                        </el-table-column>
-                    </el-table>
-                </div>
-            </el-card>
-        </el-col>
-        <el-dialog
-                title="查看影城详情"
-                :visible.sync="dialogVisible"
-                size="small"
-                class="cinema-detail">
-            <div><label
-                    class="name">{{userDetail.positionName ? userDetail.positionName : '' + ' ' + userDetail.fullName}}</label>  负责的影城
-            </div>
-            <div class="content">
-                <div v-for="(item,index) in userDetail.manageGroups" :key="index"
-                >
-                    <div class="cinemagroup">
-                        {{item.name}}
+                            <el-table-column
+                                    label="排名"
+                                    prop="index"
+                            >
+                                <template scope="scope">
+                                    {{ scope.$index + 1}}
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="userFullName"
+                                    label="职员姓名"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="completeNum"
+                                    label="解决数量"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="averageRespondTime"
+                                    label="平均响应时间(秒)"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="averageCompleteTime"
+                                    label="平均解决时间(秒)"
+                            >
+                            </el-table-column>
+                        </el-table>
                     </div>
-                    <el-row class="cinema">
-                        <el-col v-for="subItem in item.cinemas" :key="subItem.name" :span="6">{{subItem.name}}</el-col>
-                    </el-row>
+                </el-card>
+            </el-col>
+            <el-dialog
+                    title="查看影城详情"
+                    :visible.sync="dialogVisible"
+                    size="small"
+                    class="cinema-detail">
+                <div><label
+                        class="name">{{userDetail.positionName ? userDetail.positionName : '' + ' ' + userDetail.fullName}}</label>  负责的影城
                 </div>
-            </div>
-        </el-dialog>
-    </el-row>
+                <div class="content">
+                    <div v-for="(item,index) in userDetail.manageGroups" :key="index"
+                    >
+                        <div class="cinemagroup">
+                            {{item.name}}
+                        </div>
+                        <el-row class="cinema">
+                            <el-col v-for="subItem in item.cinemas" :key="subItem.name" :span="6">{{subItem.name}}</el-col>
+                        </el-row>
+                    </div>
+                </div>
+            </el-dialog>
+        </el-row>
+    </div>
 </template>
 <script>
     import chartCard from 'views/component/chartCard.vue'
