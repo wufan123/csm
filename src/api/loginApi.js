@@ -4,16 +4,18 @@ const prefix = '/serviceUser';
 const _LOGIN = `${prefix}/serviceLogin.do`;
 const _LOGOUt = `${prefix}/serviceLoginout.do`;
 
+const _HEARTBEAT = `${prefix}/heartbeat.do`
+
 export default {
     _LOGIN: _LOGIN,
     _LOGOUt: _LOGOUt,
-    login (params) {
+    login(params) {
         return httpApi.postForm(_LOGIN, params)
     },
-    logout(params){
+    logout(params) {
         return httpApi.postForm(_LOGOUt, params)
     },
-    reSortMenus(menus){//将原先的菜单列表转换成三维数组
+    reSortMenus(menus) { //将原先的菜单列表转换成三维数组
         let array1 = [];
         let array2 = [];
         let array3 = [];
@@ -28,29 +30,26 @@ export default {
                 array3.push(menus[i])
             }
         }
-        for(let i in array2)
-        {
-            array2[i].childMenus =[];
-            for(let j in array3)
-            {
-                if(array2[i].id ===array3[j].parentId)
-                {
+        for (let i in array2) {
+            array2[i].childMenus = [];
+            for (let j in array3) {
+                if (array2[i].id === array3[j].parentId) {
                     array2[i].childMenus.push(array3[j])
                 }
             }
         }
-        for(let i in array1)
-        {
-            array1[i].childMenus =[];
-            for(let j in array2)
-            {
-                if(array1[i].id ===array2[j].parentId)
-                {
+        for (let i in array1) {
+            array1[i].childMenus = [];
+            for (let j in array2) {
+                if (array1[i].id === array2[j].parentId) {
                     array1[i].childMenus.push(array2[j])
                 }
             }
         }
 
         return array1;
-    }
+    },
+    heartBeat() {
+        return httpApi.postForm(_HEARTBEAT)
+    },
 }

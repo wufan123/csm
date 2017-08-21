@@ -30,7 +30,9 @@ export default {
   data(){
     
       var vaildateInitPass = (rule, value, callback) => {
+        
         let userInfo = _vue.$storage.getUser()
+        console.log('密码',userInfo)
         if (value === '') {
           callback(new Error('初始密码不能为空'));
         }else if(value != userInfo.password){

@@ -2,7 +2,7 @@ import httpApi from './httpApi'
 import axios from 'axios'
 const GET_TOKEN = '/qiniu/getToken.do'; //获取最新token
 const CHANGE_HEAD = '/serviceUser/changeHeadImg.do' //更新头像信息
-const CHANGE_PASSWORD = '/serviceUser/changePassword' //修改密码
+const CHANGE_PASSWORD = '/serviceUser/changePassword.do' //修改密码
 
 export default {
     getToken() {

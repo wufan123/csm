@@ -59,6 +59,9 @@
                             response.resultData.sortedMenus = loginApi.reSortMenus(response.resultData.menus);
                             this.$storage.setItem(this.$storage.KEY_USER_DETAIL,response.resultData);
 //                            window._userDetail=response.resultData
+                            window.loginHeart = setInterval(function () {
+                                loginApi.heartBeat().then(res => {})
+                            }, 15000)
                             this.$router.push({ path: 'home' });
                         })
                     } else {
