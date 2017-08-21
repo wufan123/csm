@@ -123,7 +123,7 @@
             if (viewData.status >= 5) {
                 status = '5';
             }
-            this.disableStatus = viewData >= 5 ? true : false
+            this.disableStatus = viewData.status >= 5 ? true : false
             return {
                 form: {
                     id: viewData.id,
@@ -141,7 +141,7 @@
                 dialogVisible: false,
                 rules: {
                     orderType: [
-                        {required: true, message: '请选择客诉类型', trigger: 'blur'},
+                        {required: true, message: '请选择客诉类型', trigger: 'change'},
                         {
                             validator: (rule, value, callback) => {
                                 if (value == 9 && !this.form.otherDetail) {
@@ -153,13 +153,13 @@
                         }
                     ],
                     orderLevel: [
-                        {required: true, message: '请选择客诉等级', trigger: 'blur'}
+                        {required: true, message: '请选择客诉等级', trigger: 'change'}
                     ],
                     bugType: [
-                        {required: true, message: '请选择bug类型', trigger: 'blur'}
+                        {required: true, message: '请选择bug类型', trigger: 'change'}
                     ],
                     bugLevel: [
-                        {required: true, message: '请选择bug等级', trigger: 'blur'}
+                        {required: true, message: '请选择bug等级', trigger: 'change'}
                     ]
                 }
             }

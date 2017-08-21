@@ -51,7 +51,7 @@
                                 callback(new Error('请选择适用影院'));
                             }
                             callback()
-                        }}
+                        },trigger: 'change'}
                     ],
                     content: [
                         {required: true, message: '请输入FAQ内容', trigger: 'blur'},

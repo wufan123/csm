@@ -67,10 +67,10 @@
                 dialogVisible: false,
                 rules:{
                     cinemaGroupId:[
-                        { type:'number', required: true, message: '请选择来源影院组', trigger: 'blur' }
+                        { type:'number', required: true, message: '请选择来源影院组', trigger: 'change' }
                     ],
                     cinemaId:[
-                        { type:'number', required: true, message: '请选择来源影院', trigger: 'blur' }
+                        { type:'number', required: true, message: '请选择来源影院', trigger: 'change' }
                     ],
                     content:[
                         { required: true, message: '请输入建议内容', trigger: 'blur' },
@@ -80,7 +80,7 @@
                         { required: true, message: '请输入标题', trigger: 'blur' }
                     ],
                     suggestSource:[
-                        { required: true, message: '请选择具体途径', trigger: 'blur' }
+                        { required: true, message: '请选择具体途径', trigger: 'change' }
                     ],
                 }
             }

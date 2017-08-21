@@ -62,10 +62,10 @@
                 dialogVisible: false,
                 rules:{
                     cinemaGroupId:[
-                        { type:'number', required: true, message: '请输入来源影院组', trigger: 'blur' }
+                        { type:'number', required: true, message: '请输入来源影院组', trigger: 'change' }
                     ],
                     cinemaId:[
-                        { type:'number', required: true, message: '请输入来源影院', trigger: 'blur' }
+                        { type:'number', required: true, message: '请输入来源影院', trigger: 'change' }
                     ],
                     content:[
                         { required: true, message: '请描述问题', trigger: 'blur' },

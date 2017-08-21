@@ -88,7 +88,7 @@
                         message: '长度在 2 到 8 个字符',
                         trigger: 'blur'
                     }],
-                    cinemaGroupId: [{validator: validateGroupId, trigger: 'blur'}]
+                    cinemaGroupId: [{validator: validateGroupId, trigger: 'change'}]
                 }
             }
         },
