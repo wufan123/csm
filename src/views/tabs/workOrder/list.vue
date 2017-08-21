@@ -191,15 +191,6 @@
                     this.form.status = this.activeSubTab
                 }
                 this.getWorkOrders();
-                /*this.OrdersContent = this.pageDatas.content.filter(item => {
-                 let status = this.activeSubTab.split(' ')
-                 for (let i in status) {
-                 if (!status[i]||status[i]=='0'||status[i] == item.status) {
-                 return true
-                 }
-                 }
-                 return false;
-                 })*/
             },
             getCinemas(){
                 this.cinemasOptions = [];

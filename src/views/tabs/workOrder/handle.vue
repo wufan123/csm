@@ -7,19 +7,19 @@
             </el-row>
             <el-row class="property">
                 <el-col :span="4">
-                    客诉来源: {{viewState.data.orderSourceName}}
+                    客诉来源: {{viewState.data?viewState.data.orderSourceName:''}}
                 </el-col>
                 <el-col :span="4">
-                    客诉影院: {{viewState.data.cinemaName}}
+                    客诉影院: {{viewState.data?viewState.data.cinemaName:''}}
                 </el-col>
                 <el-col :span="4">
-                    客诉影院组: {{viewState.data.cinemaGroupName}}
+                    客诉影院组: {{viewState.data?viewState.data.cinemaGroupName:''}}
                 </el-col>
                 <el-col :span="4">
-                    客诉发起人: {{viewState.data.initiatorName}}
+                    客诉发起人: {{viewState.data?viewState.data.initiatorName:''}}
                 </el-col>
                 <el-col :span="6">
-                    客诉时间: {{new Date(viewState.data.createTime).format('yyyy-MM-dd hh:mm:ss')}}
+                    客诉时间: {{new Date(viewState.data?viewState.data.createTime:'').format('yyyy-MM-dd hh:mm:ss')}}
                 </el-col>
             </el-row>
             <el-row class="des">
@@ -116,13 +116,14 @@
         },
         data(){
             let viewData = this.viewState.data;
+            let status;
             if (viewData.status <= 2) {
-                viewData.status = "2";
+                status = "2";
             }
             if (viewData.status >= 5) {
-                viewData.status = '5';
+                status = '5';
             }
-            this.disableStatus = this.viewState.data.status >= 5 ? true : false
+            this.disableStatus = viewData >= 5 ? true : false
             return {
                 form: {
                     id: viewData.id,
@@ -130,7 +131,7 @@
                     orderLevel: viewData.orderLevel ? viewData.orderLevel.toString() : '',
                     bugLevel: viewData.bugLevel ? viewData.orderLevel.toString() : '',
                     bugType: viewData.bugType ? viewData.bugType.toString() : '',
-                    status: viewData.status.toString(),
+                    status: status,
                     isStar: viewData.isStar.toString(),
                     operationRemark: viewData.operationRemark,
                     workorderAttaches: viewData.workorderAttaches ? viewData.workorderAttaches.split(',') : [],

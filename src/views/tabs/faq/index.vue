@@ -1,7 +1,7 @@
 <template>
     <div class="tab-content">
-        <list v-show="showList" v-on:view="changeViewState" :viewState="viewState"></list>
-        <component v-show="!showList" v-bind:is="view" v-on:view="changeViewState" :viewState="viewState">
+        <list v-show="!view" v-on:view="changeViewState" :viewState="viewState" ref="list"></list>
+        <component v-if="view" v-bind:is="view" v-on:view="changeViewState" :viewState="viewState">
 
         </component>
     </div>
@@ -18,7 +18,6 @@
             return {
                 view: '',
                 viewState: {},
-                showList:true
             }
         },
         methods: {
@@ -34,11 +33,6 @@
                     case 'edit':
                         this.view = edit;
                         break;
-                }
-                if(state.type=='list'){
-                    this.showList =true
-                }else {
-                    this.showList =false
                 }
             }
         }

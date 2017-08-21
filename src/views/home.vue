@@ -95,14 +95,15 @@
                     userId: this.userDetail.id
                 }).then((response) => {
                     window._nim.disconnect();
+                    this.menuTabs =[]
                     this.$router.push({path: 'login'})
                 })
             },
             topMenuSelect(key) {
-                if (key.indexOf('submenu') === -1) //
-                {
+                if (key.indexOf('submenu') === -1) {
                     this.subMenus = this.topMenus[key].childMenus
-                } else {
+                }
+                else {
                     switch (key) {
                         case 'submenu-1':
                             this.showTabByName({
@@ -119,13 +120,14 @@
                             break;
                     }
                 }
+//                this.onCustomSysmsg({time:new Date()})
             },
             sideMenuClick(item){
                 this.showSelectTab(item)
             },
             showSelectTab(item){
                 this.currentTabId = item.id.toString();
-                console.log(this.menuTabs)
+                console.log('show123',this.menuTabs)
                 for (let i=0;i<this.menuTabs.length;i++) {
                     if (item.id === this.menuTabs[i].id) {
                         if (this.$refs['tab' + item.id]&&this.$refs['tab' + item.id][0]&&this.$refs['tab' + item.id][0].changeViewState)
@@ -139,10 +141,8 @@
                 }
                 item.page = rooter.mapTabPage(item)
                 this.menuTabs.push(item)
-
             },
             showTabByName(targetTab){
-                console.log(this.menuTabs)
                 for (let i =0;i<this.menus.length;i++) {
                     if (this.menus[i].name == targetTab.name) {
                         this.menus[i].tabForm = targetTab.tabForm
@@ -170,10 +170,10 @@
                     body: '你有新的客诉订单,请及时处理'
                 });
 
-                let vm = this
+                window.vm = this
                 n.onclick = () => {
                     self.focus();
-                    vm.showTabByName({name: '客诉列表'})
+                    window.vm.showTabByName({name: '客诉列表'})
                     n.close()
                 }
                 _vue.$bus.$emit('getWorkorders')
@@ -192,29 +192,32 @@
                     });
                 }
                 this.currentTabId = activeId.toString();
-                this.menuTabs = tabs.filter(tab => {
-                   return tab.id != targetId
-                });
-                console.log(this.menuTabs);
-
+                for(let i in tabs){
+                    if(tabs[i].id==targetId){
+                        tabs.remove(tabs[i])
+                    }
+                }
+//                this.menuTabs = tabs.filter(tab => {
+//                   return tab.id != targetId
+//                });
             },
             viewReady(){
 //                window.onbeforeunload = function() {
 //                    alert('确定离开页面码');
 //                    return false; // 可以阻止关闭
 //                }
-                let vm = this;
+                window.vm = this;
                 if (!this.userDetail)
                     return
                 this.showTabByName({name: '趋势查询'})
                 if (!window._nim) {
-                    console.log(this.userDetail)
                     window._nim = NIM.getInstance({//初始化im
                         appKey: this.userDetail.appKey,
                         account: this.userDetail.accid,
                         token: this.userDetail.token,
                         onconnect: () => {
                             console.log('IM连接成功');
+
                         },
                         onwillreconnect: obj => {
                             console.log('IM即将重连');
@@ -248,15 +251,13 @@
                                         break;
                                 }
                             }
-
-
                         },
                         onsysmsg: sysMsg => {
                             console.log('IM收到系统通知', sysMsg)
                         },
                         oncustomsysmsg: sysMsg => {
                             console.log('IM收到自定义系统通知', sysMsg)
-                            vm.onCustomSysmsg(sysMsg)
+                            window.vm.onCustomSysmsg(sysMsg)
                         },
                         ondisconnect: error => {
                             console.log('IM断开连接', error)
@@ -282,7 +283,7 @@
                 }
                 console.log(Notification.permission);
                 function notifyNoPermission() {
-                    vm.$notify({
+                    window.vm.$notify({
                         title: '无法启用桌面通知',
                         message: '无桌面通知权限，为不影响正常使用，请点击浏览器中链接左侧的 i 图标开启桌面通知权限',
                         duration: 0,
@@ -308,7 +309,6 @@
 </script>
 <style lang="less">
     @import "~style/base-variables";
-
     #main {
         height: 100%;
         .logo {

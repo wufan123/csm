@@ -1,6 +1,6 @@
 <template>
     <div class="tab-content">
-        <list v-show="!view" v-on:view="changeViewState" :viewState="viewState"></list>
+        <list v-show="!view" v-on:view="changeViewState" :viewState="viewState" ref="list"></list>
         <component v-if="view" v-bind:is="view" v-on:view="changeViewState" :viewState="viewState">
 
         </component>
@@ -32,6 +32,7 @@
                         break;
                     case 'list':
                         this.view = '';
+                        this.$refs.list.getWorkOrders();
                         break;
                     case 'handle':
                         this.view = handle;
