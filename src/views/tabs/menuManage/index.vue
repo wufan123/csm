@@ -1,39 +1,41 @@
 <template>
   <div class="tab-content">
-    <div class="page">
-      <div class="search">
-        <el-button type="success" @click="addSubmit">新增</el-button>
+    <div>
+      <div class="page">
+        <div class="search">
+          <el-button type="success" @click="addSubmit">新增</el-button>
+        </div>
+        <div class="h20"></div>
+        <div class="content">
+          <el-table :data="gpData" border style="width: 100%">
+            <el-table-column type="index" label="序号" width="100"></el-table-column>
+            <el-table-column prop="name" label="菜单名称" >
+              <template scope="scope">
+                <c-dot :count="scope.row.hierarchy"></c-dot> {{scope.row.name}}
+              </template>
+            </el-table-column>
+            <!--<el-table-column prop="url" label="菜单地址"> </el-table-column>-->
+            <el-table-column prop="enable" label="是否启用" width="180">
+              <template scope="scope">
+                <el-switch v-model="scope.row.enable" on-color="#13ce66" off-color="#ccc" @change="switchFn(scope.row)" >
+                </el-switch>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作">
+              <template scope="scope">
+                <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)"> 编辑</el-button>
+                <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <!-- <div class="h20"></div>
+          <el-row type="flex" justify="end" class="pagination">
+            <el-pagination @size-change="pageSizeChange" @current-change="pageCurrentChange" :current-page="pageNumber" :page-sizes="[10, 20, 30, 40]" :page-size="this.page.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="this.page.totalElements">
+            </el-pagination>
+          </el-row> -->
+        </div>
+        <edit-dialog :dialogData="dialogData" :menuData="gpData" @SuccessM="refesh"></edit-dialog>
       </div>
-      <div class="h20"></div>
-      <div class="content">
-        <el-table :data="gpData" border style="width: 100%">
-          <el-table-column type="index" label="序号" width="100"></el-table-column>
-          <el-table-column prop="name" label="菜单名称" >
-            <template scope="scope">
-              <c-dot :count="scope.row.hierarchy"></c-dot> {{scope.row.name}}
-            </template>
-          </el-table-column>
-          <!--<el-table-column prop="url" label="菜单地址"> </el-table-column>-->
-          <el-table-column prop="enable" label="是否启用" width="180">
-            <template scope="scope">
-              <el-switch v-model="scope.row.enable" on-color="#13ce66" off-color="#ccc" @change="switchFn(scope.row)" >
-              </el-switch>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作">
-            <template scope="scope">
-              <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)"> 编辑</el-button>
-              <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <!-- <div class="h20"></div>
-        <el-row type="flex" justify="end" class="pagination">
-          <el-pagination @size-change="pageSizeChange" @current-change="pageCurrentChange" :current-page="pageNumber" :page-sizes="[10, 20, 30, 40]" :page-size="this.page.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="this.page.totalElements">
-          </el-pagination>
-        </el-row> -->
-      </div>
-      <edit-dialog :dialogData="dialogData" :menuData="gpData" @SuccessM="refesh"></edit-dialog>
     </div>
   </div>
 </template>

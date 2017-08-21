@@ -1,6 +1,7 @@
 <template>
     <div class="tab-content">
-        <div class="page">
+        <div>
+            <div class="page">
                 <div class="search">
                     <el-button type="success" @click="addSubmit">新增</el-button>
                 </div>
@@ -23,6 +24,7 @@
                     </el-row>
                 </div>
             </div>
+        </div>
     </div>
 </template>
 <script>

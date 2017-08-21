@@ -1,5 +1,6 @@
 <template>
    <div class="tab-content">
+
       <list-component v-if="type==='list'" @setType="setPage"></list-component>
    </div>
 </template>

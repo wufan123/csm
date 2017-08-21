@@ -1,66 +1,68 @@
 <<template>
     <div class="tab-content">
-        <div class="page">
-            <div class="seatch"><el-button type="success" @click="addFn">新增</el-button> </div>
-            <div class="h20"></div>
-            <div class="content">
-                <el-table   :data="tableList"   border    style="width: 100%">
-                    <el-table-column  type="index" label="序号"  width="100"></el-table-column>
-                    <el-table-column   prop="interfaceName"   label="接口名称"  width="180">  </el-table-column>
-                    <el-table-column   prop="url"   label="接口地址"  > </el-table-column>
-                    <el-table-column   prop="interfaceCategoryId" :formatter="formateClass"    label="接口分类"  width="180"> </el-table-column>
-                    <el-table-column   prop="enable"  label="是否启用"  width="180">
-                        <template scope="scope"> <em> {{scope.row.enable ? '启用' : '禁用'}}</em></template>
-                    </el-table-column>
-                    <el-table-column   label="操作" >
-                        <template scope="scope">
-                            <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)"> 编辑</el-button>
-                            <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
+        <div>
+            <div class="page">
+                <div class="seatch"><el-button type="success" @click="addFn">新增</el-button> </div>
                 <div class="h20"></div>
-                <el-row type="flex" justify="end" class="pagination">
-                    <el-pagination
-                            @size-change="pageSizeChange"
-                            @current-change="pageCurrentChange"
-                            :current-page="pageNumber"
-                            :page-sizes="[10, 20, 30, 40]"
-                            :page-size="this.page.pageSize"
-                            layout="total, sizes, prev, pager, next, jumper"
-                            :total="this.page.totalElements">
-                    </el-pagination>
-                </el-row>
-            </div>
-            <el-dialog
-                    :title="ruleForm.type?'编辑接口':'新增接口'"
-                    :visible.sync="dialogVisible"
-                    size="tiny">
+                <div class="content">
+                    <el-table   :data="tableList"   border    style="width: 100%">
+                        <el-table-column  type="index" label="序号"  width="100"></el-table-column>
+                        <el-table-column   prop="interfaceName"   label="接口名称"  width="180">  </el-table-column>
+                        <el-table-column   prop="url"   label="接口地址"  > </el-table-column>
+                        <el-table-column   prop="interfaceCategoryId" :formatter="formateClass"    label="接口分类"  width="180"> </el-table-column>
+                        <el-table-column   prop="enable"  label="是否启用"  width="180">
+                            <template scope="scope"> <em> {{scope.row.enable ? '启用' : '禁用'}}</em></template>
+                        </el-table-column>
+                        <el-table-column   label="操作" >
+                            <template scope="scope">
+                                <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)"> 编辑</el-button>
+                                <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <div class="h20"></div>
+                    <el-row type="flex" justify="end" class="pagination">
+                        <el-pagination
+                                @size-change="pageSizeChange"
+                                @current-change="pageCurrentChange"
+                                :current-page="pageNumber"
+                                :page-sizes="[10, 20, 30, 40]"
+                                :page-size="this.page.pageSize"
+                                layout="total, sizes, prev, pager, next, jumper"
+                                :total="this.page.totalElements">
+                        </el-pagination>
+                    </el-row>
+                </div>
+                <el-dialog
+                        :title="ruleForm.type?'编辑接口':'新增接口'"
+                        :visible.sync="dialogVisible"
+                        size="tiny">
 
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                    <el-form-item label="接口名称" prop="interfaceName" required>
-                        <el-input type="text" v-model="ruleForm.interfaceName"  auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="接口地址" prop="url" required>
-                        <el-input type="text" v-model="ruleForm.url"  auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="是否启用" prop="enable" required>
-                        <el-radio class="radio" v-model="ruleForm.enable" label="true">正常</el-radio>
-                        <el-radio class="radio" v-model="ruleForm.enable" label="false">停用</el-radio>
-                    </el-form-item>
-                    <el-form-item label="接口分类" required prop="interfaceCategoryId" >
-                        <el-select v-model="ruleForm.interfaceCategoryId" placeholder="全部" >
-                            <el-option   v-for="item in portClassList"  :key="item.id"
-                                         :label="item.name"  :value="item.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-form>
-                <span slot="footer" class="dialog-footer">
+                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                        <el-form-item label="接口名称" prop="interfaceName" required>
+                            <el-input type="text" v-model="ruleForm.interfaceName"  auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="接口地址" prop="url" required>
+                            <el-input type="text" v-model="ruleForm.url"  auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="是否启用" prop="enable" required>
+                            <el-radio class="radio" v-model="ruleForm.enable" label="true">正常</el-radio>
+                            <el-radio class="radio" v-model="ruleForm.enable" label="false">停用</el-radio>
+                        </el-form-item>
+                        <el-form-item label="接口分类" required prop="interfaceCategoryId" >
+                            <el-select v-model="ruleForm.interfaceCategoryId" placeholder="全部" >
+                                <el-option   v-for="item in portClassList"  :key="item.id"
+                                             :label="item.name"  :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-form>
+                    <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="submitFn('ruleForm')">确 定</el-button>
     </span>
-            </el-dialog>
+                </el-dialog>
+            </div>
         </div>
     </div>
 </template>
