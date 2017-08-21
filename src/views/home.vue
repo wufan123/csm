@@ -109,33 +109,69 @@ export default {
                 }
             }
         },
-        sideMenuClick(item) {
-            this.showSelectTab(item)
-        },
-        showSelectTab(item) {
-            this.currentTabId = item.id.toString();
-            console.log(this.menuTabs)
-            for (let i = 0; i < this.menuTabs.length; i++) {
-                if (item.id === this.menuTabs[i].id) {
-                    if (this.$refs['tab' + item.id] && this.$refs['tab' + item.id][0] && this.$refs['tab' + item.id][0].changeViewState)
-                        this.$refs['tab' + item.id][0].changeViewState({
-                            tabForm: {
-                                status: '1'
-                            }
-                        })
-                    return;
+        methods: {
+            setAdvertImgFn(val){
+                this.headImageLink = val
+                console.log('emit',val)
+            },
+            logout(){
+                loginApi.logout({
+                    userId: this.userDetail.id
+                }).then((response) => {
+                    window._nim.disconnect();
+                    this.menuTabs =[]
+                    this.$router.push({path: 'login'})
+                })
+            },
+            topMenuSelect(key) {
+                if (key.indexOf('submenu') === -1) {
+                    this.subMenus = this.topMenus[key].childMenus
                 }
-            }
-            item.page = rooter.mapTabPage(item)
-            this.menuTabs.push(item)
-
-        },
-        showTabByName(targetTab) {
-            console.log(this.menuTabs)
-            for (let i = 0; i < this.menus.length; i++) {
-                if (this.menus[i].name == targetTab.name) {
-                    this.menus[i].tabForm = targetTab.tabForm
-                    this.showSelectTab(this.menus[i])
+                else {
+                    switch (key) {
+                        case 'submenu-1':
+                            this.showTabByName({
+                                name: '头像修改'
+                            })
+                            break;
+                        case 'submenu-2':
+                            this.showTabByName({
+                                name: '密码修改'
+                            })
+                            break;
+                        case 'submenu-3':
+                            this.logout();
+                            break;
+                    }
+                }
+//                this.onCustomSysmsg({time:new Date()})
+            },
+            sideMenuClick(item){
+                this.showSelectTab(item)
+            },
+            showSelectTab(item){
+                this.currentTabId = item.id.toString();
+                console.log('show123',this.menuTabs)
+                for (let i=0;i<this.menuTabs.length;i++) {
+                    if (item.id === this.menuTabs[i].id) {
+                        if (this.$refs['tab' + item.id]&&this.$refs['tab' + item.id][0]&&this.$refs['tab' + item.id][0].changeViewState)
+                            this.$refs['tab' + item.id][0].changeViewState({
+                                tabForm: {
+                                    status: '1'
+                                }
+                            })
+                        return;
+                    }
+                }
+                item.page = rooter.mapTabPage(item)
+                this.menuTabs.push(item)
+            },
+            showTabByName(targetTab){
+                for (let i =0;i<this.menus.length;i++) {
+                    if (this.menus[i].name == targetTab.name) {
+                        this.menus[i].tabForm = targetTab.tabForm
+                        this.showSelectTab(this.menus[i])
+                    }
                 }
             }
 
@@ -159,6 +195,7 @@ export default {
                 body: '你有新的客诉订单,请及时处理'
             });
 
+<<<<<<< HEAD
             let vm = this
             n.onclick = () => {
                 self.focus();
@@ -210,6 +247,63 @@ export default {
                         console.log(obj.duration);
                     },
                     onerror: error => {
+=======
+                window.vm = this
+                n.onclick = () => {
+                    self.focus();
+                    window.vm.showTabByName({name: '客诉列表'})
+                    n.close()
+                }
+                _vue.$bus.$emit('getWorkorders')
+            },
+            removeTab(targetId) {//关闭tab标签
+                let tabs = this.menuTabs;
+                let activeId = this.currentTabId;
+                if (activeId == targetId) {
+                    tabs.forEach((tab, index) => {
+                        if (tab.id == targetId) {
+                            let nextTab = tabs[index + 1] || tabs[index - 1];
+                            if (nextTab) {
+                                activeId = nextTab.id;
+                            }
+                        }
+                    });
+                }
+                this.currentTabId = activeId.toString();
+                for(let i in tabs){
+                    if(tabs[i].id==targetId){
+                        tabs.remove(tabs[i])
+                    }
+                }
+//                this.menuTabs = tabs.filter(tab => {
+//                   return tab.id != targetId
+//                });
+            },
+            viewReady(){
+//                window.onbeforeunload = function() {
+//                    alert('确定离开页面码');
+//                    return false; // 可以阻止关闭
+//                }
+                window.vm = this;
+                if (!this.userDetail)
+                    return
+                this.showTabByName({name: '趋势查询'})
+                if (!window._nim) {
+                    window._nim = NIM.getInstance({//初始化im
+                        appKey: this.userDetail.appKey,
+                        account: this.userDetail.accid,
+                        token: this.userDetail.token,
+                        onconnect: () => {
+                            console.log('IM连接成功');
+
+                        },
+                        onwillreconnect: obj => {
+                            console.log('IM即将重连');
+                            console.log(obj.retryCount);
+                            console.log(obj.duration);
+                        },
+                        onerror: error => {
+>>>>>>> 8610eca4cd821e9b7d55c1b882a74349859f416d
 
                     },
                     onmsg: msg => {
@@ -235,6 +329,7 @@ export default {
                                     }
                                     break;
                             }
+<<<<<<< HEAD
                         }
 
 
@@ -277,6 +372,47 @@ export default {
                     type: "error"
                 });
             }
+=======
+                        },
+                        onsysmsg: sysMsg => {
+                            console.log('IM收到系统通知', sysMsg)
+                        },
+                        oncustomsysmsg: sysMsg => {
+                            console.log('IM收到自定义系统通知', sysMsg)
+                            window.vm.onCustomSysmsg(sysMsg)
+                        },
+                        ondisconnect: error => {
+                            console.log('IM断开连接', error)
+                        }
+                    })
+                } else {
+                    window._nim.setOptions({
+                        account: this.userDetail.accid,
+                    });
+                    window._nim.connect();
+                }
+                if (!window._audioNotify) {
+                    window._audioNotify = new Audio(require('assets/mp3/notify.mp3'));
+                }
+                if (!window.Notification) {
+                    this.$notify({
+                        title: '无法启用桌面通知',
+                        message: '该浏览器或版本不支持桌面通知，请使用较新版本的谷歌浏览器',
+                        duration: 0,
+                        type: "error"
+                    });
+                    return
+                }
+                console.log(Notification.permission);
+                function notifyNoPermission() {
+                    window.vm.$notify({
+                        title: '无法启用桌面通知',
+                        message: '无桌面通知权限，为不影响正常使用，请点击浏览器中链接左侧的 i 图标开启桌面通知权限',
+                        duration: 0,
+                        type: "error"
+                    });
+                }
+>>>>>>> 8610eca4cd821e9b7d55c1b882a74349859f416d
 
             if (Notification.permission === 'denied') {
                 notifyNoPermission();
@@ -295,6 +431,7 @@ export default {
 }
 </script>
 <style lang="less">
+<<<<<<< HEAD
 @import "~style/base-variables";
 
 #main {
@@ -319,6 +456,28 @@ export default {
         >.el-row {
             height: 100%;
             >.el-col {
+=======
+    @import "~style/base-variables";
+    #main {
+        height: 100%;
+        .logo {
+            display: inline-block;
+            height: 70px;
+            background: url("~assets/image/main/main_logo.png") no-repeat center;
+            background-size: cover;
+        }
+        .avatar {
+            height: 24px;
+            width: 24px;
+            border-radius: 12px;
+            vertical-align: middle;
+            background: @color-base-bg;
+            margin-right: 8px;
+        }
+        .main-body {
+            height: calc(~"100% - 70px");;
+            > .el-row {
+>>>>>>> 8610eca4cd821e9b7d55c1b882a74349859f416d
                 height: 100%;
                 .el-tabs {
                     padding-top: 6px;
