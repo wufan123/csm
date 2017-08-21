@@ -1,63 +1,65 @@
 <template>
-    <div class="page position">
-        <div class="p-title">编辑岗位</div>
-        <div class="h20"></div>
-        <div class="content addForm">
-            <el-form :rules="rules" ref="position" :model="position" label-width="100px">
-                <el-row>
-                    <el-col :span="8">
-                        <el-form-item label="岗位名称" required prop="positionName">
-                            <el-input v-model="position.positionName"></el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="8">
-                        <el-form-item label="职员状态" prop="enable">
-                            <el-radio class="radio" v-model="position.enable" label="true">正常</el-radio>
-                            <el-radio class="radio" v-model="position.enable" label="false">停用</el-radio>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="菜单权限" required prop="menuIds">
-                            <menus-collapse v-model="position.menuIds"></menus-collapse>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="接口权限">
-                            <el-collapse v-model="activeName2" accordion>
-                                <el-collapse-item v-for="(item,index) in portClassList" :key="item.id" :name="index">
-                                    <template slot="title">
-                                        <el-checkbox v-model="checkAll2[index]"
-                                                     @change="handleCheckAllChange2(item.id)">{{item.name}}
-                                        </el-checkbox>
-                                    </template>
-                                    <el-checkbox-group v-model="position.siteInterfaceIds">
-                                        <div class="line" v-for="subItem in item.children" :key="subItem.id">
-                                            <p>
-                                                <el-checkbox :label="subItem.id" :key="subItem.id">
-                                                    {{subItem.interfaceName}}
-                                                </el-checkbox>
-                                            </p>
-                                        </div>
+    <div>
+        <div class="page position">
+            <div class="p-title">编辑岗位</div>
+            <div class="h20"></div>
+            <div class="content addForm">
+                <el-form :rules="rules" ref="position" :model="position" label-width="100px">
+                    <el-row>
+                        <el-col :span="8">
+                            <el-form-item label="岗位名称" required prop="positionName">
+                                <el-input v-model="position.positionName"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="8">
+                            <el-form-item label="职员状态" prop="enable">
+                                <el-radio class="radio" v-model="position.enable" label="true">正常</el-radio>
+                                <el-radio class="radio" v-model="position.enable" label="false">停用</el-radio>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="菜单权限" required prop="menuIds">
+                                <menus-collapse v-model="position.menuIds"></menus-collapse>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="接口权限">
+                                <el-collapse v-model="activeName2" accordion>
+                                    <el-collapse-item v-for="(item,index) in portClassList" :key="item.id" :name="index">
+                                        <template slot="title">
+                                            <el-checkbox v-model="checkAll2[index]"
+                                                         @change="handleCheckAllChange2(item.id)">{{item.name}}
+                                            </el-checkbox>
+                                        </template>
+                                        <el-checkbox-group v-model="position.siteInterfaceIds">
+                                            <div class="line" v-for="subItem in item.children" :key="subItem.id">
+                                                <p>
+                                                    <el-checkbox :label="subItem.id" :key="subItem.id">
+                                                        {{subItem.interfaceName}}
+                                                    </el-checkbox>
+                                                </p>
+                                            </div>
 
-                                    </el-checkbox-group>
-                                </el-collapse-item>
+                                        </el-checkbox-group>
+                                    </el-collapse-item>
 
-                            </el-collapse>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <div class="h10"></div>
-                <el-form-item>
-                    <el-button type="primary" @click="submitForm('position')">保存</el-button>
-                    <el-button type="primary" :plain="true" @click="closeFn()">关闭不保存</el-button>
-                </el-form-item>
-            </el-form>
+                                </el-collapse>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <div class="h10"></div>
+                    <el-form-item>
+                        <el-button type="primary" @click="submitForm('position')">保存</el-button>
+                        <el-button type="primary" :plain="true" @click="closeFn()">关闭不保存</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
         </div>
     </div>
 </template>

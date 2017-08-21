@@ -1,26 +1,28 @@
 <template>
-    <div class="page">
-        <div class="search">
-            <el-button type="success" @click="addSubmit">新增</el-button>
-        </div>
-        <div class="h20"></div>
-        <div class="content">
-            <el-table :data="tableList" border style="width: 100%">
-                <el-table-column type="index" label="序号" width="100"></el-table-column>
-                <el-table-column prop="name" label="接口名称" width="180"> </el-table-column>
-                <el-table-column label="操作">
-                    <template scope="scope">
-                        <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)">编辑</el-button>
-                        <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <div class="h20"></div>
-            <el-row type="flex" justify="end" class="pagination">
-                <el-pagination @size-change="pageSizeChange" @current-change="pageCurrentChange" :current-page="pageNumber" :page-sizes="[10, 20, 30, 40]" :page-size="this.page.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="this.page.totalElements">
-                </el-pagination>
-            </el-row>
-        </div>
+    <div class="tab-content">
+        <div class="page">
+                <div class="search">
+                    <el-button type="success" @click="addSubmit">新增</el-button>
+                </div>
+                <div class="h20"></div>
+                <div class="content">
+                    <el-table :data="tableList" border style="width: 100%">
+                        <el-table-column type="index" label="序号" width="100"></el-table-column>
+                        <el-table-column prop="name" label="接口名称" width="180"> </el-table-column>
+                        <el-table-column label="操作">
+                            <template scope="scope">
+                                <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)">编辑</el-button>
+                                <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <div class="h20"></div>
+                    <el-row type="flex" justify="end" class="pagination">
+                        <el-pagination @size-change="pageSizeChange" @current-change="pageCurrentChange" :current-page="pageNumber" :page-sizes="[10, 20, 30, 40]" :page-size="this.page.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="this.page.totalElements">
+                        </el-pagination>
+                    </el-row>
+                </div>
+            </div>
     </div>
 </template>
 <script>

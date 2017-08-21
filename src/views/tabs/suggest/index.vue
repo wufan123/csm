@@ -1,11 +1,10 @@
 <template>
-<div>
-    <div>
-        <component v-bind:is="view" v-on:view="changeViewState" :viewState="viewState">
+    <div class="tab-content">
+        <list v-show="!view" v-on:view="changeViewState" :viewState="viewState"></list>
+        <component v-if="view" v-bind:is="view" v-on:view="changeViewState" :viewState="viewState">
 
         </component>
     </div>
-</div>
 </template>
 <script>
     import list from 'views/tabs/suggest/list.vue'
@@ -13,30 +12,31 @@
     import edit from 'views/tabs/suggest/edit.vue'
     import check from 'views/tabs/suggest/check.vue'
     export default {
+        components: {
+            'list': list,
+        },
         data(){
             return {
                 viewState: {},
-                view:list,
-                dialogImageUrl: '',
-                dialogVisible: false
+                view: '',
+                dialogImageUrl: ''
             }
         },
-        methods:{
+        methods: {
             changeViewState(state){
                 this.viewState = state;
-                switch (state.type)
-                {
+                switch (state.type) {
                     case 'add':
-                        this.view =add;
+                        this.view = add;
                         break;
                     case 'list':
-                        this.view =list;
+                        this.view = '';
                         break;
                     case 'edit':
-                        this.view =edit;
+                        this.view = edit;
                         break;
                     case 'check':
-                        this.view =check;
+                        this.view = check;
                         break;
                 }
             }

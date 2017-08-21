@@ -1,6 +1,6 @@
 <template>
-   <div>
-      <list-component v-if="type==='list'" @setType="setPage"></list-component>
+   <div class="tab-content">
+      <list-component v-show="type==='list'" @setType="setPage"></list-component>
       <add-component v-if="type === 'add'" @setType="setPage"></add-component>
       <edit-component v-if="type === 'edit'" @setType="setPage" :dataObj="data"></edit-component>
    </div>

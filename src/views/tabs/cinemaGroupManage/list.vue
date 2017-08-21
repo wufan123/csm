@@ -1,44 +1,46 @@
 <
 <template>
-    <div class="page">
-        <div class="seatch">
-            <el-form :inline="true" :model="search" class="demo-form-inline">
-                <el-form-item label="影院组">
-                    <el-input v-model="search.name"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="info" @click="searchSubmit">查询</el-button>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="success" @click="addSubmit">新增</el-button>
-                </el-form-item>
-            </el-form>
-        </div>
-        <div class="content">
-            <el-table :data="cinemaGroupList" border stripe style="width: 100%">
-                <el-table-column type="index" label="序号" width="100"></el-table-column>
-                <el-table-column prop="name" label="影院组" width="180"></el-table-column>
-                <el-table-column prop="hasCinemaCount" label="下属影院数量" width="180"></el-table-column>
-                <el-table-column prop="createTime" :formatter="formateDate" label="创建时间" width="180"></el-table-column>
-                <el-table-column label="操作">
-                    <template scope="scope">
-                        <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)">编辑</el-button>
-                        <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <div class="h20"></div>
-            <el-row type="flex" justify="end" class="pagination">
-                <el-pagination
-                        @size-change="pageSizeChange"
-                        @current-change="pageCurrentChange"
-                        :current-page="pageNumber"
-                        :page-sizes="[10, 20, 30, 40]"
-                        :page-size="this.page.pageSize"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="this.page.totalElements">
-                </el-pagination>
-            </el-row>
+    <div>
+        <div class="page">
+            <div class="seatch">
+                <el-form :inline="true" :model="search" class="demo-form-inline">
+                    <el-form-item label="影院组">
+                        <el-input v-model="search.name"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="info" @click="searchSubmit">查询</el-button>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="success" @click="addSubmit">新增</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <div class="content">
+                <el-table :data="cinemaGroupList" border stripe style="width: 100%">
+                    <el-table-column type="index" label="序号" width="100"></el-table-column>
+                    <el-table-column prop="name" label="影院组" width="180"></el-table-column>
+                    <el-table-column prop="hasCinemaCount" label="下属影院数量" width="180"></el-table-column>
+                    <el-table-column prop="createTime" :formatter="formateDate" label="创建时间" width="180"></el-table-column>
+                    <el-table-column label="操作">
+                        <template scope="scope">
+                            <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)">编辑</el-button>
+                            <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div class="h20"></div>
+                <el-row type="flex" justify="end" class="pagination">
+                    <el-pagination
+                            @size-change="pageSizeChange"
+                            @current-change="pageCurrentChange"
+                            :current-page="pageNumber"
+                            :page-sizes="[10, 20, 30, 40]"
+                            :page-size="this.page.pageSize"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="this.page.totalElements">
+                    </el-pagination>
+                </el-row>
+            </div>
         </div>
     </div>
 </template>

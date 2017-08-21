@@ -1,58 +1,60 @@
 <template>
-    <div class="tab-form add-form">
-        <el-row class="tab-pane-title">
-            编辑建议
-        </el-row>
-        <el-row>
-            <el-form ref="form" :model="form" label-width="100px" :rules="rules" >
-                <el-form-item label="具体途径" prop="suggestSource" required>
-                    <el-select v-model="form.suggestSource" placeholder="请选择" >
-                        <el-option label="线下客人反馈" value="1"></el-option>
-                        <el-option label="线上客人反馈" value="2"></el-option>
-                        <el-option label="影城工作人员反馈" value="3"></el-option>
-                        <el-option label="其他" value="4"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="状态" prop="status" required>
-                    <el-select v-model="form.status" placeholder="请选择" >
-                        <el-option label="新建" value="1"></el-option>
-                        <el-option label="不采纳" value="2"></el-option>
-                        <el-option label="采纳" value="3"></el-option>
-                        <el-option label="已经实现" value="4"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="来源影院组" prop="cinemaGroupId" required>
-                    <el-select v-model="form.cinemaGroupId"  placeholder="请选择" v-on:change="getCinemas()">
-                        <group-options ></group-options>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="来源影院" prop="cinemaId" required>
-                    <el-select v-model="form.cinemaId" placeholder="请选择" >
-                        <cinema-options  ref="cinemaOp"></cinema-options>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="标题" required prop="title">
-                    <el-input v-model="form.title" placeholder="请输入">
-                    </el-input>
-                </el-form-item>
-                <el-form-item label="内容" required prop="content">
-                    <el-input
-                            v-model="form.content"
-                            type="textarea"
-                            :rows="12"
-                            placeholder="请输入内容"
-                    >
-                    </el-input>
-                </el-form-item>
-                <el-form-item label="截图">
-                    <qiniu-img v-model="form.suggestAttaches"></qiniu-img>
-                </el-form-item>
-                <el-form-item class="form-button">
-                    <el-button type="primary" v-on:click="save">保存</el-button>
-                    <el-button v-on:click="close">关闭不保存</el-button>
-                </el-form-item>
-            </el-form>
-        </el-row>
+    <div>
+        <div class="tab-form add-form">
+            <el-row class="tab-pane-title">
+                编辑建议
+            </el-row>
+            <el-row>
+                <el-form ref="form" :model="form" label-width="100px" :rules="rules" >
+                    <el-form-item label="具体途径" prop="suggestSource" required>
+                        <el-select v-model="form.suggestSource" placeholder="请选择" >
+                            <el-option label="线下客人反馈" value="1"></el-option>
+                            <el-option label="线上客人反馈" value="2"></el-option>
+                            <el-option label="影城工作人员反馈" value="3"></el-option>
+                            <el-option label="其他" value="4"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="状态" prop="status" required>
+                        <el-select v-model="form.status" placeholder="请选择" >
+                            <el-option label="新建" value="1"></el-option>
+                            <el-option label="不采纳" value="2"></el-option>
+                            <el-option label="采纳" value="3"></el-option>
+                            <el-option label="已经实现" value="4"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="来源影院组" prop="cinemaGroupId" required>
+                        <el-select v-model="form.cinemaGroupId"  placeholder="请选择" v-on:change="getCinemas()">
+                            <group-options ></group-options>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="来源影院" prop="cinemaId" required>
+                        <el-select v-model="form.cinemaId" placeholder="请选择" >
+                            <cinema-options  ref="cinemaOp"></cinema-options>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="标题" required prop="title">
+                        <el-input v-model="form.title" placeholder="请输入">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="内容" required prop="content">
+                        <el-input
+                                v-model="form.content"
+                                type="textarea"
+                                :rows="12"
+                                placeholder="请输入内容"
+                        >
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="截图">
+                        <qiniu-img v-model="form.suggestAttaches"></qiniu-img>
+                    </el-form-item>
+                    <el-form-item class="form-button">
+                        <el-button type="primary" v-on:click="save">保存</el-button>
+                        <el-button v-on:click="close">关闭不保存</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-row>
+        </div>
     </div>
 </template>
 <script>

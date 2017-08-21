@@ -1,71 +1,73 @@
 <<template>
-  <div class="page">
-    <div class="p-title">编辑职员 </div>
-     <div class="h20"></div>
-    <div class="content addForm">
-      <el-form :rules="rules" ref="employee"   :model="employee" label-width="100px" >
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="职员姓名" required  prop="fullName">
-              <el-input v-model="employee.fullName"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-               <el-form-item label="手机号码"  prop="mobile" >
-                <el-input v-model="employee.mobile"></el-input>
-              </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="职员账号" required prop="loginName"  >
-              <el-input v-model="employee.loginName" disabled></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-               <el-form-item label="身份证号" prop="cardId" >
-                <el-input v-model="employee.cardId"></el-input>
-              </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="入职时间" prop="hireDate" required >
-               <el-date-picker type="date" placeholder="入职时间" v-model="employee.hireDate"></el-date-picker>
-             </el-form-item>
-          </el-col>
-          <el-col :span="8">
-               <el-form-item label="职员状态" prop="enable">
-                 <el-radio class="radio" v-model="employee.enable" label="true">正常</el-radio>
-                  <el-radio class="radio" v-model="employee.enable" label="false">停用</el-radio>
-              </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-form-item label="管理影院组" required prop="cinemaGroupIds">
-            <el-checkbox  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-            <el-checkbox-group  v-model="employee.cinemaGroupIds"  @change="handleCheckedChange">
-              <el-checkbox v-for="item in cinemaGroupList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
-            </el-checkbox-group>
-            </el-form-item>
-        </el-row>
-        <el-row>
-            <el-form-item label="所属岗位" required prop="positionId">
-              <el-select v-model="employee.positionId" placeholder="请选择">
-               <el-option   v-for="item in positionList"  :key="item.id"
-                  :label="item.positionName"  :value="item.id">
-                </el-option>
-                </el-select>
-            </el-form-item>
-        </el-row>
-        <div class="h10"></div>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('employee')">保存</el-button>
-          <el-button type="primary" :plain="true" @click="closeFn()" >关闭不保存</el-button>
-        </el-form-item>
-      </el-form>
+    <div>
+        <div class="page">
+            <div class="p-title">编辑职员 </div>
+            <div class="h20"></div>
+            <div class="content addForm">
+                <el-form :rules="rules" ref="employee"   :model="employee" label-width="100px" >
+                    <el-row>
+                        <el-col :span="8">
+                            <el-form-item label="职员姓名" required  prop="fullName">
+                                <el-input v-model="employee.fullName"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-form-item label="手机号码"  prop="mobile" >
+                                <el-input v-model="employee.mobile"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="8">
+                            <el-form-item label="职员账号" required prop="loginName"  >
+                                <el-input v-model="employee.loginName" disabled></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-form-item label="身份证号" prop="cardId" >
+                                <el-input v-model="employee.cardId"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="8">
+                            <el-form-item label="入职时间" prop="hireDate" required >
+                                <el-date-picker type="date" placeholder="入职时间" v-model="employee.hireDate"></el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-form-item label="职员状态" prop="enable">
+                                <el-radio class="radio" v-model="employee.enable" label="true">正常</el-radio>
+                                <el-radio class="radio" v-model="employee.enable" label="false">停用</el-radio>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-form-item label="管理影院组" required prop="cinemaGroupIds">
+                            <el-checkbox  v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                            <el-checkbox-group  v-model="employee.cinemaGroupIds"  @change="handleCheckedChange">
+                                <el-checkbox v-for="item in cinemaGroupList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+                            </el-checkbox-group>
+                        </el-form-item>
+                    </el-row>
+                    <el-row>
+                        <el-form-item label="所属岗位" required prop="positionId">
+                            <el-select v-model="employee.positionId" placeholder="请选择">
+                                <el-option   v-for="item in positionList"  :key="item.id"
+                                             :label="item.positionName"  :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-row>
+                    <div class="h10"></div>
+                    <el-form-item>
+                        <el-button type="primary" @click="submitForm('employee')">保存</el-button>
+                        <el-button type="primary" :plain="true" @click="closeFn()" >关闭不保存</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 <<script>
 import employeeApi from 'api/employeeApi'  
