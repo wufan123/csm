@@ -110,14 +110,7 @@
                 },
                 dialogAdd: {
                     dialogVisible: false,
-                    data:{
-                        loginName: '',
-                        cinemaGroupId: 14,
-                        fullName: '',
-                        mobile: '',
-                        password: '',
-                        checkPassword: ''
-                    }
+                    data:{}
                 },
                 dialogEdit: {
                     dialogVisible: false,
@@ -156,7 +149,14 @@
                 });
             },
             add(){
-                this.dialogAdd.data = {}
+                this.dialogAdd.data = {
+                    loginName: '',
+                    cinemaGroupId: '',
+                    fullName: '',
+                    mobile: '',
+                    password: '',
+                    checkPassword: ''
+                }
                 this.dialogAdd.dialogVisible =true
             },
             handleClose(done) {
