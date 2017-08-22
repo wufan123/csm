@@ -212,8 +212,8 @@
                 if (!this.userDetail)
                     return
                 this.showTabByName({name: '趋势查询'})
-                if (!window._nim) {
-                    window._nim = NIM.getInstance({//初始化im
+//                if (!window._nim) {
+                    window._nim = new NIM({//初始化im
                         appKey: this.userDetail.appKey,
                         account: this.userDetail.accid,
                         token: this.userDetail.token,
@@ -263,14 +263,20 @@
                         },
                         ondisconnect: error => {
                             console.log('IM断开连接', error)
+                        },
+                        onsessions:sessions=>{
+                            console.log('收到会话列表', sessions);
+                        },
+                        onupdatesession:session=>{
+                            console.log('会话更新了',session);
                         }
                     })
-                } else {
-                    window._nim.setOptions({
-                        account: this.userDetail.accid,
-                    });
-                    window._nim.connect();
-                }
+//                } else {
+//                    window._nim.setOptions({
+//                        account: this.userDetail.accid,
+//                    });
+//                    window._nim.connect();
+//                }
                 if (!window._audioNotify) {
                     window._audioNotify = new Audio(require('assets/mp3/notify.mp3'));
                 }

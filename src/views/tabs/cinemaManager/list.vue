@@ -112,7 +112,7 @@
                     dialogVisible: false,
                     data:{
                         loginName: '',
-                        cinemaGroupId: '',
+                        cinemaGroupId: 14,
                         fullName: '',
                         mobile: '',
                         password: '',

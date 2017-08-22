@@ -23,7 +23,7 @@
                 </el-col>
             </el-row>
             <el-row class="des">
-                <i class="el-icon-warning"></i>  问题: {{viewState.data.content}}
+                <i class="el-icon-warning"></i>  问题: {{viewState.data?viewState.data.content:''}}
             </el-row>
             <el-row>
                 <el-form ref="form-a" :model="form" label-width="85px" label-position="right" :rules="rules">

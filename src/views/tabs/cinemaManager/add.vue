@@ -51,11 +51,19 @@
             }
         },
         data(){
-            console.log()
+            console.log(this.dialogAdd.data)
             return {
+                form:{
+                    cinemaGroupId:'',
+                    loginName:'',
+                    fullName:'',
+                    mobile:'',
+                    password:'',
+                    checkPassword:''
+                },
                 rules: {
                     cinemaGroupId: [
-                        {type: 'number', required: true, message: '请选择来源影院组', trigger: 'change'}
+                        {required: true, message: '请选择来源影院组', trigger: 'change'}
                     ],
                     loginName: [
                         {required: true, message: '请输入账号', trigger: 'blur'},{ min: 4, max: 8, message: '长度在 4 到 8 个字符', trigger: 'blur' }

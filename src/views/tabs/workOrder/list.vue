@@ -233,6 +233,7 @@
                 })
                 this.getWorkOrders();
             },
+
             getWorkOrders(){
                 this.form.createTimeStart = this.createTimeStart ? this.createTimeStart.format('yyyy-MM-dd') : '';
                 this.form.createTimeEnd = this.createTimeEnd ? this.createTimeEnd.format('yyyy-MM-dd') : '';
@@ -267,7 +268,17 @@
             },
             viewReady(){
                 _vue.$bus.$on('getWorkorders', this.getWorkOrders)
-                window._nim.onMsg = this.onMsg
+                window._nim.getLocalSessions({
+                    done: (error, obj) =>{
+                    /*console.log(error);
+                    console.log(obj);
+                    console.log('获取本地会话列表' + (!error?'成功':'失败'));
+                    if (!error) {
+                        console.log(obj.sessions);
+                    }*/
+                }
+                });
+
             },
             onMsg(msg){
             }

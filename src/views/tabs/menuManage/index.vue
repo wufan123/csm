@@ -26,7 +26,7 @@
                 <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)"> 编辑</el-button>
                 <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
               </template>
-            </el-table-column>-->
+            </el-table-column> -->
           </el-table>
           <!-- <div class="h20"></div>
           <el-row type="flex" justify="end" class="pagination">

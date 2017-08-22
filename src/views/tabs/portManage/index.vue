@@ -93,7 +93,7 @@ export default {
                 interfaceName:'',
                 url:'',
                 enable:"true",
-                interfaceCategoryId:null
+                interfaceCategoryId:''
             },
             search: {
                 portClassId: null,
@@ -101,7 +101,7 @@ export default {
             },
             rules:{
                interfaceName:[{ required: true, message: '请输入接口名称', trigger: 'blur' },{ min: 3, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }] ,
-               interfaceCategoryId:[{ validator: validateportClassId, trigger: 'blur' }],
+               interfaceCategoryId:[{ validator: validateportClassId, trigger: 'change' }],
                url:[{ required: true, message: '请输入接口地址', trigger: 'blur' }] ,
             }
         }
