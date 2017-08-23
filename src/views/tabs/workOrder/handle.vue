@@ -7,23 +7,23 @@
             </el-row>
             <el-row class="property">
                 <el-col :span="4">
-                    客诉来源: {{viewState.data?viewState.data.orderSourceName:''}}
+                    客诉来源: {{viewState.data ? viewState.data.orderSourceName : ''}}
                 </el-col>
                 <el-col :span="4">
-                    客诉影院: {{viewState.data?viewState.data.cinemaName:''}}
+                    客诉影院: {{viewState.data ? viewState.data.cinemaName : ''}}
                 </el-col>
                 <el-col :span="4">
-                    客诉影院组: {{viewState.data?viewState.data.cinemaGroupName:''}}
+                    客诉影院组: {{viewState.data ? viewState.data.cinemaGroupName : ''}}
                 </el-col>
                 <el-col :span="4">
-                    客诉发起人: {{viewState.data?viewState.data.initiatorName:''}}
+                    客诉发起人: {{viewState.data ? viewState.data.initiatorName : ''}}
                 </el-col>
                 <el-col :span="6">
-                    客诉时间: {{new Date(viewState.data?viewState.data.createTime:'').format('yyyy-MM-dd hh:mm:ss')}}
+                    客诉时间: {{new Date(viewState.data ? viewState.data.createTime : '').format('yyyy-MM-dd hh:mm:ss')}}
                 </el-col>
             </el-row>
             <el-row class="des">
-                <i class="el-icon-warning"></i>  问题: {{viewState.data?viewState.data.content:''}}
+                <i class="el-icon-warning"></i> 问题: {{viewState.data ? viewState.data.content : ''}}
             </el-row>
             <el-row>
                 <el-form ref="form-a" :model="form" label-width="85px" label-position="right" :rules="rules">
@@ -42,7 +42,8 @@
                             </el-select>
                         </el-col>
                         <el-col :span="20" v-if="form.orderType == '9'">
-                            <el-input v-model="form.otherDetail" class="remark-input" placeholder="其他详情" :maxlength="50">
+                            <el-input v-model="form.otherDetail" class="remark-input" placeholder="其他详情"
+                                      :maxlength="50">
 
                             </el-input>
                         </el-col>
@@ -83,11 +84,13 @@
                         <qiniu-img v-model="form.workorderAttaches"></qiniu-img>
                     </el-form-item>
                     <el-form-item label="客诉状态">
-                        <el-radio class="radio" v-model="form.status" label="2" :disabled="disableStatus">正在处理</el-radio>
+                        <el-radio class="radio" v-model="form.status" label="2" :disabled="disableStatus">正在处理
+                        </el-radio>
                         <el-radio class="radio" v-model="form.status" label="3" :disabled="disableStatus">正在处理-转技术解决
                         </el-radio>
                         <el-radio class="radio" v-model="form.status" label="4" :disabled="disableStatus">未解决</el-radio>
-                        <el-radio class="radio" v-model="form.status" label="5" :disabled="disableStatus">处理完毕</el-radio>
+                        <el-radio class="radio" v-model="form.status" label="5" :disabled="disableStatus">处理完毕
+                        </el-radio>
                     </el-form-item>
                     <el-form-item class="form-button">
                         <el-button type="primary" v-on:click="save">
@@ -115,28 +118,20 @@
             }
         },
         data(){
-            let viewData = this.viewState.data;
-            let status;
-            if (viewData.status <= 2) {
-                status = "2";
-            }
-            if (viewData.status >= 5) {
-                status = '5';
-            }
-            this.disableStatus = viewData.status >= 5 ? true : false
             return {
                 form: {
-                    id: viewData.id,
-                    orderType: viewData.orderType ? viewData.orderType.toString() : '',
-                    orderLevel: viewData.orderLevel ? viewData.orderLevel.toString() : '',
-                    bugLevel: viewData.bugLevel ? viewData.orderLevel.toString() : '',
-                    bugType: viewData.bugType ? viewData.bugType.toString() : '',
-                    status: status,
-                    isStar: viewData.isStar.toString(),
-                    operationRemark: viewData.operationRemark,
-                    workorderAttaches: viewData.workorderAttaches ? viewData.workorderAttaches.split(',') : [],
-                    otherDetail:viewData.otherDetail
+                    id: this.viewState.data.id,
+                    orderType: '',
+                    orderLevel: '',
+                    bugLevel: '',
+                    bugType: '',
+                    status: '',
+                    isStar: '',
+                    operationRemark: '',
+                    workorderAttaches: [],
+                    otherDetail: ''
                 },
+                disableStatus:true,
                 dialogImageUrl: '',
                 dialogVisible: false,
                 rules: {
@@ -205,7 +200,7 @@
                         type: 'info'
                     })
                     this.$emit('view', {
-                        type:'list'
+                        type: 'list'
                     })
                 })
             },
@@ -221,17 +216,26 @@
                     workorderId: this.form.id
                 }).then(res => {
                     let viewData = res.resultData
-                    this.form ={
+                    let status;
+                    if (viewData.status <= 2) {
+                        status = "2";
+                    }
+                    if (viewData.status >= 5) {
+                        console.log(viewData.status)
+                        status = '5';
+                    }
+                    this.disableStatus = viewData.status >= 5 ? true : false
+                    this.form = {
                         id: viewData.id,
                         orderType: viewData.orderType ? viewData.orderType.toString() : '',
                         orderLevel: viewData.orderLevel ? viewData.orderLevel.toString() : '',
                         bugLevel: viewData.bugLevel ? viewData.orderLevel.toString() : '',
                         bugType: viewData.bugType ? viewData.bugType.toString() : '',
-                        status: viewData.status.toString(),
+                        status: status,
                         isStar: viewData.isStar.toString(),
                         operationRemark: viewData.operationRemark,
                         workorderAttaches: viewData.workorderAttaches ? viewData.workorderAttaches.split(',') : [],
-                        otherDetail:viewData.otherDetail
+                        otherDetail: viewData.otherDetail
                     }
                 })
             }

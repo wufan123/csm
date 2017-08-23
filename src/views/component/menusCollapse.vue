@@ -52,7 +52,7 @@
             }
         },
         watch: {
-            value: function (newValue) {
+            value: function (newValue) {//此处不能有=>
                 console.log('value')
                 this.menuIds =newValue
                 if (this.topMenus)//数值改变时，改变全选

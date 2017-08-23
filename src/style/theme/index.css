@@ -4332,7 +4332,7 @@
     width: 200px;
 }
 .el-input-number--large .el-input-number__increase, .el-input-number--large .el-input-number__decrease {
-    line-height: 42px;
+    line-height: 40px;
     width: 42px;
     font-size: 16px;
 }
@@ -4346,7 +4346,7 @@
     width: 130px;
 }
 .el-input-number--small .el-input-number__increase, .el-input-number--small .el-input-number__decrease {
-    line-height: 30px;
+    line-height: 28px;
     width: 30px;
     font-size: 13px;
 }
@@ -7794,6 +7794,9 @@
 }
 .el-table--border th {
     border-bottom: 1px solid rgb(236, 223, 223);
+}
+.el-table--hidden {
+    visibility: hidden;
 }
 .el-table__fixed, .el-table__fixed-right {
     position: absolute;
@@ -15704,7 +15707,7 @@
     width: 200px;
 }
 .el-input-number--large .el-input-number__increase, .el-input-number--large .el-input-number__decrease {
-    line-height: 42px;
+    line-height: 40px;
     width: 42px;
     font-size: 16px;
 }
@@ -15718,7 +15721,7 @@
     width: 130px;
 }
 .el-input-number--small .el-input-number__increase, .el-input-number--small .el-input-number__decrease {
-    line-height: 30px;
+    line-height: 28px;
     width: 30px;
     font-size: 13px;
 }
@@ -19570,7 +19573,7 @@
     font-size: 12px;
     margin: 0 34px 0 0;
     white-space: nowrap;
-    color: #fcdf02;
+    color: #898989;
     text-align: justify;
 }
 .el-message__group.is-with-icon {

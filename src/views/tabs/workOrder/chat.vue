@@ -22,7 +22,8 @@
                 </div>
             </div>
             <div class="chat-input-box" v-if="workorder.status<5">
-                <el-input class="chat-input" v-model="textMessage" type="textarea" :rows="6" @keyup.enter="sendtxt">
+                <el-input class="chat-input" v-model="textMessage" type="textarea" :rows="6" @keyup.enter="sendtxt"
+                          placeholder="请输入回复">
                 </el-input>
                 <div class="chat-button">
                     <el-upload
@@ -35,8 +36,8 @@
                     <el-button class="send-text" size="small" type="info" v-on:click="sendtxt">发送</el-button>
                 </div>
             </div>
-            <div class="chat-score" v-if="workorder.status==5">
-                  <i class="el-icon-check"></i>  该客诉已经解决，评价为：{{workorder.scoreName}} 
+            <div class="chat-score" v-if="workorder.status>=5">
+                <i class="el-icon-check"></i> 该客诉已经解决，评价为：{{workorder.scoreName}}
             </div>
         </div>
     </div>
@@ -50,12 +51,18 @@
             }
         },
         data(){
-            console.log(this.workorder.teamId)
             return {
                 chatRec: [],
                 textMessage: '',
-                isWindowShow: false,
-                unread: 0
+                isWindowShow: this.workorder.unread>0?true:false,
+                unread: this.workorder.unread
+            }
+        },
+        watch:{
+            isWindowShow:function(newValue){
+                this.unread = 0;
+                if (newValue)
+                    window._nim.resetSessionUnread(this.workorder.sessionId)
             }
         },
         methods: {
@@ -63,25 +70,28 @@
                 let now = new Date()
                 let today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
                 let formDate = new Date(time)
-               return formDate.getTime()<today.getTime()?formDate.format("yyyy-MM-dd hh:mm:ss"):formDate.format("hh:mm:ss")
+                return formDate.getTime() < today.getTime() ? formDate.format("yyyy-MM-dd hh:mm:ss") : formDate.format("hh:mm:ss")
             },
             showChatWindow(){
                 this.isWindowShow = true;
-                this.unread = 0;
+
                 this.updateMessageUI();
             },
             viewReady(){
                 window._nim.onMsg = this.onMsg
+                if(this.isWindowShow){
+                    window._nim.resetSessionUnread(this.workorder.sessionId)
+                }
             },
             onMsg(msg){
-                if(this.workorder.teamId!=msg.to)
+                if (this.workorder.teamId != msg.to)
                     return
                 if (!this.isWindowShow) {
                     this.unread++;
                 }
-                if(msg.file)
+                if (msg.file)
                     msg.url = msg.file.url
-                 this.chatRec.push(msg)
+                this.chatRec.push(msg)
                 this.updateMessageUI()
             },
             updateMessageUI(){
@@ -157,8 +167,8 @@
                         message: error.message,
                         type: 'error'
                     })
-                    if(msg.type="text"){
-                        this.textMessage =msg.type
+                    if (msg.type = "text") {
+                        this.textMessage = msg.type
 
                     }
                 }
@@ -232,7 +242,7 @@
                 text-align: center;
                 margin-top: 10px;
             }
-            .chat-score{
+            .chat-score {
                 text-align: center;
                 position: absolute;
                 bottom: 0;

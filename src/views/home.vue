@@ -122,7 +122,6 @@
                             break;
                     }
                 }
-//                this.onCustomSysmsg({time:new Date()}) 
             },
             sideMenuClick(item){
                 this.showSelectTab(item)
@@ -204,73 +203,83 @@
 //                });
             },
             viewReady(){
-                window.onbeforeunload = function () {
-                    alert('确定离开页面码');
-                    return false; // 可以阻止关闭
-                }
+//                window.onbeforeunload = function () {
+//                    alert('确定离开页面码');
+//                    return false; // 可以阻止关闭
+//                }
                 window.vm = this;
                 if (!this.userDetail)
                     return
                 this.showTabByName({name: '趋势查询'})
 //                if (!window._nim) {
-                    window._nim = new NIM({//初始化im
-                        appKey: this.userDetail.appKey,
-                        account: this.userDetail.accid,
-                        token: this.userDetail.token,
-                        onconnect: () => {
-                            console.log('IM连接成功');
+                window._nim = new NIM({//初始化im
+                    appKey: this.userDetail.appKey,
+                    account: this.userDetail.accid,
+                    token: this.userDetail.token,
+                    onconnect: () => {
+                        console.log('IM连接成功');
 
-                        },
-                        onwillreconnect: obj => {
-                            console.log('IM即将重连');
-                            console.log(obj.retryCount);
-                            console.log(obj.duration);
-                        },
-                        onerror: error => {
+                    },
+                    onwillreconnect: obj => {
+                        console.log('IM即将重连');
+                        console.log(obj.retryCount);
+                        console.log(obj.duration);
+                    },
+                    onerror: error => {
 
-                        },
-                        onmsg: msg => {
-                            console.log('IM收到消息', msg.scene, msg.type, msg);
-                            try {
-                                msg.custom = JSON.parse(msg.custom)
-                            }
-                            catch (e) {
-                            }
-                            if (!msg.custom)
-                                msg.custom = {}
-                            if (window._nim) {
-                                switch (msg.type) {
-                                    case "text":
-                                    case "image":
-                                        if (window._nim.onMsg) {
-                                            window._nim.onMsg(msg)
-                                        }
-                                        break;
-                                    case "notification":
-                                        if (window._nim.onNoti) {
-                                            window._nim.onNoti(msg)
-                                        }
-                                        break;
-                                }
-                            }
-                        },
-                        onsysmsg: sysMsg => {
-                            console.log('IM收到系统通知', sysMsg)
-                        },
-                        oncustomsysmsg: sysMsg => {
-                            console.log('IM收到自定义系统通知', sysMsg)
-                            window.vm.onCustomSysmsg(sysMsg)
-                        },
-                        ondisconnect: error => {
-                            console.log('IM断开连接', error)
-                        },
-                        onsessions:sessions=>{
-                            console.log('收到会话列表', sessions);
-                        },
-                        onupdatesession:session=>{
-                            console.log('会话更新了',session);
+                    },
+                    onmsg: msg => {
+                        console.log('IM收到消息', msg.scene, msg.type, msg);
+                        try {
+                            msg.custom = JSON.parse(msg.custom)
                         }
-                    })
+                        catch (e) {
+                        }
+                        if (!msg.custom)
+                            msg.custom = {}
+                        if (window._nim) {
+                            switch (msg.type) {
+                                case "text":
+                                case "image":
+                                    if (window._nim.onMsg) {
+                                        window._nim.onMsg(msg)
+                                    }
+                                    break;
+                                case "notification":
+                                    if (window._nim.onNoti) {
+                                        window._nim.onNoti(msg)
+                                    }
+                                    break;
+                            }
+                        }
+                    },
+                    onsysmsg: sysMsg => {
+                        console.log('IM收到系统通知', sysMsg)
+                    },
+                    oncustomsysmsg: sysMsg => {
+                        console.log('IM收到自定义系统通知', sysMsg)
+                        window.vm.onCustomSysmsg(sysMsg)
+                    },
+                    ondisconnect: error => {
+                        console.log('IM断开连接', error)
+                        if (error.code == 'kicked') {
+                            this.$message({
+                                message: "该账号已在别处登录,如果不是你本人操作,请尽快修改密码",
+                                type: 'error'
+                            })
+                            this.$router.push({path: 'login'});
+                        }
+                    },
+                    onsessions: sessions => {
+                        console.log('收到会话列表', sessions);
+                    },
+                    onupdatesession: session => {
+                        console.log('更新会话列表', session);
+                        if (window._nim && window._nim.updateSession) {
+                            window._nim.updateSession(session)
+                        }
+                    }
+                })
 //                } else {
 //                    window._nim.setOptions({
 //                        account: this.userDetail.accid,

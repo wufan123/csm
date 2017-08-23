@@ -1,6 +1,6 @@
 <template>
    <div class="tab-content">
-         <list-component v-show="type==='list'" @setType="setPage"></list-component>
+         <list-component v-show="type==='list'" @setType="setPage" ref="list"></list-component>
          <add-component v-if="type === 'add'" @setType="setPage"></add-component>
          <edit-component v-if="type === 'edit'" @setType="setPage" :dataObj="data"></edit-component>
    </div>
@@ -21,6 +21,9 @@ export default {
     setPage(params){
       this.data = this.$util.isEmptyObject(params.data) ? {} : params.data;
       this.type = params.type
+        if(params.type=='list'){
+            this.$refs.list.getData();
+        }
     }
   }
 }

@@ -186,7 +186,7 @@
     --message-shadow: var(--box-shadow-base);
     --message-min-width: 300px;
     --message-padding: 10px 12px;
-    --message-content-color: var(--border-color-hover);
+    --message-content-color: var(--color-base-black);
     --message-close-color: var(--color-extra-light-silver);
     --message-close-hover-color: var(--color-light-silver);
     --message-success-color: var(--color-success);

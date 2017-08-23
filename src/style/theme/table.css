@@ -850,6 +850,10 @@
     border-bottom: 1px solid rgb(236, 223, 223);
 }
 
+.el-table--hidden{
+    visibility: hidden;
+}
+
 .el-table__fixed, .el-table__fixed-right{
     position: absolute;
     top: 0;

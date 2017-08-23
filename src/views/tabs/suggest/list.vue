@@ -13,13 +13,14 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="建议日期">
-                    <el-col :span="11">
+                    <!--<el-col :span="11">
                         <el-date-picker type="date" placeholder="选择日期" v-model="createTimeStart"></el-date-picker>
                     </el-col>
                     <el-col class="line" :span="2">-</el-col>
                     <el-col :span="11">
                         <el-date-picker ype="date" placeholder="选择日期" v-model="createTimeEnd"></el-date-picker>
-                    </el-col>
+                    </el-col>-->
+                    <froto-datepicker v-model="date"></froto-datepicker>
                 </el-form-item>
                 <el-form-item label="状态">
                     <el-select v-model="form.status" placeholder="全部">
@@ -140,8 +141,10 @@
     export default {
         data(){
             return {
-                createTimeStart: '',
-                createTimeEnd: '',
+                date: {
+                    createTimeStart: '',
+                    createTimeEnd: ''
+                },
                 pageNumber: 1,
                 form: {
                     cinemaGroupId: '',
@@ -208,8 +211,8 @@
                 this.getList()
             },
             getList(){
-                this.form.createTimeStart = this.createTimeStart ? this.createTimeStart.format('yyyy-MM-dd') : '';
-                this.form.createTimeEnd = this.createTimeEnd ? this.createTimeEnd.format('yyyy-MM-dd') : '';
+                this.form.createTimeStart = this.date.createTimeStart ? this.date.createTimeStart.format('yyyy-MM-dd') : '';
+                this.form.createTimeEnd = this.date.createTimeEnd ? this.date.createTimeEnd.format('yyyy-MM-dd') : '';
                 suggestApi.list(this.form).then(res => {
                     this.pageDatas = res.resultData
                 })

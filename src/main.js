@@ -10,6 +10,7 @@ import cinemaGroupOptions from 'views/component/cinemaGroupOptions.vue'
 import cinemations from 'views/component/cinemaOptions.vue'
 import cinemaGroupCheckbox from 'views/component/cinemaGroupCheckbox.vue'
 import qiniuImg from 'views/component/qiniuImgUpload.vue'
+import froToDatePicker from 'views/component/froToDatePicker.vue'
 import baseMixin from 'utils/baseMixin'
 import * as util from 'utils'
 Vue.use(ElementUI);
@@ -18,6 +19,7 @@ Vue.component('group-options', cinemaGroupOptions)
 Vue.component('cinema-options', cinemations)
 Vue.component('cinema-checkbox', cinemaGroupCheckbox)
 Vue.component('qiniu-img', qiniuImg)
+Vue.component('froto-datepicker', froToDatePicker)
 Vue.mixin(baseMixin)
 Vue.prototype.$storage = storage;
 Vue.prototype.$util = util //工具类

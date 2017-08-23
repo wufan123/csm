@@ -12,13 +12,7 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item label="添加日期">
-                    <el-col :span="11">
-                        <el-date-picker type="date" placeholder="选择日期" v-model="createTimeStart"></el-date-picker>
-                    </el-col>
-                    <el-col class="line" :span="2">-</el-col>
-                    <el-col :span="11">
-                        <el-date-picker ype="date" placeholder="选择日期" v-model="createTimeEnd"></el-date-picker>
-                    </el-col>
+                    <froto-datepicker v-model="date"></froto-datepicker>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="info" @click="getList">查询</el-button>
@@ -94,8 +88,10 @@
             let tableData = []
             return {
                 tableData: tableData,
-                createTimeStart: '',
-                createTimeEnd: '',
+                date: {
+                    createTimeStart: '',
+                    createTimeEnd: ''
+                },
                 pageNumber: 1,
                 form: {
                     cinemaGroupId: '',
@@ -138,8 +134,8 @@
                 this.$refs.cinemaOp.getCinemas(this.form.cinemaGroupId);
             },
             getList(){
-                this.form.createTimeStart = this.createTimeStart ? this.createTimeStart.format('yyyy-MM-dd') : '';
-                this.form.createTimeEnd = this.createTimeEnd ? this.createTimeEnd.format('yyyy-MM-dd') : '';
+                this.form.createTimeStart =  this.date.createTimeStart ?  this.date.createTimeStart.format('yyyy-MM-dd') : '';
+                this.form.createTimeEnd =  this.date.createTimeEnd ?  this.date.createTimeEnd.format('yyyy-MM-dd') : '';
                 platformFaqApi.list(this.form).then(res => {
                     this.pageDatas = res.resultData
                 })
