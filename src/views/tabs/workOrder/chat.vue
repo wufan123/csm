@@ -79,6 +79,7 @@
             },
             viewReady(){
                 window._nim.onMsg = this.onMsg
+                this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
                 if(this.isWindowShow){
                     window._nim.resetSessionUnread(this.workorder.sessionId)
                 }
@@ -147,12 +148,16 @@
             sendtxt(){
                 if (!this.textMessage)
                     return
+                let custom ={
+                    identity :1,
+                    headImgUrl:this.userDetail?this.userDetail.headImageLink:''
+                }
                 window._nim.sendText({
                     scene: 'team',
                     to: this.workorder.teamId,
                     text: this.textMessage,
                     done: this.sendMsgDone,
-                    custom: '{"identity":1}'
+                    custom: JSON.stringify(custom)
                 });
                 this.textMessage = ''
             },
@@ -181,7 +186,10 @@
                     this.updateMessageUI()
                 })
             }
-
+        },
+        destroyed(){
+            console.log('销毁chat')
+            window._nim.onMsg = null
         }
     }
 </script>

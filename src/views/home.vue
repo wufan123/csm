@@ -89,7 +89,6 @@
         methods: {
             setAdvertImgFn(val){
                 this.headImageLink = val
-                console.log('emit', val)
             },
             logout(){
                 loginApi.logout({
@@ -128,7 +127,6 @@
             },
             showSelectTab(item){
                 this.currentTabId = item.id.toString();
-                console.log('show123', this.menuTabs)
                 for (let i = 0; i < this.menuTabs.length; i++) {
                     if (item.id === this.menuTabs[i].id) {
                         if (this.$refs['tab' + item.id] && this.$refs['tab' + item.id][0] && this.$refs['tab' + item.id][0].changeViewState)
@@ -198,20 +196,12 @@
                         tabs.remove(tabs[i])
                     }
                 }
-//                this.menuTabs = tabs.filter(tab => {
-//                   return tab.id != targetId
-//                });
             },
             viewReady(){
-//                window.onbeforeunload = function () {
-//                    alert('确定离开页面码');
-//                    return false; // 可以阻止关闭
-//                }
                 window.vm = this;
                 if (!this.userDetail)
                     return
                 this.showTabByName({name: '趋势查询'})
-//                if (!window._nim) {
                 window._nim = new NIM({//初始化im
                     appKey: this.userDetail.appKey,
                     account: this.userDetail.accid,
@@ -242,7 +232,14 @@
                                 case "text":
                                 case "image":
                                     if (window._nim.onMsg) {
+                                        console.log('分发到聊天记录')
                                         window._nim.onMsg(msg)
+                                    }else{
+                                        this.$notify.info({
+                                            title: msg.fromNick,
+                                            message: msg.text?msg.text:'图片'+"\n",
+                                            iconClass:'el-icon-message'
+                                        });
                                     }
                                     break;
                                 case "notification":
@@ -280,12 +277,6 @@
                         }
                     }
                 })
-//                } else {
-//                    window._nim.setOptions({
-//                        account: this.userDetail.accid,
-//                    });
-//                    window._nim.connect();
-//                }
                 if (!window._audioNotify) {
                     window._audioNotify = new Audio(require('assets/mp3/notify.mp3'));
                 }
@@ -298,7 +289,6 @@
                     });
                     return
                 }
-                console.log(Notification.permission);
                 function notifyNoPermission() {
                     window.vm.$notify({
                         title: '无法启用桌面通知',

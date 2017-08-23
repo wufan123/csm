@@ -14,8 +14,21 @@ const preHandleError = (data) => {
             type: 'error'
         })
 };
-
-axios.interceptors.response.use(function(response) {
+axios.interceptors.request.use(function (config) {
+    if (!window._UUID) {
+        if (window._vue)
+        {
+            let storage = window._vue.$storage
+            let userDetail =storage.getItem(storage.KEY_USER_DETAIL)
+            window._UUID = userDetail?userDetail.uuid:''
+        }
+    }
+    config.headers.uuid = window._UUID;
+    return config;
+}, function (error) {
+    return Promise.reject(error);
+});
+axios.interceptors.response.use(function (response) {
     let data;
     try {
         data = JSON.parse(response.data);
@@ -26,7 +39,7 @@ axios.interceptors.response.use(function(response) {
         console.log(data) //如果是模拟数据,打印出模拟的数据
     }
     if (data.resultCode === '80000') {
-        _vue.$router.push({ path: 'login' })
+        _vue.$router.push({path: 'login'})
     }
     if (data.resultCode === '0') {
         return data;
@@ -34,7 +47,7 @@ axios.interceptors.response.use(function(response) {
         preHandleError(data);
         return Promise.reject(data);
     }
-}, function(error) {
+}, function (error) {
     let data = error ? error.data : '';
     preHandleError(data);
     return Promise.reject(data);
@@ -46,12 +59,12 @@ axios.postForm = (url, params) => {
         {
             if (params[i] || params[i] === 0) {
                 /*if(params[i] instanceof  Array )
-                {
-                    form.append(i, JSON.stringify(params[i]))
-                }else
-                {
-                    form.append(i, params[i]);
-                }*/
+                 {
+                 form.append(i, JSON.stringify(params[i]))
+                 }else
+                 {
+                 form.append(i, params[i]);
+                 }*/
                 form.append(i, params[i]);
             }
         }

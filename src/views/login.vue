@@ -58,7 +58,7 @@
                             }
                             response.resultData.sortedMenus = loginApi.reSortMenus(response.resultData.menus);
                             this.$storage.setItem(this.$storage.KEY_USER_DETAIL,response.resultData);
-//                            window._userDetail=response.resultData
+                            window._UUID = response.resultData.uuid
                             this.$router.push({ path: 'home' });
                         })
                     } else {

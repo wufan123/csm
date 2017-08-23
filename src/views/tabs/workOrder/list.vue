@@ -247,7 +247,7 @@
                         if (sessions[i].to === order.teamId) {
                             order.unread = sessions[i].unread
                             order.sessionId = sessions[i].id
-                            vm.$set(vm.ordersContent,j,order)
+                            vm.$set(vm.ordersContent,j,order) 
                         }
                     }
                 }
