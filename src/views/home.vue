@@ -83,7 +83,8 @@
                 topMenus: topMenus,
                 subMenus: subMenus,
                 menus: menus,
-                notifyList: []
+                destopNotifyList: [],
+                messageNotifyList:[]
             }
         },
         methods: {
@@ -152,16 +153,16 @@
             },
             onCustomSysmsg(sysMsg){
                 if (sysMsg) {
-                    for (let i = 0; i < this.notifyList.length; i++) {
-                        if (sysMsg.time == this.notifyList[i].time) {
+                    for (let i = 0; i < this.destopNotifyList.length; i++) {
+                        if (sysMsg.time == this.destopNotifyList[i].time) {
                             return
                         }
                     }
                 }
-                if (this.notifyList.length > 50) {
-                    this.notifyList = []
+                if (this.destopNotifyList.length > 50) {
+                    this.destopNotifyList = []
                 }
-                this.notifyList.push(sysMsg);
+                this.destopNotifyList.push(sysMsg);
                 if (window._audioNotify)
                     window._audioNotify.play();
                 let n = new Notification("你有新的客诉订单", {
@@ -208,7 +209,6 @@
                     token: this.userDetail.token,
                     onconnect: () => {
                         console.log('IM连接成功');
-
                     },
                     onwillreconnect: obj => {
                         console.log('IM即将重连');
@@ -234,11 +234,11 @@
                                     if (window._nim.onMsg) {
                                         console.log('分发到聊天记录')
                                         window._nim.onMsg(msg)
-                                    }else{
+                                    } else {
                                         this.$notify.info({
                                             title: msg.fromNick,
-                                            message: msg.text?msg.text:'图片'+"\n",
-                                            iconClass:'el-icon-message'
+                                            message: msg.text ? msg.text : '图片' + "\n",
+                                            iconClass: 'el-icon-message'
                                         });
                                     }
                                     break;

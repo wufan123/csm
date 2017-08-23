@@ -137,7 +137,8 @@
             viewState: function (newValue) {
                 if (newValue.tabForm) {
                     this.form.statuses = newValue.tabForm.status
-                    this.activeSubTab = this.form.status
+                    this.activeSubTab = this.form.statuses
+                    console.log(this.activeSubTab)
                     this.getWorkOrders()
                 }
 
