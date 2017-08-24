@@ -42,6 +42,12 @@
                     <el-table-column prop="fullName" label="职员姓名" width="180"></el-table-column>
                     <el-table-column prop="position.positionName" label="岗位" width="180"></el-table-column>
                     <el-table-column prop="loginName" label="职员账号" width="180"></el-table-column>
+                    <el-table-column prop="enable" label="状态" width="180">
+                        <template scope="scope">
+                            <em>
+                                {{scope.row.enable ? '正常' : '停用'}}</em>
+                        </template>
+                    </el-table-column>
                     <el-table-column label="管理影院组" :formatter="formateCinema" width="180"></el-table-column>
                     <el-table-column prop="hireDate" :formatter="formateDate" label="入职时间"
                                      width="180"></el-table-column>

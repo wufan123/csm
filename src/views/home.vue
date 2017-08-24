@@ -42,7 +42,7 @@
                                 :key="item.id"
                                 :label="item.name"
                                 :name="item.id.toString()"
-                                :closable="item.name !='趋势查询'"
+                                :closable="true"
                         >
                             <component v-bind:is="item.page" v-on:goOtherTab="showTabByName"
                                        @setAdvertImg="setAdvertImgFn"

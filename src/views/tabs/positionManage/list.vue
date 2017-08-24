@@ -32,7 +32,7 @@
                     <el-table-column prop="enable" label="状态" width="180">
                         <template scope="scope">
                             <em>
-                                {{scope.row.enable ? '正常' : '禁用'}}</em>
+                                {{scope.row.enable ? '正常' : '停用'}}</em>
                         </template>
                     </el-table-column>
                     <el-table-column label="操作">

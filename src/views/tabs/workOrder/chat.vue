@@ -17,7 +17,7 @@
                     <div class="get-avatar"></div>
                     <div class="content">
                         <span class="time">{{formateDate(item.time)}}</span><br/>
-                        <div class="message"><img :src="item.url"/>{{item.text}}</div>
+                        <div class="message"><img :src="item.url" @click="showImg(item.url)"/>{{item.text}}</div>
                     </div>
                 </div>
             </div>
@@ -40,6 +40,9 @@
                 <i class="el-icon-check"></i> 该客诉已经解决，评价为：{{workorder.scoreName}}
             </div>
         </div>
+        <el-dialog v-model="dialogVisible" size="large">
+            <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -55,7 +58,9 @@
                 chatRec: [],
                 textMessage: '',
                 isWindowShow: this.workorder.unread>0?true:false,
-                unread: this.workorder.unread
+                unread: this.workorder.unread,
+                dialogVisible:false,
+                dialogImageUrl:''
             }
         },
         watch:{
@@ -66,6 +71,10 @@
             }
         },
         methods: {
+            showImg(url){
+                this.dialogVisible=true
+                this.dialogImageUrl =url
+            },
             formateDate(time){
                 let now = new Date()
                 let today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
