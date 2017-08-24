@@ -30,26 +30,7 @@
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="接口权限">
-                                <el-collapse v-model="activeName2" accordion>
-                                    <el-collapse-item v-for="(item,index) in portClassList" :key="item.id" :name="index">
-                                        <template slot="title">
-                                            <el-checkbox v-model="checkAll2[index]"
-                                                         @change="handleCheckAllChange2(item.id)">{{item.name}}
-                                            </el-checkbox>
-                                        </template>
-                                        <el-checkbox-group v-model="position.siteInterfaceIds">
-                                            <div class="line" v-for="subItem in item.children" :key="subItem.id">
-                                                <p>
-                                                    <el-checkbox :label="subItem.id" :key="subItem.id">
-                                                        {{subItem.interfaceName}}
-                                                    </el-checkbox>
-                                                </p>
-                                            </div>
-
-                                        </el-checkbox-group>
-                                    </el-collapse-item>
-
-                                </el-collapse>
+                                <port-collapse v-model="position.siteInterfaceIds"></port-collapse>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -68,15 +49,10 @@
     import portApi from 'api/siteInterfaceApi'
     import loginApi from 'api/loginApi'
     import menusCollapse from 'views/component/menusCollapse.vue'
+    import portCollapse from 'views/component/portCollapse.vue'
     export default {
         data() {
             return {
-                checkAll: [],
-                checkAll2: [],
-                menuList: [],
-                activeName2: '',
-                portClassList: [],
-                portList: [],
                 position: {
                     menuIds: [],
                     siteInterfaceIds: [],
@@ -97,27 +73,8 @@
         props: {
             dataObj: Object
         },
-        components: {'menus-collapse': menusCollapse},
+        components: {'menus-collapse': menusCollapse,'port-collapse':portCollapse},
         methods: {
-            getPortClassList() {
-                portApi.ListPortGroup({enable: true}).then(res => {
-                    this.portClassList = res.resultData.content;
-                    this.getPortList()
-                })
-            },
-            getPortList() {
-                portApi.ListPort({enable: true}).then(res => {
-                    this.portClassList && this.portClassList.forEach((subItem, subIndex) => {
-                        this.portClassList[subIndex].children = [];
-                        res.resultData.content && res.resultData.content.forEach(item => {
-                            this.portList = res.resultData.content;
-                            if (item.interfaceCategoryId == subItem.id) {
-                                this.portClassList[subIndex].children.push(item)
-                            }
-                        })
-                    })
-                })
-            },
             submitForm(position) {
                 this.$refs[position].validate((valid) => {
                     if (valid) {
@@ -131,29 +88,6 @@
 
                     }
                 })
-            },
-            handleCheckAllChange2(id) {
-                console.log('id', id, this.portList);
-                let arr = this.position.siteInterfaceIds;
-                let arr2 = this.position.siteInterfaceIds;
-                if (!event.target.checked) {
-                    this.portList && this.portList.forEach(item => {
-                        if (item.interfaceCategoryId == id) {
-                            arr2.remove(item.id);
-                        }
-                    })
-                } else {
-                    this.portList && this.portList.forEach(item => {
-                        if (item.interfaceCategoryId == id) {
-                            arr.push(item.id)
-                        }
-                    })
-                }
-                arr = arr.unique();
-                arr2 = arr2.unique();
-                console.log('arr', arr);
-                console.log('arr2', arr2);
-                this.position.siteInterfaceIds = event.target.checked ? arr : arr2;
             },
             closeFn() {
                 this.$emit('setType', {
@@ -179,7 +113,6 @@
                     this.position.menuIds =brr;
                     this.position.siteInterfaceIds = brr2;
                 });
-                this.getPortClassList()
             }
         }
     }
