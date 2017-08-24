@@ -131,9 +131,10 @@
                     workorderAttaches: [],
                     otherDetail: ''
                 },
-                disableStatus:true,
+                disableStatus: true,
                 dialogImageUrl: '',
                 dialogVisible: false,
+                lock: '',
                 rules: {
                     orderType: [
                         {required: true, message: '请选择客诉类型', trigger: 'change'},
@@ -238,7 +239,20 @@
                         otherDetail: viewData.otherDetail
                     }
                 })
+            },
+            viewReady(){
+                this.lock = workOrderApi.lock(this.form.id);
+                this.lock.onopen = evt => {
+                    console.log('已连接')
+                };
+                this.lock.onerror = evt => {
+                    console.log('连接错误')
+                };
             }
+        },
+        destroyed(){
+            if (this.lock)
+                this.lock.close();
         }
     }
 </script>

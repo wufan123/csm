@@ -100,7 +100,7 @@
                     <el-col :span="8" v-for="(item,index) in ordersContent" :key="index">
                         <el-card :class="getStatusClass(item.status)" @click.native="handleComplaint(item)">
                             <span v-if="item.isStar" class="star-tag"></span>
-                            <span v-show="item.unread>0" class="message-tag"></span>
+                            <span v-show="item.unread>0&&item.status<5" class="message-tag"></span>
                             <div class="card_header">
                                 {{item.orderNo}}
                             </div>

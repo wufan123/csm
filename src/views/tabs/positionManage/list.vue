@@ -84,6 +84,8 @@
         methods: {
             searchSubmit(){
                 var params = {}
+                params.pageNumber =this.page.pageNumber
+                params.pageSize =this.page.pageSize
                 params.positionName = this.search.positionName
                 params.enable = this.search.enable
                 this.getPositionList(params)
@@ -135,11 +137,11 @@
             },
             pageCurrentChange(currentPage){
                 this.page.pageNumber = currentPage - 1
-                this.getPositionList(this.page);
+                this.searchSubmit();
             },
             pageSizeChange(size){
                 this.page.pageSize = size
-                this.getPositionList(this.page);
+                this.searchSubmit();
 
             }
         },

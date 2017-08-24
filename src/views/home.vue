@@ -319,7 +319,7 @@
 
             },
             clickTab(item){
-                if(!this.$refs['tab' + item.id])
+                if(!this.$refs['tab' + item.name])
                     return
                 let tabPage = this.$refs['tab' + item.name][0];
                 console.log(tabPage)
