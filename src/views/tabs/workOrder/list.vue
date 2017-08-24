@@ -53,7 +53,7 @@
                         <el-option label="处理中" value="2"></el-option>
                         <el-option label="处理中转技术" value="3"></el-option>
                         <el-option label="未解决" value="4"></el-option>
-                        <el-option label="已解决" value="5 6"></el-option>
+                        <el-option label="已解决" value="5,6"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="是否星标">
@@ -76,7 +76,7 @@
                         <el-tab-pane label="处理中" name="2"></el-tab-pane>
                         <el-tab-pane label="处理中-转技术解决" name="3"></el-tab-pane>
                         <el-tab-pane label="未解决" name="4"></el-tab-pane>
-                        <el-tab-pane label="处理完毕" name="5 6"></el-tab-pane>
+                        <el-tab-pane label="处理完毕" name="5,6"></el-tab-pane>
                     </el-tabs>
                 </el-row>
                 <el-row type="flex" justify="end" class="state-explain">

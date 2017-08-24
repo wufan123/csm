@@ -235,11 +235,11 @@
                                         console.log('分发到聊天记录')
                                         window._nim.onMsg(msg)
                                     } else {
-                                        this.$notify.info({
-                                            title: msg.fromNick,
-                                            message: msg.text ? msg.text : '图片' + "\n",
+                                        /*this.$notify.info({
+                                            title:msg.fromNick +"  \n-"+new Date(msg.time).format("yyyy-MM-dd hh:mm:ss"),
+                                            message:(msg.text ? msg.text : '图片'),
                                             iconClass: 'el-icon-message'
-                                        });
+                                        });*/
                                     }
                                     break;
                                 case "notification":
