@@ -62,6 +62,8 @@ export default {
             params.imgFile = this.image;
             commonApi.updateAvatar(params).then(res => {
                 this.$emit('setAdvertImg',this.image)
+                this.userInfo.headImageLink =this.image
+                  this.$storage.setItem('userDetail',this.userInfo)
                 this.$message({
                 message: '修改成功',
                 type: 'success'
