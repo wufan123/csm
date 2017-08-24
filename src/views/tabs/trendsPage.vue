@@ -102,7 +102,8 @@
                     size="small"
                     class="cinema-detail">
                 <div><label
-                        class="name">{{userDetail.positionName ? userDetail.positionName : '' + ' ' + userDetail.fullName}}</label>  负责的影城
+                        class="name">{{userDetail.positionName ? userDetail.positionName : '' + ' ' + userDetail.fullName}}</label>
+                    负责的影城
                 </div>
                 <div class="content">
                     <div v-for="(item,index) in userDetail.manageGroups" :key="index"
@@ -111,7 +112,8 @@
                             {{item.name}}
                         </div>
                         <el-row class="cinema">
-                            <el-col v-for="subItem in item.cinemas" :key="subItem.name" :span="6">{{subItem.name}}</el-col>
+                            <el-col v-for="subItem in item.cinemas" :key="subItem.name" :span="6">{{subItem.name}}
+                            </el-col>
                         </el-row>
                     </div>
                 </div>
@@ -194,11 +196,11 @@
                 indexApi.workorderCount().then(res => {
                     this.workorderCount = res.resultData
                 })
-                for(let i=0; i<this.userDetail.manageGroups.length;i++){
-                    this.userDetail.manageGroups[i].cinemas =[];
+                for (let i = 0; i < this.userDetail.manageGroups.length; i++) {
+                    this.userDetail.manageGroups[i].cinemas = [];
                     cinemaApi.listCinema({
-                        cinemaGroupId:this.userDetail.manageGroups[i].id
-                    }).then(res=>{
+                        cinemaGroupId: this.userDetail.manageGroups[i].id
+                    }).then(res => {
                         this.userDetail.manageGroups[i].cinemas = res.resultData.content
                     })
                 }
@@ -225,7 +227,10 @@
                     return 'num-three';
                 }
                 return '';
-            }//前三名样式
+            },//前三名样式
+            viewReady(){
+
+            }
         }
     }
 </script>
@@ -243,14 +248,14 @@
             margin-top: 24px;
         }
         .cinema-detail {
-            .content{
+            .content {
                 margin-top: 18px;
             }
             .cinemagroup {
                 padding: 10px;
                 background: @color-base-bg;
             }
-            .cinema{
+            .cinema {
                 text-align: center;
                 padding: 10px;
             }

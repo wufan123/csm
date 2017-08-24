@@ -11,6 +11,7 @@
             showAll:{
                 type:Boolean
             }
+
         },
         data(){
             return{

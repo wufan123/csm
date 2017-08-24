@@ -42,7 +42,7 @@
                                 :key="item.id"
                                 :label="item.name"
                                 :name="item.id.toString()"
-                                :closable="true"
+                                :closable="item.name !='趋势查询'"
                         >
                             <component v-bind:is="item.page" v-on:goOtherTab="showTabByName"
                                        @setAdvertImg="setAdvertImgFn"
@@ -208,6 +208,9 @@
             },
             viewReady(){
                 window.vm = this;
+                window.onbeforeunload = function() {
+                    return false;
+                }
                 if (!this.userDetail)
                     return
                 this.showTabByName({name: '趋势查询'})
@@ -305,7 +308,6 @@
                         type: "error"
                     });
                 }
-
                 if (Notification.permission === 'denied') {
                     notifyNoPermission();
                 }
