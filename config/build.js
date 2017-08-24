@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 module.exports =  {
     publicPath:'',
-    filename:'[name].js?[chunkhash]',//
+    filename:'[name].js?[hash:7]',//
     staticPath:'assets',
     plugins:[
         new webpack.DefinePlugin({//运行时变量
