@@ -3,7 +3,7 @@ import vueApp from '~/main'
 let BASE_URL = _BASE_URL ? _BASE_URL : '';
 let MOCK = _MOCK ? _MOCK : false;
 axios.defaults.baseURL = BASE_URL;
-axios.defaults.timeout = 10000;
+axios.defaults.timeout = 20000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
 axios.defaults.headers.post['accept'] = 'application/json, text/javascript, */*; q=0.01';
 const preHandleError = (data) => {

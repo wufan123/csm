@@ -8,6 +8,7 @@ const _EXPORT = `${prefix}/export.do`;//导出execl
 const _IN_HANDLE = `${prefix}/workOrderhasInHandle.do`;//是否在沟通中
 const _JOIN = `${prefix}/joinTeam`;//加入工单聊天群
 const _CHAT_LIST = `${prefix}/communicateRecord/listCommunicateRecord.do`;//加入工单聊天群
+const _COMMUNICATE = `/communicateWebsocket.ws`;//加入工单聊天群
 
 export default {
     //工单常量
@@ -49,5 +50,8 @@ export default {
     },
     chatList(params){
         return httpApi.postForm(_CHAT_LIST, params)
+    },
+    lock(id){
+       return new WebSocket(_WEBSOCKET+_COMMUNICATE+'?workorderId='+id);
     }
 }

@@ -66,7 +66,7 @@
                                 for (let i = 0; i < questionArray.length; i++) {
                                     let faqItem = questionArray[i].split(/[\r\n]/g);
                                     if (!faqItem||faqItem.length !== 2||!faqItem[0]||!faqItem[1]) {
-                                        callback(new Error(`FAQ内容格式有误,问与答之间请回车换行，且只有一个问一个答。在第${i+1}对问答`));
+                                        callback(new Error(`在第${i+1}对问答处FAQ内容格式有误,问与答之间请回车换行，且只有一个问一个答。`));
                                     }
                                 }
                                 return callback();

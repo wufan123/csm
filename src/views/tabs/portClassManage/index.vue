@@ -113,10 +113,10 @@ export default {
             this.page.pageSize = size
             this.getData();
 
+        },
+        fetchData(){
+            this.getData()
         }
-    },
-    created() {
-        this.getData()
     }
 }
 </script>

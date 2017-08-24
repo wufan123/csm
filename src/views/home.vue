@@ -36,12 +36,13 @@
                     </el-menu>
                 </el-col>
                 <el-col :span="21">
-                    <el-tabs v-model="currentTabId" type="card" closable @tab-remove="removeTab">
+                    <el-tabs v-model="currentTabId" type="card" @tab-remove="removeTab" @tab-click="clickTab">
                         <el-tab-pane
                                 v-for="(item, index) in menuTabs"
                                 :key="item.id"
                                 :label="item.name"
                                 :name="item.id.toString()"
+                                :closable="true"
                         >
                             <component v-bind:is="item.page" v-on:goOtherTab="showTabByName"
                                        @setAdvertImg="setAdvertImgFn"
@@ -84,7 +85,7 @@
                 subMenus: subMenus,
                 menus: menus,
                 destopNotifyList: [],
-                messageNotifyList:[]
+                messageNotifyList: []
             }
         },
         methods: {
@@ -130,12 +131,19 @@
                 this.currentTabId = item.id.toString();
                 for (let i = 0; i < this.menuTabs.length; i++) {
                     if (item.id === this.menuTabs[i].id) {
-                        if (this.$refs['tab' + item.id] && this.$refs['tab' + item.id][0] && this.$refs['tab' + item.id][0].changeViewState)
-                            this.$refs['tab' + item.id][0].changeViewState({
+                        if(!this.$refs['tab' + item.id])
+                            return
+                        let tabPage = this.$refs['tab' + item.id][0]
+                        if (tabPage.changeViewState) {
+                            tabPage.changeViewState({
                                 tabForm: {
                                     status: '1'
                                 }
                             })
+                        }
+                        if (tabPage.fetchData) {
+                            tabPage.fetchData(true)
+                        }
                         return;
                     }
                 }
@@ -236,10 +244,10 @@
                                         window._nim.onMsg(msg)
                                     } else {
                                         /*this.$notify.info({
-                                            title:msg.fromNick +"  \n-"+new Date(msg.time).format("yyyy-MM-dd hh:mm:ss"),
-                                            message:(msg.text ? msg.text : '图片'),
-                                            iconClass: 'el-icon-message'
-                                        });*/
+                                         title:msg.fromNick +"  \n-"+new Date(msg.time).format("yyyy-MM-dd hh:mm:ss"),
+                                         message:(msg.text ? msg.text : '图片'),
+                                         iconClass: 'el-icon-message'
+                                         });*/
                                     }
                                     break;
                                 case "notification":
@@ -310,6 +318,15 @@
                 }
 
             },
+            clickTab(item){
+                if(!this.$refs['tab' + item.name])
+                    return
+                let tabPage = this.$refs['tab' + item.name][0];
+                console.log(tabPage)
+                if (tabPage.fetchData) {
+                    tabPage.fetchData(true)
+                }
+            }
         },
 
     }

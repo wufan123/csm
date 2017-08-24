@@ -46,8 +46,8 @@
                         >
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="截图" v-if="false">
-                        <qiniu-img v-model="form.suggestAttaches"></qiniu-img>
+                    <el-form-item label="截图" >
+                        <qiniu-img v-model="form.suggestAttaches" :disabled="true"></qiniu-img>
                     </el-form-item>
                     <el-form-item class="form-button">
                         <!--<el-button type="primary" v-on:click="save">保存</el-button>-->
