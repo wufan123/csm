@@ -55,7 +55,7 @@
                 chatRec: [],
                 textMessage: '',
                 isWindowShow: this.workorder.unread>0?true:false,
-                unread: this.workorder.unread
+                unread: this.workorder.unread?this.workorder.unread:0
             }
         },
         watch:{
