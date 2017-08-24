@@ -17,7 +17,9 @@
         data(){
             return {
                 view: '',
-                viewState: {},
+                viewState: {
+                    type:'list'
+                },
             }
         },
         methods: {
@@ -29,10 +31,19 @@
                         break;
                     case 'list':
                         this.view = '';
+                        this.$refs.list.getList();
                         break;
                     case 'edit':
                         this.view = edit;
                         break;
+                }
+            },
+            fetchData(need){
+                if (need) {
+                    if (this.viewState.type == 'list') {
+                        console.log('1111')
+                        this.$refs.list.getList();
+                    }
                 }
             }
         }

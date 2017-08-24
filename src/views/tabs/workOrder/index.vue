@@ -18,7 +18,8 @@
         data(){
             return {
                 viewState: {
-                    tabForm: this.tabForm
+                    tabForm: this.tabForm,
+                    type: 'list'
                 },
                 view: ''
             }
@@ -38,12 +39,20 @@
                         this.view = handle;
                         break;
                 }
+            },
+            fetchData(need){
+                if (need) {
+                    if (this.viewState.type == 'list') {
+                        this.$refs.list.getWorkOrders();
+                    }
+                }
             }
         }
     }
 </script>
 <style lang="less">
     @import "~style/base-variables";
+
     .complaint {
         .des {
             background: #fffad5;

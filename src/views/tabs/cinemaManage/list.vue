@@ -25,15 +25,29 @@
                     <el-table-column type="index" label="序号" width="100"></el-table-column>
                     <el-table-column prop="name" label="影院名称" width="180"></el-table-column>
                     <el-table-column prop="cinemaGroup.name" label="归属影院组" width="180"></el-table-column>
-                    <el-table-column prop="createTime" :formatter="formateDate" label="创建时间" width="180"></el-table-column>
+                    <el-table-column prop="createTime" :formatter="formateDate" label="创建时间"
+                                     width="180"></el-table-column>
                     <el-table-column label="操作">
                         <template scope="scope">
                             <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)">编辑</el-button>
-                            <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
+                            <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除
+                            </el-button>
                         </template>
                     </el-table-column>
                 </el-table>
             </div>
+            <div class="h20"></div>
+            <el-row type="flex" justify="end" class="pagination">
+                <el-pagination
+                        @size-change="pageSizeChange"
+                        @current-change="pageCurrentChange"
+                        :current-page="pageNumber"
+                        :page-sizes="[10, 20, 30, 40]"
+                        :page-size="this.page.pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="this.page.totalElements">
+                </el-pagination>
+            </el-row>
             <el-dialog
                     title="提示"
                     :visible.sync="dialogVisible"
@@ -89,18 +103,33 @@
                         trigger: 'blur'
                     }],
                     cinemaGroupId: [{validator: validateGroupId, trigger: 'change'}]
-                }
+                },
+                pageNumber: 1,
+                page: {
+                    pageSize: 10,
+                    pageNumber: 0,
+                    totalElements: 0
+                },
             }
         },
         methods: {
-            getData: function (params,callBack) {
+            pageCurrentChange(currentPage){
+                this.page.pageNumber = currentPage - 1
+                this.searchSubmit();
+            },
+            pageSizeChange(size){
+                this.page.pageSize = size
+                this.searchSubmit();
+            },
+            getData: function (params, callBack) {
                 cinemaApi.listCinema(params).then(res => {
                     this.cinemaList = res.resultData.content
-                    if(callBack)
+                    this.page.totalElements =res.resultData.totalElements
+                    if (callBack)
                         callBack(res)
                 })
             },
-            searchSubmit(){
+            searchSubmit(callBack){
                 var params = {}
                 if (this.search.cinemaGroupId) {
                     params.cinemaGroupId = this.search.cinemaGroupId
@@ -108,7 +137,9 @@
                 if (this.search.name) {
                     params.name = this.search.name
                 }
-                this.getData(params)
+                params.pageSize = this.page.pageSize
+                params.pageNumber = this.page.pageNumber
+                this.getData(params,callBack)
             },
             addSubmit(){
                 this.$prompt('影院组名称', '新建影院组', {
@@ -142,7 +173,8 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.getData({},()=>{
+                    this.ruleForm.pageSize = this.page.pageSize
+                    this.searchSubmit(() => {
                         if (row.hasWeiXinAcc) {
                             this.$confirm('该影院已与微信端普通账号关联，如删除将导致普通账号无法登陆，确定要删除吗?', '提示', {
                                 confirmButtonText: '确定',
@@ -150,7 +182,7 @@
                                 type: 'warning'
                             }).then(() => {
                                 cinemaApi.delCinema({id: row.id}).then(res => {
-                                    this.getData()
+                                    this.searchSubmit()
                                     this.$message({
                                         type: 'success',
                                         message: '删除成功!'
@@ -159,7 +191,7 @@
                             })
                         } else {
                             cinemaApi.delCinema({id: row.id}).then(res => {
-                                this.getData()
+                                this.searchSubmit()
                                 this.$message({
                                     type: 'success',
                                     message: '删除成功!'
@@ -178,11 +210,14 @@
                         if (this.ruleForm.type) {
                             params.id = this.ruleForm.id
                             cinemaApi.editCinema(params).then(res => {
-                                this.getData()
+                                this.searchSubmit()
                             }, error => this.$message.error(error))
                         } else(
                             cinemaApi.addCinema(params).then(res => {
-                                this.getData()
+                                this.getData({
+                                    pageSize:this.page.pageSize,
+                                    pageNumber:this.page.pageNumber
+                                })
                             }, error => this.$message.error(error))
                         )
                         this.dialogVisible = false;
@@ -192,7 +227,7 @@
             }
         },
         created: function () {
-            this.getData()
+            this.searchSubmit()
         }
     }
 </script>

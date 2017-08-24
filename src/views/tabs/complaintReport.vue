@@ -12,7 +12,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="客诉状态">
-                <el-select v-model="form.status" placeholder="全部">
+                <el-select v-model="form.statuses" placeholder="全部">
                     <el-option label="全部" value=""></el-option>
                     <el-option label="等待处理" value="1"></el-option>
                     <el-option label="处理中" value="2"></el-option>
@@ -178,7 +178,7 @@
                     cinemaId: '',
                     createTimeStart: '',
                     createTimeEnd: '',
-                    status: '',
+                    statuses: '',
                     firstHandler:'',
                     suggestSource: '',
                     pageSize: 20,

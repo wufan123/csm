@@ -10,6 +10,7 @@
                 :data="form"
                 :on-success="success"
                 :on-error="error"
+                :disabled="disabled"
         >
             <i class="el-icon-plus"></i>
         </el-upload>
@@ -22,7 +23,7 @@
     import httpApi from 'api/httpApi'
     const TOKEN_URL = '/qiniu/getToken.do';
     export default {
-        props: ['value'],
+        props: ['value','disabled'],
         data(){
             let qiniuHost = this.$storage.getItem(this.$storage.KEY_USER_DETAIL).qiniuHost;
             let fileList = []

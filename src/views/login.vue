@@ -7,16 +7,16 @@
                 <el-form :model="loginForm" :rules="loginRules" ref="loginForm">
                     <el-form-item prop="loginName">
                         <span class="icon account"></span>
-                        <el-input placeholder="请输入用户名" v-model="loginForm.loginName">
+                        <el-input placeholder="请输入用户名" v-model="loginForm.loginName" @keyup.native.enter="submitLoginForm('loginForm')">
                         </el-input>
                     </el-form-item>
                     <el-form-item prop="password">
                         <span class="icon password"></span>
-                        <el-input placeholder="请输入密码" type="password" v-model="loginForm.password">
+                        <el-input placeholder="请输入密码" type="password" v-model="loginForm.password" @keyup.native.enter="submitLoginForm('loginForm')">
                         </el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-checkbox v-model="loginForm.keepPass">记住密码</el-checkbox>
+                        <el-checkbox v-model="loginForm.keepPass" >记住密码</el-checkbox>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary login-button" @click="submitLoginForm('loginForm')">

@@ -235,6 +235,7 @@
                 this.form.createTimeStart = this.date.createTimeStart ? this.date.createTimeStart.format('yyyy-MM-dd') : '';
                 this.form.createTimeEnd = this.date.createTimeEnd ? this.date.createTimeEnd.format('yyyy-MM-dd') : '';
                 workOrderApi.list(this.form).then(res => {
+                    this.activeSubTab = this.form.statuses?this.form.statuses:'0'
                     this.pageDatas = res.resultData
                     this.ordersContent = this.pageDatas.content
                     this.getLocalSessions();

@@ -156,10 +156,10 @@
                         }
                         this.fullscreenLoading = true;
                         employeeApi.updateEmployee(this.employee).then(res => {
-                            this.fullscreenLoading = false;
                             this.$emit('setType', {
                                 type: 'list'
                             })
+                            this.fullscreenLoading = false;
                         }, error => {
                             this.fullscreenLoading = false;
                             this.$message.error(error)

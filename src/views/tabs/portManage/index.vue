@@ -194,11 +194,11 @@ export default {
             this.page.pageSize= size
             this.getData();
 
+        },
+        fetchData(){
+            this.getData()
+            this.getPortClassList()
         }
-    },
-    created:function () {
-        this.getData()
-        this.getPortClassList()
     }
 }
 </script>

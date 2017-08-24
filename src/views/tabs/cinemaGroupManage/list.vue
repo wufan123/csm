@@ -151,10 +151,10 @@
             pageSizeChange(size){
                 this.page.pageSize = size
                 this.getData();
+            },
+            fetchData(){
+                this.getData()
             }
-        },
-        created: function () {
-            this.getData()
         }
     }
 </script>

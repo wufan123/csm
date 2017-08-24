@@ -185,7 +185,7 @@
             orderTypeChage(){
                 this.getOperationStar();
             },
-            fetchData(){
+            fetchData(){//视图创建
                 cinemaApi.listCinemaGroup().then(res => {
                     for (let i in this.charts) {
                         this.charts[i].cinemaGroup = res.resultData.content
