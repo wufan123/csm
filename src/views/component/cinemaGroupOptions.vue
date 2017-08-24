@@ -7,12 +7,7 @@
 <script>
     import cinemaApi from 'api/cinemaApi'
     export default {
-        props:{
-            showAll:{
-                type:Boolean
-            }
-
-        },
+        props:['showAll','withPermissions'],
         data(){
             return{
                 cinemaGroupOptions:[]
@@ -20,13 +15,13 @@
         },
         methods:{
             fetchData(){
-                cinemaApi.listCinemaGroup({}).then(res => {
+                cinemaApi.listCinemaGroup({withPermissions:this.withPermissions}).then(res => {
                     let ops =[]
                     if (this.showAll)
                     {
                         ops = ops.concat([{id: '', name: '全部'}])
                     }
-                    ops = ops.concat(res.resultData.content);
+                    ops = ops.concat(this.withPermissions?res.resultData:res.resultData.content);
                     this.cinemaGroupOptions = ops;
                 })
             },

@@ -36,7 +36,7 @@
     "colorEnd": "#FFF",
     "lineColor": "#AAEE68",
     "id": "solve",
-    "tipText": "平均解决时间{c}",
+    "tipText": "平均解决时间{c}秒",
     "apiUrl": "/platformIndex/averageCompleteTime.do",
     "xAxisDate": [],
     "xAxisWeek": [],
