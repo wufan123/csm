@@ -52,6 +52,6 @@ export default {
         return httpApi.postForm(_CHAT_LIST, params)
     },
     lock(id){
-       return new WebSocket(_WEBSOCKET+_COMMUNICATE+'?workorderId='+id);
+       return new WebSocket((_WEBSOCKET?_WEBSOCKET:(window.location.host+'/'))+_COMMUNICATE+'?workorderId='+id);
     }
 }

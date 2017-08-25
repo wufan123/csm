@@ -212,6 +212,7 @@
                 }
             },
             viewReady(){
+                console.log(window.location.host)
                 window.vm = this;
                 window.onbeforeunload = function() {
                     return false;

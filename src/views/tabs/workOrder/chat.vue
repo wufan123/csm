@@ -170,7 +170,7 @@
             },
             sendtxt(){
                 if (!this.textMessage)
-                    return 
+                    return
                 this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
                 let custom ={
                     identity :1,
