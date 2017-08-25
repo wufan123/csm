@@ -129,6 +129,11 @@
                 }
                 reader.onload = function () {
                     dataUrl = this.result;
+                    this.userDetail = vm.$storage.getItem(vm.$storage.KEY_USER_DETAIL);
+                    let custom ={
+                        identity :1,
+                        headImgUrl:this.userDetail?this.userDetail.headImageLink:''
+                    }
                     window._nim.sendFile({
                         scene: 'team',
                         to: vm.workorder.teamId,
@@ -165,8 +170,7 @@
             },
             sendtxt(){
                 if (!this.textMessage)
-                    return
-                
+                    return 
                 this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
                 let custom ={
                     identity :1,
