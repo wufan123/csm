@@ -1,7 +1,7 @@
 <template>
     <div class="chat">
         <div class="news-tip" v-show="!isWindowShow" v-on:click="showChatWindow">
-            <i class="icon"></i><span v-if="workorder.status< 5">您有<label class="unread">{{unread}}</label>条未读信息</span>
+            <img class="icon" :src="userDetail.headImageLink"/><span v-if="workorder.status< 5">您有<label class="unread">{{unread}}</label>条未读信息</span>
             <span v-if="workorder.status>=5">查看沟通记录</span>
         </div>
         <div class="chat-window" v-show="isWindowShow">
@@ -14,7 +14,7 @@
             <div class="chat-body" ref="chatBody">
                 <div v-for="(item,index) in chatRec" :key="index"
                      :class="item.custom.identity==1?'chat-rec-right':'chat-rec-left'">
-                    <div class="get-avatar"></div>
+                    <img class="get-avatar" :src="item.custom.identity==1?item.custom.headImgUrl:' '"/>
                     <div class="content">
                         <span class="time">{{formateDate(item.time)}}</span><br/>
                         <div class="message"><img :src="item.url" @click="showImg(item.url)"/>{{item.text}}</div>
@@ -60,7 +60,10 @@
                 isWindowShow: this.workorder.unread>0?true:false,
                 unread: this.workorder.unread,
                 dialogVisible:false,
-                dialogImageUrl:''
+                dialogImageUrl:'',
+                userDetail:{
+                    headImageLink:''
+                }
             }
         },
         watch:{
@@ -89,6 +92,7 @@
             viewReady(){
                 window._nim.onMsg = this.onMsg
                 this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
+                console.log(this.userDetail)
                 if(this.isWindowShow){
                     window._nim.resetSessionUnread(this.workorder.sessionId)
                 }

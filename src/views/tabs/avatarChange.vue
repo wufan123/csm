@@ -5,7 +5,7 @@
     <div class="content">
         <div class="box">
             <img :src="image" class="img-avatar">
-            <h4>admin</h4>
+            <h4>{{userInfo.fullName}}</h4>
             <p>上次登录：{{new Date(userInfo.preLoginTime).format("yyyy-MM-dd hh:mm:ss")}}</p>
             <div class="h20"></div>
             <div class="h20"></div>

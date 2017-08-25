@@ -7,11 +7,7 @@
 <script>
     import cinemaApi from 'api/cinemaApi'
     export default {
-        props: {
-            showAll: {
-                type: Boolean
-            }
-        },
+        props: ['showAll','withPermissions'],
         data(){
             return {
                 cinemasOptions: []
@@ -21,7 +17,8 @@
             getCinemas(cinemaGroupId){
                 let ops = [];
                 cinemaApi.listCinema({
-                    cinemaGroupId: cinemaGroupId
+                    cinemaGroupId: cinemaGroupId,
+                    withPermissions:this.withPermissions 
                 }).then(res => {
                     if (this.showAll)
                     {

@@ -5,12 +5,12 @@
                 <el-form ref="form" :model="form" label-width="85px" :inline="true">
                     <el-form-item label="影院组名称">
                         <el-select v-model="form.cinemaGroupId" placeholder="全部" v-on:change="getCinemas()">
-                            <group-options :showAll="true"></group-options>
+                            <group-options showAll="true" withPermissions="true"></group-options>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="影院名称">
                         <el-select v-model="form.cinemaId" placeholder="全部">
-                            <cinema-options :showAll="true" ref="cinemaOp"></cinema-options>
+                            <cinema-options showAll="true" withPermissions="true" ref="cinemaOp"></cinema-options>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="客诉状态">
@@ -70,7 +70,8 @@
                     </el-table-column>
                     <el-table-column
                             prop="firstHandler"
-                            label="处理人">
+                            label="客诉处理人"
+                            width="100">
                     </el-table-column>
                     <el-table-column
                             prop="statusName"

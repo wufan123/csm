@@ -164,7 +164,6 @@
             save(){
                 let validA, validB = false;
                 let validSave = () => {
-                    console.log(validA, validB)
                     if (validA && validB) {
                         workOrderApi.save(this.form).then(res => {
                             this.$emit('view', {
@@ -221,9 +220,10 @@
                     if (viewData.status <= 2) {
                         status = "2";
                     }
-                    if (viewData.status >= 5) {
-                        console.log(viewData.status)
+                    else if (viewData.status >= 5) {
                         status = '5';
+                    }else{
+                        status =viewData.status.toString()
                     }
                     this.disableStatus = viewData.status >= 5 ? true : false
                     this.form = {

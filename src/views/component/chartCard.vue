@@ -20,7 +20,7 @@
                     placeholder="选择日期"
                     :picker-options="dateEndOptions">
             </el-date-picker>
-            <el-select v-model="form.cinemaGroupId" filterable  placeholder="请选择影院组"  v-on:change="getCinemas" >
+            <el-select v-model="form.cinemaGroupId" filterable placeholder="请选择影院组" v-on:change="getCinemas">
                 <el-option label="全部" value=" "></el-option>
                 <el-option
                         v-for="item in chart.cinemaGroup"
@@ -78,6 +78,16 @@
             }
         },
         methods: {
+            getTimeFormate(time){
+                if(time >3600){
+                    return (time/3600).toFixed(2)+'小时'
+                }else if (time >60){
+                    return (time/60).toFixed(2)+'分钟'
+                }else{
+                    return time+'秒'
+                }
+
+            },
             drawChart(chart){
                 if (!this.myChartView) {
                     let chartEl = document.getElementById(chart.id);
@@ -88,7 +98,17 @@
                     }
                 }
                 chartOpt.title.text = chart.chartTitle//单位标题
-                chartOpt.tooltip.formatter = chart.tipText//tip
+                chartOpt.tooltip.formatter = (params) => {
+                    switch (chart.id) {
+                        case 'complaint':
+                            return `客诉数量${params.data}条`;
+                        case 'response':
+                            return '平均响应时间'+this.getTimeFormate(params.data);
+                        case 'solve':
+                            return '平均解决时间'+this.getTimeFormate(params.data);
+                    }
+
+                }//tip
                 chartOpt.xAxis[0].data = chart.xAxisDate//x 轴第一行下标
                 chartOpt.xAxis[1].data = chart.xAxisWeek//x 轴第二行下标
                 chartOpt.series[0].data = chart.data//数据
@@ -101,7 +121,7 @@
                 this.myChartView.setOption(chartOpt);
             },
             getCinemas(){
-                this.form.cinemaId=''
+                this.form.cinemaId = ''
                 cinemaApi.listCinema({
                     cinemaGroupId: this.form.cinemaGroupId
                 }).then(res => {
