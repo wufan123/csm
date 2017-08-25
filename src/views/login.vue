@@ -35,6 +35,7 @@
 
     export default {
         data() {
+            console.log(_WEBSOCKET)
             const user = this.$storage.getUser();
             return {
                 loginForm: user.keepPass?user:{loginName:user.loginName},

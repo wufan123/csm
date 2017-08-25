@@ -3,8 +3,7 @@ const prefix = '/serviceUser';
 
 const _LOGIN = `${prefix}/serviceLogin.do`;
 const _LOGOUt = `${prefix}/serviceLoginout.do`;
-
-const _HEARTBEAT = `${prefix}/heartbeat.do`
+const _INFO = `${prefix}/userInfo.do`
 
 export default {
     _LOGIN: _LOGIN,
@@ -14,6 +13,9 @@ export default {
     },
     logout(params) {
         return httpApi.postForm(_LOGOUt, params)
+    },
+    info(params){
+        return httpApi.postForm(_INFO,params)
     },
     reSortMenus(menus) { //将原先的菜单列表转换成三维数组
         let array1 = [];
@@ -48,8 +50,5 @@ export default {
         }
 
         return array1;
-    },
-    heartBeat() {
-        return httpApi.postForm(_HEARTBEAT)
-    },
+    }
 }

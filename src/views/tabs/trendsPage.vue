@@ -125,6 +125,7 @@
     import chartCard from 'views/component/chartCard.vue'
     import cinemaApi from 'api/cinemaApi'
     import indexApi from 'api/indexApi'
+    import loginApi from 'api/loginApi'
     import chartData from 'assets/chartData.json'
     import ElRow from "element-ui/packages/row/src/row";
     //获取图表数据
@@ -188,6 +189,9 @@
                 this.getOperationStar();
             },
             fetchData(){//视图创建
+                loginApi.info().then(res=>{
+                    this.userDetail = res.resultData
+                })
                 cinemaApi.listCinemaGroup().then(res => {
                     for (let i in this.charts) {
                         this.charts[i].cinemaGroup = res.resultData.content
@@ -196,14 +200,6 @@
                 indexApi.workorderCount().then(res => {
                     this.workorderCount = res.resultData
                 })
-                for (let i = 0; i < this.userDetail.manageGroups.length; i++) {
-                    this.userDetail.manageGroups[i].cinemas = [];
-                    cinemaApi.listCinema({
-                        cinemaGroupId: this.userDetail.manageGroups[i].id
-                    }).then(res => {
-                        this.userDetail.manageGroups[i].cinemas = res.resultData.content
-                    })
-                }
                 this.getOperationStar();
             },
             statisticsChage(){
