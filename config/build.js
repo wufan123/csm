@@ -7,7 +7,7 @@ module.exports =  {
         new webpack.DefinePlugin({//运行时变量
             _BASE_URL:JSON.stringify('api/'),
             _MOCK:false,//模拟数据,
-            _WEBSOCKET:"",
+            _WEBSOCKET:"'ws://192.168.10.239:29089/'",
         }),
         // new webpack.optimize.UglifyJsPlugin({
         //     compress: {

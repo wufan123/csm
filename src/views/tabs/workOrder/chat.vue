@@ -210,6 +210,9 @@
         destroyed(){
             console.log('销毁chat')
             window._nim.onMsg = null
+            if(this.isWindowShow){
+                window._nim.resetSessionUnread(this.workorder.sessionId)
+            }
         }
     }
 </script>

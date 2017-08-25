@@ -131,18 +131,23 @@
                 this.currentTabId = item.id.toString();
                 for (let i = 0; i < this.menuTabs.length; i++) {
                     if (item.id === this.menuTabs[i].id) {
+
                         if(!this.$refs['tab' + item.id])
                             return
-                        let tabPage = this.$refs['tab' + item.id][0]
+                        let tabPage = this.$refs['tab' + item.id]
+                        if(tabPage instanceof Array){
+                              tabPage =this.$refs['tab' + item.id][0]
+                        }
+                        console.log(tabPage)
+                        if (tabPage.fetchData) {
+                            tabPage.fetchData(true)
+                        }
                         if (tabPage.changeViewState) {
                             tabPage.changeViewState({
                                 tabForm: {
                                     status: '1'
                                 }
                             })
-                        }
-                        if (tabPage.fetchData) {
-                            tabPage.fetchData(true)
                         }
                         return;
                     }
@@ -321,9 +326,14 @@
 
             },
             clickTab(item){
+                console.log(this.$refs['tab' + item.name])
                 if(!this.$refs['tab' + item.name])
                     return
-                let tabPage = this.$refs['tab' + item.name][0];
+                let tabPage = this.$refs['tab' + item.name];
+                if(tabPage instanceof Array)
+                {
+                    tabPage = this.$refs['tab' + item.name][0];
+                }
                 console.log(tabPage)
                 if (tabPage.fetchData) {
                     tabPage.fetchData(true)
