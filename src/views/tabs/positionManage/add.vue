@@ -30,20 +30,7 @@
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="接口权限" >
-                                <el-collapse v-model="activeName2" accordion>
-                                    <el-collapse-item v-for="(item,index) in portClassList" :key="item.id"  :name="index">
-                                        <template slot="title">
-                                            <el-checkbox v-model="checkAll2[index]" @change="handleCheckAllChange2(item.id)">{{item.name}}</el-checkbox>
-                                        </template>
-                                        <el-checkbox-group v-model="position.siteInterfaceIds">
-                                            <div class="line" v-for="subItem in item.children" :key="subItem.id" >
-                                                <p><el-checkbox :label="subItem.id" :key="subItem.id">{{subItem.interfaceName}}</el-checkbox>   </p>
-                                            </div>
-
-                                        </el-checkbox-group>
-                                    </el-collapse-item>
-
-                                </el-collapse>
+                                <port-collapse v-model="position.siteInterfaceIds"></port-collapse>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -58,21 +45,12 @@
     </div>
 </template>
 <script>
-var onOff = true
-var onOff2 = true
-import positionApi from 'api/positionApi'
-import portApi from 'api/siteInterfaceApi'
 import menusCollapse from 'views/component/menusCollapse.vue'
+import portCollapse from 'views/component/portCollapse.vue'
+import positionApi from 'api/positionApi'
 export default {
-   
   data(){
       return {
-          checkAll: [],
-          checkAll2:[],
-          menuList:[],
-          activeName2: '',
-          portClassList:[],
-          portList:[],
           position:{
               menuIds:[],
               siteInterfaceIds:[],
@@ -85,34 +63,10 @@ export default {
           }
       }
   },
-    components: {'menus-collapse': menusCollapse},
+    components: {'menus-collapse': menusCollapse,'port-collapse':portCollapse},
   methods: {
-      getPortClassList(){
-        portApi.ListPortGroup({enable:true}).then(res=>{
-          this.portClassList = res.resultData.content
-          this.getPortList()
-        })
-      },
-      getPortList(){
-        portApi.ListPort({enable:true}).then(res=>{
-          this.portClassList&&this.portClassList.forEach((subItem,subIndex)=>{
-             this.portClassList[subIndex].children = []
-          res.resultData.content&&res.resultData.content.forEach(item=>{
-            this.portList = res.resultData.content
-              if(item.interfaceCategoryId==subItem.id){
-                console.log('item',item)
-                
-                this.portClassList[subIndex].children.push(item)
-              }
-            })
-          })
-
-          console.log('portClassList',this.portClassList)
-        })
-      },
       submitForm(position){
         console.log('position',this.position)
-        
         this.$refs[position].validate((valid) => {
             if (valid) {
               positionApi.addPosition(this.position).then(res =>{
@@ -125,42 +79,11 @@ export default {
             }
             })
       },
-      handleCheckAllChange2(id){
-        console.log('id',id)
-        if(onOff){
-          var arr = []
-          onOff = false
-        }else{
-          arr = this.position.siteInterfaceIds
-          var arr2 = this.position.siteInterfaceIds
-        }
-        if (!event.target.checked) {
-          this.portList&&this.portList.forEach(item=>{
-             if(item.interfaceCategoryId==id){
-               arr2.remove(item.id);
-             }
-          })
-        }else{
-          this.portList&&this.portList.forEach(item=>{
-             if(item.interfaceCategoryId==id){
-               arr.push(item.id)
-             }
-          })
-        }
-        arr = arr&&arr.unique()
-        arr2 = arr2&&arr2.unique()
-        console.log('arr',arr)
-        console.log('arr2',arr2)
-        this.position.siteInterfaceIds = event.target.checked ? arr : arr2;
-      },
       closeFn(){
         this.$emit('setType',{
                   type:'list'
         })
       }
-  },
-  created(){
-    this.getPortClassList()
   }
 }
 </script>

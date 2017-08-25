@@ -7,12 +7,14 @@
                 <el-form :model="loginForm" :rules="loginRules" ref="loginForm">
                     <el-form-item prop="loginName">
                         <span class="icon account"></span>
-                        <el-input placeholder="请输入用户名" v-model="loginForm.loginName">
+                        <el-input placeholder="请输入用户名" v-model="loginForm.loginName"
+                                  @keyup.native.enter="submitLoginForm('loginForm')">
                         </el-input>
                     </el-form-item>
                     <el-form-item prop="password">
                         <span class="icon password"></span>
-                        <el-input placeholder="请输入密码" type="password" v-model="loginForm.password">
+                        <el-input placeholder="请输入密码" type="password" v-model="loginForm.password"
+                                  @keyup.native.enter="submitLoginForm('loginForm')">
                         </el-input>
                     </el-form-item>
                     <el-form-item>
@@ -35,7 +37,7 @@
         data() {
             const user = this.$storage.getUser();
             return {
-                loginForm: user,
+                loginForm: user.keepPass?user:{loginName:user.loginName},
                 loginRules: {
                     loginName: [
                         {required: true, message: '请输入用户名', trigger: 'blur'}
@@ -51,15 +53,11 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         loginApi.login(this.loginForm).then((response) => {
-                            if (this.loginForm.keepPass) {
-                                this.$storage.setUser(this.loginForm)
-                            } else {
-                                this.$storage.clearUser();
-                            }
+                            this.$storage.setUser(this.loginForm)
                             response.resultData.sortedMenus = loginApi.reSortMenus(response.resultData.menus);
-                            this.$storage.setItem(this.$storage.KEY_USER_DETAIL,response.resultData);
+                            this.$storage.setItem(this.$storage.KEY_USER_DETAIL, response.resultData);
                             window._UUID = response.resultData.uuid
-                            this.$router.push({ path: 'home' });
+                            this.$router.push({path: 'home'});
                         })
                     } else {
                         return false;

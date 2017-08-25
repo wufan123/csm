@@ -30,7 +30,6 @@ export default {
   data(){
     
       var vaildateInitPass = (rule, value, callback) => {
-        
         let userInfo = _vue.$storage.getUser()
         console.log('密码',userInfo)
         if (value === '') {
@@ -44,7 +43,9 @@ export default {
       var validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
-        } else {
+        } else if(this.form.initPass==value){
+            callback(new Error('新密码不能与原密码相同'));
+        } else{
         //   if (this.form.checkPass !== '') {
         //     this.$refs.form.validateField('checkPass');
         //   }
@@ -68,7 +69,7 @@ export default {
         },
         rules2: {
             initPass: [ { validator: vaildateInitPass, trigger: 'blur' } ],
-            pass: [ { validator: validatePass, trigger: 'blur' } ],
+            pass: [ { validator: validatePass, trigger: 'blur' } ,{ min:6,max: 20, message: '字符长度需在6-20字符之间', trigger: 'blur' }],
             checkPass: [ { validator: validatePass2, trigger: 'blur' } ]
         }
       }
@@ -82,7 +83,6 @@ export default {
               params.oldPassword = this.form.initPass
               params.newPassword = this.form.pass
             commonApi.updatepassword(params).then(res =>{
-              
               let newUserInfo = userInfo
               newUserInfo.password = this.form.pass
                 this.$storage.setUser(newUserInfo)

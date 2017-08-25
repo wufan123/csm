@@ -1,7 +1,7 @@
 <template>
     <div class="chat">
         <div class="news-tip" v-show="!isWindowShow" v-on:click="showChatWindow">
-            <i class="icon"></i><span v-if="workorder.status< 5">您有<label class="unread">{{unread}}</label>条未读信息</span>
+            <img class="icon" :src="userDetail.headImageLink"/><span v-if="workorder.status< 5">您有<label class="unread">{{unread}}</label>条未读信息</span>
             <span v-if="workorder.status>=5">查看沟通记录</span>
         </div>
         <div class="chat-window" v-show="isWindowShow">
@@ -14,10 +14,10 @@
             <div class="chat-body" ref="chatBody">
                 <div v-for="(item,index) in chatRec" :key="index"
                      :class="item.custom.identity==1?'chat-rec-right':'chat-rec-left'">
-                    <div class="get-avatar"></div>
+                    <img class="get-avatar" :src="item.custom.identity==1?item.custom.headImgUrl:' '"/>
                     <div class="content">
                         <span class="time">{{formateDate(item.time)}}</span><br/>
-                        <div class="message"><img :src="item.url"/>{{item.text}}</div>
+                        <div class="message"><img :src="item.url" @click="showImg(item.url)"/>{{item.text}}</div>
                     </div>
                 </div>
             </div>
@@ -40,6 +40,9 @@
                 <i class="el-icon-check"></i> 该客诉已经解决，评价为：{{workorder.scoreName}}
             </div>
         </div>
+        <el-dialog v-model="dialogVisible" size="large">
+            <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -55,7 +58,12 @@
                 chatRec: [],
                 textMessage: '',
                 isWindowShow: this.workorder.unread>0?true:false,
-                unread: this.workorder.unread?this.workorder.unread:0
+                unread: this.workorder.unread?this.workorder.unread:0,
+                dialogVisible:false,
+                dialogImageUrl:'',
+                userDetail:{
+                    headImageLink:''
+                }
             }
         },
         watch:{
@@ -66,6 +74,10 @@
             }
         },
         methods: {
+            showImg(url){
+                this.dialogVisible=true
+                this.dialogImageUrl =url
+            },
             formateDate(time){
                 let now = new Date()
                 let today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
@@ -80,6 +92,7 @@
             viewReady(){
                 window._nim.onMsg = this.onMsg
                 this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
+                console.log(this.userDetail)
                 if(this.isWindowShow){
                     window._nim.resetSessionUnread(this.workorder.sessionId)
                 }
@@ -109,12 +122,17 @@
                 reader.onerror = () => {
                     console.log("出错")
                 }
+                this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
+                let custom ={
+                    identity :1,
+                    headImgUrl:this.userDetail?this.userDetail.headImageLink:''
+                }
                 reader.onload = function () {
                     dataUrl = this.result;
                     window._nim.sendFile({
                         scene: 'team',
                         to: vm.workorder.teamId,
-                        custom: '{"identity":1}',
+                        custom: JSON.stringify(custom),
                         type: 'image',
                         dataURL: dataUrl,
                         beginupload: function (upload) {
@@ -148,6 +166,8 @@
             sendtxt(){
                 if (!this.textMessage)
                     return
+                
+                this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
                 let custom ={
                     identity :1,
                     headImgUrl:this.userDetail?this.userDetail.headImageLink:''
@@ -190,6 +210,9 @@
         destroyed(){
             console.log('销毁chat')
             window._nim.onMsg = null
+            if(this.isWindowShow){
+                window._nim.resetSessionUnread(this.workorder.sessionId)
+            }
         }
     }
 </script>

@@ -17,7 +17,9 @@
         },
         data(){
             return {
-                viewState: {},
+                viewState: {
+                    type:'list'
+                },
                 view: '',
                 dialogImageUrl: ''
             }
@@ -39,6 +41,13 @@
                     case 'check':
                         this.view = check;
                         break;
+                }
+            },
+            fetchData(need){
+                if (need) {
+                    if (this.viewState.type == 'list') {
+                        this.$refs.list.getList();
+                    }
                 }
             }
         }

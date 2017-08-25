@@ -1,4 +1,3 @@
-<
 <template>
     <div>
         <div class="page">
@@ -57,7 +56,7 @@
                         <el-form-item label="所属岗位" required prop="positionId">
                             <el-select v-model="employee.positionId" placeholder="请选择">
                                 <el-option v-for="item in positionList" :key="item.id"
-                                           :label="item.positionName" :value="item.id">
+                                           :label="item.positionName" :value="item.id" v-if="item.enable">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -74,7 +73,6 @@
         </div>
     </div>
 </template>
-<
 <script>
     import employeeApi from 'api/employeeApi'
     import cinemaApi from 'api/cinemaApi'
@@ -156,10 +154,10 @@
                         }
                         this.fullscreenLoading = true;
                         employeeApi.updateEmployee(this.employee).then(res => {
-                            this.fullscreenLoading = false;
                             this.$emit('setType', {
                                 type: 'list'
                             })
+                            this.fullscreenLoading = false;
                         }, error => {
                             this.fullscreenLoading = false;
                             this.$message.error(error)

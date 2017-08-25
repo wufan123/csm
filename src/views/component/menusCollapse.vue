@@ -87,7 +87,7 @@
                 })
             },
             handleCheckChange(item, index){
-                if (index || index == 0) {
+                if (index || index == 0) {//index区分是不是一级菜单被选中
                     if (this.menuIds.indexOf(item.id) >= 0) {
                         this.pushChildrenId(item.children)
                         this.pushParentId(item.parentId)
@@ -152,18 +152,23 @@
                 let topItem = this.topMenus[index]
                 if (!topItem || !topItem.allId)
                     return
+                let length =0
                 for (let i = 0; i < topItem.allId.length; i++) {
-                    if(!(this.menuIds.indexOf(topItem.allId[i])>=0)){
-                        topItem.check =false
-                        if(i>0){
-                            topItem.isIndeterminate =true
-                        }
-                        return
+                    if(this.menuIds.indexOf(topItem.allId[i])>=0){
+                        length++
                     }
                 }
-                topItem.isIndeterminate =false
-                topItem.check =true;
-                console.log('allId',topItem.check)
+                if(length===topItem.allId.length)
+                {
+                    topItem.isIndeterminate = false
+                    topItem.check = true;
+                }else if(length>0&&length<topItem.allId.length){
+                    topItem.isIndeterminate = true
+                }else {
+                    topItem.isIndeterminate = false
+                    topItem.check = false;
+                }
+//                this.$set(this.topMenus,index,topItem)
             },
             getChildrenId(children){
                 if (!children)

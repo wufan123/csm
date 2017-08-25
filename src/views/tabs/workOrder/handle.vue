@@ -131,9 +131,10 @@
                     workorderAttaches: [],
                     otherDetail: ''
                 },
-                disableStatus:true,
+                disableStatus: true,
                 dialogImageUrl: '',
                 dialogVisible: false,
+                lock: '',
                 rules: {
                     orderType: [
                         {required: true, message: '请选择客诉类型', trigger: 'change'},
@@ -163,7 +164,6 @@
             save(){
                 let validA, validB = false;
                 let validSave = () => {
-                    console.log(validA, validB)
                     if (validA && validB) {
                         workOrderApi.save(this.form).then(res => {
                             this.$emit('view', {
@@ -220,9 +220,10 @@
                     if (viewData.status <= 2) {
                         status = "2";
                     }
-                    if (viewData.status >= 5) {
-                        console.log(viewData.status)
+                    else if (viewData.status >= 5) {
                         status = '5';
+                    }else{
+                        status =viewData.status.toString()
                     }
                     this.disableStatus = viewData.status >= 5 ? true : false
                     this.form = {
@@ -238,7 +239,20 @@
                         otherDetail: viewData.otherDetail
                     }
                 })
+            },
+            viewReady(){
+                this.lock = workOrderApi.lock(this.form.id);
+                this.lock.onopen = evt => {
+                    console.log('已连接')
+                };
+                this.lock.onerror = evt => {
+                    console.log('连接错误')
+                };
             }
+        },
+        destroyed(){
+            if (this.lock)
+                this.lock.close();
         }
     }
 </script>

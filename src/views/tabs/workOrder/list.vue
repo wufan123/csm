@@ -17,16 +17,13 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="影院组名称">
-                    <el-select v-model="form.cinemaGroupId" placeholder="全部" v-on:change="getCinemas">
-                        <el-option v-for="(item,index) in cinemaGroupOptions" :key="index" :label="item.name"
-                                   :value="item.id"></el-option>
-
+                    <el-select v-model="form.cinemaGroupId" placeholder="全部" v-on:change="getCinemas()">
+                        <group-options showAll="true" withPermissions="true"></group-options>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="影院名称">
                     <el-select v-model="form.cinemaId" placeholder="全部">
-                        <el-option v-for="(item,index) in cinemasOptions" :key="index" :label="item.name"
-                                   :value="item.id"></el-option>
+                        <cinema-options showAll="true"  withPermissions="true" ref="cinemaOp"></cinema-options>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="客诉日期">
@@ -100,7 +97,7 @@
                     <el-col :span="8" v-for="(item,index) in ordersContent" :key="index">
                         <el-card :class="getStatusClass(item.status)" @click.native="handleComplaint(item)">
                             <span v-if="item.isStar" class="star-tag"></span>
-                            <span v-show="item.unread>0" class="message-tag"></span>
+                            <span v-show="item.unread>0&&item.status<5" class="message-tag"></span>
                             <div class="card_header">
                                 {{item.orderNo}}
                             </div>
@@ -175,8 +172,6 @@
                     content: [],
                     totalElements: 0,
                 },
-                cinemaGroupOptions: [],
-                cinemasOptions: [],
             }
         },
         methods: {
@@ -190,15 +185,8 @@
                 this.getWorkOrders();
             },
             getCinemas(){
-                this.cinemasOptions = [];
-                this.form.cinemaId = ''
-                cinemaApi.listCinema({
-                    cinemaGroupId: this.form.cinemaGroupId
-                }).then(res => {
-                    let ops = [{id: '', name: '全部'}]
-                    ops = ops.concat(res.resultData.content);
-                    this.cinemasOptions = ops
-                })
+                this.form.cinemaId=''
+                this.$refs.cinemaOp.getCinemas(this.form.cinemaGroupId);
             },
             add(){
                 this.$emit('view', {
@@ -235,6 +223,7 @@
                 this.form.createTimeStart = this.date.createTimeStart ? this.date.createTimeStart.format('yyyy-MM-dd') : '';
                 this.form.createTimeEnd = this.date.createTimeEnd ? this.date.createTimeEnd.format('yyyy-MM-dd') : '';
                 workOrderApi.list(this.form).then(res => {
+                    this.activeSubTab = this.form.statuses?this.form.statuses:'0'
                     this.pageDatas = res.resultData
                     this.ordersContent = this.pageDatas.content
                     this.getLocalSessions();

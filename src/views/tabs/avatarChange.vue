@@ -5,7 +5,7 @@
     <div class="content">
         <div class="box">
             <img :src="image" class="img-avatar">
-            <h4>admin</h4>
+            <h4>{{userInfo.fullName}}</h4>
             <p>上次登录：{{new Date(userInfo.preLoginTime).format("yyyy-MM-dd hh:mm:ss")}}</p>
             <div class="h20"></div>
             <div class="h20"></div>
@@ -62,6 +62,8 @@ export default {
             params.imgFile = this.image;
             commonApi.updateAvatar(params).then(res => {
                 this.$emit('setAdvertImg',this.image)
+                this.userInfo.headImageLink =this.image
+                  this.$storage.setItem('userDetail',this.userInfo)
                 this.$message({
                 message: '修改成功',
                 type: 'success'
