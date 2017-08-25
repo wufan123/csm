@@ -280,7 +280,6 @@
                 })
             },
             viewReady(){
-                _vue.$bus.$on('getWorkorders', this.getWorkOrders)
                 window._nim.updateSession = this.updateSession
             },
             onMsg(msg){

@@ -23,7 +23,7 @@
             </div>
             <div class="chat-input-box" v-if="workorder.status<5">
                 <el-input class="chat-input" v-model="textMessage" type="textarea" :rows="6" @keyup.enter="sendtxt"
-                          placeholder="请输入回复">
+                          @keyup.native.shift.enter.prevent="sendtxt()" placeholder="请输入回复">
                 </el-input>
                 <div class="chat-button">
                     <el-upload
@@ -33,7 +33,7 @@
                     >
                         <i class="el-icon-picture"></i>
                     </el-upload>
-                    <el-button class="send-text" size="small" type="info" v-on:click="sendtxt">发送</el-button>
+                    <el-button class="send-text" size="small" type="info" v-on:click="sendtxt">发送(shift+enter)</el-button>
                 </div>
             </div>
             <div class="chat-score" v-if="workorder.status>=5">

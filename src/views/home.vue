@@ -131,7 +131,6 @@
                 this.currentTabId = item.id.toString();
                 for (let i = 0; i < this.menuTabs.length; i++) {
                     if (item.id === this.menuTabs[i].id) {
-
                         if(!this.$refs['tab' + item.id])
                             return
                         let tabPage = this.$refs['tab' + item.id]
@@ -142,13 +141,13 @@
                         if (tabPage.fetchData) {
                             tabPage.fetchData(true)
                         }
-                        if (tabPage.changeViewState) {
+                        /*if (tabPage.changeViewState) {
                             tabPage.changeViewState({
                                 tabForm: {
                                     status: '1'
                                 }
                             })
-                        }
+                        }*/
                         return;
                     }
                 }
@@ -189,7 +188,6 @@
                     window.vm.showTabByName({name: '客诉列表'})
                     n.close()
                 }
-                _vue.$bus.$emit('getWorkorders')
             },
             removeTab(targetId) {//关闭tab标签
                 let tabs = this.menuTabs;
@@ -326,10 +324,10 @@
 
             },
             clickTab(item){
-                console.log(this.$refs['tab' + item.name])
                 if(!this.$refs['tab' + item.name])
                     return
                 let tabPage = this.$refs['tab' + item.name];
+                console.log(tabPage)
                 if(tabPage instanceof Array)
                 {
                     tabPage = this.$refs['tab' + item.name][0];
