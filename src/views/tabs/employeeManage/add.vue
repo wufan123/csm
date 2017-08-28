@@ -97,6 +97,13 @@
                     callback()
                 }
             }
+            var validateLoginName =(rule, value, callback)=>{
+                if(value && !_vue.$util.isEnglish(value)){
+                    callback(new Error('只能输入字母及数字'));
+                }else{
+                    callback()
+                }
+            }
             return {
                 fullscreenLoading:false,
                 employee: {
@@ -110,19 +117,16 @@
                 },
                 positionList: [],
                 rules: {
-                    fullName: [{required: true, message: '请输入职员姓名', trigger: 'blur'}, {
-                        min: 2,
-                        max: 8,
-                        message: '长度在 2 到 8 个字符',
-                        trigger: 'blur'
-                    }],
+                    fullName: [
+                         {required: true, message: '请输入职员姓名', trigger: 'blur'}, 
+                                 {min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur'}],
                     mobile: [{validator: validateMobile, trigger: 'blur'}],
                     loginName: [{required: true, message: '请输入职员账号', trigger: 'blur'}, {
                         min: 4,
                         max: 8,
                         message: '长度在 4 到 8 个字符',
                         trigger: 'blur'
-                    }],
+                    },{validator: validateLoginName, trigger: 'blur'}],
                     cardId: [{validator: validateCardId, trigger: 'blur'}],
                     cinemaGroupIds: [{type: 'array', required: true, message: '请至少选择一个影院组', trigger: 'change'}],
                     positionId: [{type: 'number', required: true, message: '请选择岗位', trigger: 'change'}]

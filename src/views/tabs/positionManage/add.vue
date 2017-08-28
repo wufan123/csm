@@ -58,7 +58,7 @@ export default {
               enable:'true'
           },
           rules:{
-             positionName: [{ required: true, message: '请输入岗位名称', trigger: 'blur' },{ min: 2, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }],
+             positionName: [{ required: true, message: '请输入岗位名称', trigger: 'blur' },{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }],
              menuIds:[{ type: 'array', required: true, message: '请至少选择一个菜单权限', trigger: 'change' }]
           }
       }

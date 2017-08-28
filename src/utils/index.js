@@ -1,6 +1,8 @@
 var phoneReg = /^1[3578]\d{9}$/;
 var numberReg = /^[0-9]*$/;
 var IDCardReg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/;
+var cReg = /^[\u4E00-\u9FA5]+$/;
+var eReg = /^[a-zA-Z0-9]*$/
 
 export function isPhone(val) {
     return phoneReg.test(val)
@@ -10,6 +12,12 @@ export function isNumber(val) {
 }
 export function isIDCard(val) {
     return IDCardReg.test(val)
+}
+export function isChinese(val) {
+    return cReg.test(val)
+}
+export function isEnglish(val) {
+    return eReg.test(val)
 }
 export function isEmptyObject(e) {
     var t;
