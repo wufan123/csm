@@ -166,6 +166,7 @@
                 let validSave = () => {
                     if (validA && validB) {
                         workOrderApi.save(this.form).then(res => {
+                            this.sendOrderChageNotify();
                             this.$emit('view', {
                                 type: 'list'
                             })
@@ -186,6 +187,18 @@
                         validSave()
                     } else {
                         return false;
+                    }
+                });
+            },
+            sendOrderChageNotify(){
+                window._nim.sendCustomSysMsg({
+                    scene: 'team',
+                    to: this.viewState.data.teamId,
+                    content: JSON.stringify({type:'workorderChange'}),
+                    sendToOnlineUsersOnly: true,
+                    apnsText: '',
+                    done: (error ,msg)=>{
+                        console.log('发送' + msg.scene + '自定义系统通知' + (!error?'成功':'失败') + ', id=' + msg.idClient);
                     }
                 });
             },
@@ -215,6 +228,7 @@
                 workOrderApi.detail({
                     workorderId: this.form.id
                 }).then(res => {
+                    this.sendOrderChageNotify();
                     let viewData = res.resultData
                     let status;
                     if (viewData.status <= 2) {

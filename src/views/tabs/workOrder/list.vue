@@ -163,6 +163,7 @@
                     createTimeStart: '',
                     createTimeEnd: '',
                     orderLevel: '',
+                    orderSource:'',
                     statuses: status,
                     isStar: '',
                     pageSize: 21,
@@ -218,7 +219,6 @@
                 })
                 this.getWorkOrders();
             },
-
             getWorkOrders(){
                 this.form.createTimeStart = this.date.createTimeStart ? this.date.createTimeStart.format('yyyy-MM-dd') : '';
                 this.form.createTimeEnd = this.date.createTimeEnd ? this.date.createTimeEnd.format('yyyy-MM-dd') : '';
@@ -281,9 +281,17 @@
             },
             viewReady(){
                 window._nim.updateSession = this.updateSession
+                window._nim.onNoti = this.onNoti
             },
-            onMsg(msg){
+            onNoti(msg){
+                if(msg.attach&&msg.attach.type==="dismissTeam")
+                {
+                    this.getWorkOrders()
+                }
             }
+        },
+        destroyed(){
+            window._nim.onNoti =null
         }
     }
 

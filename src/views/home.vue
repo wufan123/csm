@@ -7,7 +7,7 @@
             <el-col :span="21" class="logo">
                 <el-menu theme="dark" mode="horizontal" default-active="0"
                          @select="topMenuSelect">
-                    <el-menu-item v-for="(item, index) in topMenus" :index='index.toString()'
+                    <el-menu-item v-for="(item, index) in topMenus"  :index='index.toString()'
                                   :key="item.name">{{item.name}}
                     </el-menu-item>
                     <el-submenu index="submenu">
@@ -59,6 +59,7 @@
     import indexPage from 'views/tabs/trendsPage.vue'
     import complaintListPage from 'views/tabs/workOrder/index.vue'
     import loginApi from 'api/loginApi'
+    import indexApi from 'api/indexApi'
     import rooter from  '~/rooter'//
     export default{
         data(){
@@ -93,13 +94,23 @@
                 this.headImageLink = val
             },
             logout(){
-                loginApi.logout({
-                    userId: this.userDetail.id
-                }).then((response) => {
-                    clearInterval(window.loginHeart);
-                    window._nim.disconnect();
-                    this.menuTabs = []
-                    this.$router.push({path: 'login'})
+                indexApi.workorderCount().then(res => {
+                    if (res.resultData&&res.resultData.waitingWorkorderCount)
+                    {
+                        this.$confirm(`当前还有${res.resultData.waitingWorkorderCount}条客诉等待处理，确定要退出吗?`, '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+                            loginApi.logout({
+                                userId: this.userDetail.id
+                            }).then((response) => {
+                                window._nim.disconnect();
+                                this.menuTabs = []
+                                this.$router.push({path: 'login'})
+                            })
+                        })
+                    }
                 })
             },
             topMenuSelect(key) {
@@ -127,17 +138,20 @@
             sideMenuClick(item){
                 this.showSelectTab(item)
             },
+            getTabPage(item){
+                if(!this.$refs['tab' + item.id])
+                    return
+                let tabPage = this.$refs['tab' + item.id]
+                if(tabPage instanceof Array){
+                    tabPage =this.$refs['tab' + item.id][0]
+                }
+                return tabPage?tabPage:{}
+            },
             showSelectTab(item){
                 this.currentTabId = item.id.toString();
                 for (let i = 0; i < this.menuTabs.length; i++) {
                     if (item.id === this.menuTabs[i].id) {
-                        if(!this.$refs['tab' + item.id])
-                            return
-                        let tabPage = this.$refs['tab' + item.id]
-                        if(tabPage instanceof Array){
-                              tabPage =this.$refs['tab' + item.id][0]
-                        }
-                        console.log(tabPage)
+                        let tabPage = this.getTabPage(item)
                         if (tabPage.fetchData) {
                             tabPage.fetchData(true)
                         }
@@ -159,9 +173,22 @@
                     if (this.menus[i].name == targetTab.name) {
                         this.menus[i].tabForm = targetTab.tabForm
                         this.showSelectTab(this.menus[i])
+                        return
                     }
                 }
 
+            },
+            refreshtabByName(targetTab){
+                for (let i = 0; i < this.menus.length; i++) {
+                    if (this.menus[i].name == targetTab.name) {
+                        this.menus[i].tabForm = targetTab.tabForm
+                        let tabPage = this.getTabPage(this.menus[i])
+                        if (tabPage.fetchData) {
+                            tabPage.fetchData(true)
+                        }
+                        return
+                    }
+                }
             },
             onCustomSysmsg(sysMsg){
                 if (sysMsg) {
@@ -174,7 +201,27 @@
                 if (this.destopNotifyList.length > 50) {
                     this.destopNotifyList = []
                 }
+                try{
+                    sysMsg.content = JSON.parse(sysMsg.content)
+                }
+                catch (e){
+                    sysMsg.content = []
+                }
                 this.destopNotifyList.push(sysMsg);
+                switch (sysMsg.content.type){
+                    case 'workorderChange':
+                        this.notifyWorkorderChange(sysMsg)
+                        break;
+                    case 'workorderCreate':
+                        this.notifyWorkorderCreate(sysMsg)
+                        break;
+                }
+
+            },
+            notifyWorkorderChange(){
+                this.refreshtabByName({name:'客诉列表'})
+            },
+            notifyWorkorderCreate(sysMsg){
                 if (window._audioNotify)
                     window._audioNotify.play();
                 let n = new Notification("你有新的客诉订单", {
@@ -289,7 +336,7 @@
                         if (window._nim && window._nim.updateSession) {
                             window._nim.updateSession(session)
                         }
-                    }
+                    },
                 })
                 if (!window._audioNotify) {
                     window._audioNotify = new Audio(require('assets/mp3/notify.mp3'));
@@ -327,7 +374,6 @@
                 if(!this.$refs['tab' + item.name])
                     return
                 let tabPage = this.$refs['tab' + item.name];
-                console.log(tabPage)
                 if(tabPage instanceof Array)
                 {
                     tabPage = this.$refs['tab' + item.name][0];

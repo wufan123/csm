@@ -22,16 +22,21 @@ export default {
         return httpApi.postForm(_CREATE, params)
     },
     exportReport(params){
-        let exportUrl =httpApi.defaults.baseURL+_EXPORT+'?'
-        for(let i in params)
-        {
-            if(params[i]){
-                if(i!='pageSize'||i!='pageNumber'){
-                    exportUrl+=i+"="+params[i]+'&'
+        let exportUrl = httpApi.defaults.baseURL + _EXPORT + '?'
+        for (let i in params) {
+            if (params[i]) {
+                if (i != 'pageSize' || i != 'pageNumber') {
+                    exportUrl += i + "=" + params[i] + '&'
                 }
             }
         }
-        window.location.href =exportUrl;
+        httpApi.postForm(_EXPORT, params).then(res => {}, error => {
+            console.log(error)
+            window.location.href =exportUrl;
+            if(error instanceof  String){
+                window.location.href =exportUrl;
+            }
+        })
     },
     delete(params){
         return httpApi.postForm(_DELETE, params)

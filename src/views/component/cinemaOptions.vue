@@ -14,17 +14,24 @@
             }
         },
         methods: {
+
             getCinemas(cinemaGroupId){
                 let ops = [];
-                cinemaApi.listCinema({
-                    cinemaGroupId: cinemaGroupId,
-                    withPermissions:this.withPermissions 
-                }).then(res => {
+                let api;
+                if(!cinemaGroupId&&this.withPermissions)
+                {
+                    api =cinemaApi.listCinemaByUser()
+                }else{
+                    api =cinemaApi.listCinema({
+                        cinemaGroupId: cinemaGroupId,
+                    })
+                }
+                api.then(res => {
                     if (this.showAll)
                     {
                         ops =ops.concat([{id: '', name: '全部'}])
                     }
-                    ops = ops.concat(res.resultData.content);
+                    ops = ops.concat(cinemaGroupId?res.resultData.content:res.resultData);
                     this.cinemasOptions = ops
                 })
             },

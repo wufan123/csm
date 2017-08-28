@@ -86,10 +86,9 @@
                 this.$prompt('影院组名称', '新建影院组', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
-                    inputErrorMessage: '请填写影院组',
+                    inputErrorMessage: '长度在2到25个字符',
                     inputValidator: function (value) {
-                        console.log('value', value)
-                        if (!value) {
+                        if (!value||!(value.length>2&&value.length<50)) {
                             return false;
                         }
                     },

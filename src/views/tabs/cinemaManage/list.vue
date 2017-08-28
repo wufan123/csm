@@ -99,7 +99,7 @@
                     name: [{required: true, message: '请输入影院名称', trigger: 'blur'}, {
                         min: 3,
                         max: 8,
-                        message: '长度在 2 到 8 个字符',
+                        message: '长度在 2 到 25 个字符',
                         trigger: 'blur'
                     }],
                     cinemaGroupId: [{validator: validateGroupId, trigger: 'change'}]

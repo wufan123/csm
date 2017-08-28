@@ -34,7 +34,7 @@
                             return true
                         } else {
                             if (this.dateEnd instanceof Date) {
-                                return time.getTime() >= this.dateEnd.getTime();
+                                return time.getTime() > this.dateEnd.getTime();
                             } else {
                                 return false;
                             }
@@ -48,7 +48,7 @@
                             return true;
                         } else {
                             if (this.dateStart instanceof Date) {
-                                return time.getTime() <= this.dateStart.getTime();
+                                return time.getTime() < this.dateStart.getTime();
                             } else {
                                 return false;
                             }

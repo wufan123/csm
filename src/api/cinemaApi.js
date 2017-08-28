@@ -10,6 +10,7 @@ const _CINEMA = `${prefix}/listCinema.do`; //影院列表
 const DEL_CINEMA = `${prefix}/deleteCinema.do`
 const ADD_CINEMA = `${prefix}/addCinema.do`
 const EDIT_CINEMA = `${prefix}/saveCinemaEdit.do`
+const LIST_BY_USER = `${prefix}/listCinemaByUser.do`
 
 
 export default {
@@ -29,6 +30,9 @@ export default {
     },
     listCinema(params) {
         return httpApi.postForm(_CINEMA, params)
+    },
+    listCinemaByUser(){
+        return httpApi.postForm(LIST_BY_USER)
     },
     delCinema(params) {
         return httpApi.postForm(DEL_CINEMA, params)

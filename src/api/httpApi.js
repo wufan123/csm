@@ -3,11 +3,10 @@ import vueApp from '~/main'
 let BASE_URL = _BASE_URL ? _BASE_URL : '';
 let MOCK = _MOCK ? _MOCK : false;
 axios.defaults.baseURL = BASE_URL;
-axios.defaults.timeout = 20000;
+axios.defaults.timeout = 30000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
 axios.defaults.headers.post['accept'] = 'application/json, text/javascript, */*; q=0.01';
 const preHandleError = (data) => {
-    data = data ? data : {};
     if (data.message)
         vueApp.$message({
             message: data.message,
@@ -35,11 +34,15 @@ axios.interceptors.response.use(function (response) {
     } catch (e) {
         data = response.data;
     }
+    data = data ? data : {};
     if (MOCK) {
         console.log(data) //如果是模拟数据,打印出模拟的数据
     }
     if (data.resultCode === '80000') {
         _vue.$router.push({path: 'login'})
+    }
+    if (data.resultCode === '80001') {
+        data.message ="无相关数据或操作接口权限"
     }
     if (data.resultCode === '0') {
         return data;

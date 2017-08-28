@@ -2,9 +2,9 @@
     <div class="tab-content">
         <div>
             <div class="page">
-                <div class="search">
+                <!--<div class="search">
                     <el-button type="success" @click="addSubmit">新增</el-button>
-                </div>
+                </div>-->
                 <div class="h20"></div>
                 <div class="content">
                     <el-table :data="gpData" border style="width: 100%">
@@ -18,7 +18,7 @@
                         <!--<el-table-column prop="url" label="菜单地址"> </el-table-column>-->
                         <el-table-column prop="enable" label="是否启用" width="180">
                             <template scope="scope">
-                                <el-switch v-model="scope.row.enable" on-color="#13ce66" off-color="#ccc"
+                                <el-switch v-model="scope.row.enable" on-color="#13ce66" off-color="#ccc" on-text="" off-text="" :disabled="switchDisable"
                                            @change="switchFn(scope.row)">
                                 </el-switch>
                             </template>
@@ -49,6 +49,7 @@
         components: {'edit-dialog': editDialog, 'c-dot': cDot},
         data() {
             return {
+                switchDisable:false,
                 tableList: [],
                 dialogData: {
                     dialogVisible: false,
@@ -131,7 +132,12 @@
                 params.enable = (row.enable).toString()
                 menuApi.enableMenu(params).then(res => {
 
-                }, error => this.$message.error(error))
+                }, error => {
+                    row.enable =!row.enable
+                    if(error.resultCode === '80001'){
+                        this.switchDisable =true
+                    }
+                })
             },
             pageCurrentChange(currentPage) {
                 this.page.pageNumber = currentPage - 1

@@ -81,13 +81,11 @@
                                 this.portClassList[subIndex].children.push(item)
                             }
                         })
-                        console.log(subIndex)
                         this.isAllcheck(subIndex)
                     })
                 })
             },
             handleCheckChange(item){
-                console.log(item)
                 if(item)
                 {
                     if (item.check) {
