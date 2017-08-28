@@ -373,7 +373,6 @@
                 {
                     tabPage = this.$refs['tab' + item.name][0];
                 }
-                console.log(tabPage)
                 if (tabPage.fetchData) {
                     tabPage.fetchData(true)
                 }
