@@ -194,11 +194,11 @@
                 window._nim.sendCustomSysMsg({
                     scene: 'team',
                     to: this.viewState.data.teamId,
-                    content: JSON.stringify({type:'workorderChange'}),
+                    content: JSON.stringify({type: 'workorderChange'}),
                     sendToOnlineUsersOnly: true,
                     apnsText: '',
-                    done: (error ,msg)=>{
-                        console.log('发送' + msg.scene + '自定义系统通知' + (!error?'成功':'失败') + ', id=' + msg.idClient);
+                    done: (error, msg) => {
+                        console.log('发送' + msg.scene + '自定义系统通知' + (!error ? '成功' : '失败') + ', id=' + msg.idClient);
                     }
                 });
             },
@@ -228,7 +228,9 @@
                 workOrderApi.detail({
                     workorderId: this.form.id
                 }).then(res => {
-                    this.sendOrderChageNotify();
+                    console.log(this.viewState.data)
+                    if (this.viewState.data.status == '1')//判断原来的status 是不是等待处理
+                        this.sendOrderChageNotify();
                     let viewData = res.resultData
                     let status;
                     if (viewData.status <= 2) {
@@ -236,8 +238,8 @@
                     }
                     else if (viewData.status >= 5) {
                         status = '5';
-                    }else{
-                        status =viewData.status.toString()
+                    } else {
+                        status = viewData.status.toString()
                     }
                     this.disableStatus = viewData.status >= 5 ? true : false
                     this.form = {

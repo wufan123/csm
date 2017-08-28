@@ -139,8 +139,6 @@
                 this.showSelectTab(item)
             },
             getTabPage(item){
-                if(!this.$refs['tab' + item.id])
-                    return
                 let tabPage = this.$refs['tab' + item.id]
                 if(tabPage instanceof Array){
                     tabPage =this.$refs['tab' + item.id][0]
@@ -178,7 +176,7 @@
                 }
 
             },
-            refreshtabByName(targetTab){
+            refreshTabByName(targetTab){
                 for (let i = 0; i < this.menus.length; i++) {
                     if (this.menus[i].name == targetTab.name) {
                         this.menus[i].tabForm = targetTab.tabForm
@@ -201,25 +199,22 @@
                 if (this.destopNotifyList.length > 50) {
                     this.destopNotifyList = []
                 }
-                try{
+                try {
                     sysMsg.content = JSON.parse(sysMsg.content)
                 }
-                catch (e){
+                catch (e) {
                     sysMsg.content = []
                 }
                 this.destopNotifyList.push(sysMsg);
-                switch (sysMsg.content.type){
+                this.refreshTabByName({name:'客诉列表'})
+                switch (sysMsg.content.type) {
                     case 'workorderChange':
-                        this.notifyWorkorderChange(sysMsg)
                         break;
                     case 'workorderCreate':
                         this.notifyWorkorderCreate(sysMsg)
                         break;
                 }
 
-            },
-            notifyWorkorderChange(){
-                this.refreshtabByName({name:'客诉列表'})
             },
             notifyWorkorderCreate(sysMsg){
                 if (window._audioNotify)
