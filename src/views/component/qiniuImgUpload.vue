@@ -23,20 +23,21 @@
     import httpApi from 'api/httpApi'
     const TOKEN_URL = '/qiniu/getToken.do';
     export default {
-        props: ['value','disabled'],
+        props: ['value', 'disabled'],
         data(){
             let qiniuHost = this.$storage.getItem(this.$storage.KEY_USER_DETAIL).qiniuHost;
-            let fileList = []
-            for (let i = 0; i < this.value.length; i++) {
-                fileList.push({
-                    name: this.value[i],
-                    url: this.value[i],
-                    status: 'finished'
-                })
-            }
+            /*let fileList = []
+             console.log(this.value)
+             for (let i = 0; i < this.value.length; i++) {
+             fileList.push({
+             name: this.value[i],
+             url: this.value[i],
+             status: 'finished'
+             })
+             }*/
             return {
                 qiniuHost: qiniuHost,
-                fileList: fileList,
+                fileList: [],
                 dialogImageUrl: '',
                 dialogVisible: false,
                 form: {
@@ -47,7 +48,8 @@
         },
         watch: {
             value: function (val) {
-                /*let fileList = []
+                console.log(val)
+                let fileList = []
                 for (let i = 0; i < val.length; i++) {
                     fileList.push({
                         name: val[i],
@@ -55,16 +57,15 @@
                         status: 'finished'
                     })
                 }
-                this.fileList = fileList*/
+                this.fileList = fileList;
             }
         },
         methods: {
             handleRemove(file, fileList) {
                 if (file) {
-                    console.log(this.fileList)
-                    this.fileList =fileList
-                    let newValue=[]
-                    for(let i =0;i<fileList.length;i++){
+                    this.fileList = fileList
+                    let newValue = []
+                    for (let i = 0; i < fileList.length; i++) {
                         newValue.push(fileList[i].url)
                     }
                     this.$emit('input', newValue)
@@ -82,6 +83,14 @@
                     })
                     return false
                 }
+                if(!(file.type=='image/jpeg'||file.type=='image/png'))
+                {
+                    this.$message({
+                        message: '图片只能是 JPG或PNG格式',
+                        type: 'error'
+                    })
+                    return false
+                }
                 if (file.size / 1024 / 1024 > 4) {
                     this.$message({
                         message: '图片大小不能超过 4MB!',
@@ -89,8 +98,8 @@
                     })
                     return false
                 }
-                for(let i=0;i<this.fileList.length;i++){
-                    if(file.name ===this.fileList[i].name){
+                for (let i = 0; i < this.fileList.length; i++) {
+                    if (file.name === this.fileList[i].name) {
                         return false
                     }
                 }
@@ -102,7 +111,7 @@
                 })
             },
             success(response, file){
-                this.fileList.push(file)
+//                this.fileList.push(file)
                 let url;
                 if (response.key) {
                     url = `${this.qiniuHost}/${encodeURI(response.key)}`

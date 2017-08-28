@@ -191,16 +191,19 @@
                 });
             },
             sendOrderChageNotify(){
-                window._nim.sendCustomSysMsg({
-                    scene: 'team',
-                    to: this.viewState.data.teamId,
-                    content: JSON.stringify({type: 'workorderChange'}),
-                    sendToOnlineUsersOnly: true,
-                    apnsText: '',
-                    done: (error, msg) => {
-                        console.log('发送' + msg.scene + '自定义系统通知' + (!error ? '成功' : '失败') + ', id=' + msg.idClient);
-                    }
-                });
+                if(this.viewState.data.teamId)
+                {
+                    window._nim.sendCustomSysMsg({
+                        scene: 'team',
+                        to: this.viewState.data.teamId,
+                        content: JSON.stringify({type: 'workorderChange'}),
+                        sendToOnlineUsersOnly: true,
+                        apnsText: '',
+                        done: (error, msg) => {
+                            console.log('发送' + msg.scene + '自定义系统通知' + (!error ? '成功' : '失败') + ', id=' + msg.idClient);
+                        }
+                    });
+                }
             },
             close(){
                 this.$confirm('你确定放弃处理该客诉订单吗?', '提示', {

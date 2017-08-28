@@ -103,6 +103,10 @@
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         workOrderApi.create(this.form).then(res=>{
+                            this.$message({
+                                message: `创建客诉成功，客诉编号${res.resultData.orderNo}`,
+                                type: 'info'
+                            })
                             this.$emit('view', {
                                 type:'list'
                             })
