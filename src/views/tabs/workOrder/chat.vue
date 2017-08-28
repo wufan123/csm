@@ -1,7 +1,7 @@
 <template>
     <div class="chat">
         <div class="news-tip" v-show="!isWindowShow" v-on:click="showChatWindow">
-            <img class="icon" :src="userDetail.headImageLink"/><span v-if="workorder.status< 5">您有<label class="unread">{{unread}}</label>条未读信息</span>
+            <img class="icon" :src="userDetail.headImageLink?userDetail.headImageLink:' '"/><span v-if="workorder.status< 5">您有<label class="unread">{{unread<99?unread:'99+'}}</label>条未读信息</span>
             <span v-if="workorder.status>=5">查看沟通记录</span>
         </div>
         <div class="chat-window" v-show="isWindowShow">

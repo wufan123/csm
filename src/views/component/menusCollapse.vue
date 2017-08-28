@@ -46,7 +46,7 @@
         data() {
             return {
                 menuList: [],
-                activeName: '',
+                activeName: 0,
                 menuIds: this.value,
                 topMenus: [],
             }

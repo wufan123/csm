@@ -49,7 +49,7 @@
                                        :tabForm="item.tabForm" :ref="'tab'+item.id"></component>
                         </el-tab-pane>
                     </el-tabs>
-                    <p class="copyright">Copyright 2014-2015 福州最美影视网络科技有限公司 版权所有 4008-12345678  </p>
+                    <p class="copyright">Copyright 2016-2017 福州最美影视网络科技有限公司 版权所有</p>
                 </el-col>
             </el-row>
         </el-row>

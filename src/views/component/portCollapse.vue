@@ -22,7 +22,7 @@
         props: ['value'],
         data() {
             return {
-                activeName: '',
+                activeName: 0,
                 portClassList: [],
                 portList: [],
                 siteInterfaceIds: this.value
