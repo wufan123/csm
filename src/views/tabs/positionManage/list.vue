@@ -65,6 +65,7 @@
 <script>
     import employeeApi from 'api/employeeApi'
     import positionApi from 'api/positionApi'
+    import loginApi from 'api/loginApi'
     export default {
         data(){
             return {
@@ -96,9 +97,11 @@
                 })
             },
             editFn(_index, row){
-                this.$emit('setType', {
-                    type: 'edit',
-                    data: row
+                loginApi.hasPermisson(positionApi.URL_DETAIL,()=>{
+                    this.$emit('setType', {
+                        type: 'edit',
+                        data: row
+                    })
                 })
                 //  this.$storage.setItem('curEmployeeDetail',this.employeeList[_index])
             },

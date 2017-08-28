@@ -110,6 +110,14 @@
                                 this.$router.push({path: 'login'})
                             })
                         })
+                    }else{
+                        loginApi.logout({
+                            userId: this.userDetail.id
+                        }).then((response) => {
+                            window._nim.disconnect();
+                            this.menuTabs = []
+                            this.$router.push({path: 'login'})
+                        })
                     }
                 })
             },

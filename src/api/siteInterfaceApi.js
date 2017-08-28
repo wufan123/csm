@@ -7,12 +7,14 @@ const LIST_port = `${prefix}/list.do`; //
 const ADD_port = `${prefix}/create.do`
 const EDIT_port = `${prefix}/saveEdit.do`
 const DEL_port = `${prefix}/delete.do`
+const DETAIL = `${prefix}/detail.do`
 
 const LIST_port_GROUP = `${prefixG}/list.do`; //
 const ADD_port_GROUP = `${prefixG}/create.do`
 const EDIT_port_GROU = `${prefixG}/save.do`
 const DEL_port_GROU = `${prefixG}/del.do`
 export default {
+    URL_DETAIL:DETAIL,
     ListPort(params) {
         return httpApi.postForm(LIST_port, params)
     },

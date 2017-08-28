@@ -31,7 +31,7 @@
                     {
                         ops =ops.concat([{id: '', name: '全部'}])
                     }
-                    ops = ops.concat(cinemaGroupId?res.resultData.content:res.resultData);
+                    ops = ops.concat(cinemaGroupId?res.resultData.content:(res.resultData?res.resultData:[]));
                     this.cinemasOptions = ops
                 })
             },

@@ -138,6 +138,7 @@
 </template>
 <script>
     import suggestApi from 'api/suggestApi'
+    import loginApi from 'api/loginApi'
     export default {
         data(){
             return {
@@ -167,9 +168,11 @@
                 this.$refs.cinemaOp.getCinemas(this.form.cinemaGroupId);
             },
             handleEdit(index, row) {
-                this.$emit('view', {
-                    type: 'edit',
-                    data: row
+                loginApi.hasPermisson(suggestApi.URL_DETAIL,()=>{
+                    this.$emit('view', {
+                        type: 'edit',
+                        data: row
+                    })
                 })
             },
             handleDelete(index, row) {
@@ -189,9 +192,11 @@
                 });
             },
             handleCheck(index, row){
-                this.$emit('view', {
-                    type: 'check',
-                    data: row
+                loginApi.hasPermisson(suggestApi.URL_DETAIL,()=>{
+                    this.$emit('view', {
+                        type: 'check',
+                        data: row
+                    })
                 })
             },
             add(){

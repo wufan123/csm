@@ -69,6 +69,7 @@
 
 <<script>
 import portApi from 'api/siteInterfaceApi'
+import loginApi from 'api/loginApi'
 export default {
     data(){
         var validateportClassId = (rule, value, callback) =>{
@@ -141,11 +142,12 @@ export default {
             this.ruleForm.type = 0
         },
         editFn(_index,row){
-            console.log('确定是编辑吗')
-            this.dialogVisible = true;
-            this.ruleForm = JSON.parse(JSON.stringify(row))
-            this.ruleForm.enable = row.enable.toString()
-            this.ruleForm.type = 1
+            loginApi.hasPermisson(portApi.URL_DETAIL,()=>{
+                this.dialogVisible = true;
+                this.ruleForm = JSON.parse(JSON.stringify(row))
+                this.ruleForm.enable = row.enable.toString()
+                this.ruleForm.type = 1
+            })
         },
         deleteFn(_index,row){
              this.$confirm('此操作将永久删除该接口, 是否继续?', '提示', {

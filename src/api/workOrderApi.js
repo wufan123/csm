@@ -19,6 +19,7 @@ export default {
     STATUS_NO_COMPLETE: 4,      //未解决
     STATUS_COMPLETE: 5,         //已解决
     STATUS_SCORE_COMPLETE: 6,    //评价完毕
+    URL_DETAIL:_DETAIL,
     list(params){
         return httpApi.postForm(_LIST, params)
     },
@@ -32,31 +33,17 @@ export default {
         return httpApi.postForm(_CREATE, params)
     },
     exportReport(params){
-        loginApi.info().then(res=>{
-            let siteInterfaces =res.resultData.siteInterfaces
-            if(siteInterfaces){
-                for(let i=0;i<siteInterfaces.length;i++)
-                {
-                    if(siteInterfaces[i].url ==_EXPORT)
-                    {
-                        let exportUrl =httpApi.defaults.baseURL+_EXPORT+'?'
-                        for(let i in params)
-                        {
-                            if(params[i]){
-                                if(i!='pageSize'||i!='pageNumber'){
-                                    exportUrl+=i+"="+params[i]+'&'
-                                }
-                            }
-                        }
-                        window.open(exportUrl);
-                        return
+        loginApi.hasPermisson(_EXPORT,()=>{
+            let exportUrl =httpApi.defaults.baseURL+_EXPORT+'?'
+            for(let i in params)
+            {
+                if(params[i]){
+                    if(i!='pageSize'||i!='pageNumber'){
+                        exportUrl+=i+"="+params[i]+'&'
                     }
                 }
             }
-            window._vue.$message({
-                message: "无相关数据或操作接口权限",
-                type: 'error'
-            })
+            window.open(exportUrl);
         })
     },
     inHandle(params){

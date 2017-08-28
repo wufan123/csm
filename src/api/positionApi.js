@@ -7,6 +7,7 @@ const EDIT_POSITION = `${prefix}/saveEditPosition.do`
 const DEL_POSITION = `${prefix}/del.do`
 const DETAIL_POSITION = `${prefix}/detail.do`
 export default {
+    URL_DETAIL:DETAIL_POSITION,
     ListPosition(params) {
         return httpApi.postForm(LIST_POSITION, params)
     },

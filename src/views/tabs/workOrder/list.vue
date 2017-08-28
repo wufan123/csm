@@ -127,6 +127,7 @@
 </template>
 <script>
     import cinemaApi from 'api/cinemaApi'
+    import loginApi from 'api/loginApi'
     import workOrderApi from 'api/workOrderApi'
     export default {
         props: ['viewState'],
@@ -195,20 +196,22 @@
                 })
             },
             handleComplaint(item){
-                workOrderApi.inHandle({
-                    workorderId: item.id
-                }).then(res => {
-                    if (!res.resultData) {
-                        this.$emit('view', {
-                            type: 'handle',
-                            data: item
-                        })
-                    } else {
-                        this.$message({
-                            message: "当前有人正在处理，请稍后再试",
-                            type: 'info'
-                        })
-                    }
+                loginApi.hasPermisson(workOrderApi.URL_DETAIL,()=>{
+                    workOrderApi.inHandle({
+                        workorderId: item.id
+                    }).then(res => {
+                        if (!res.resultData) {
+                            this.$emit('view', {
+                                type: 'handle',
+                                data: item
+                            })
+                        } else {
+                            this.$message({
+                                message: "当前有人正在处理，请稍后再试",
+                                type: 'info'
+                            })
+                        }
+                    })
                 })
             },
             fetchData(){

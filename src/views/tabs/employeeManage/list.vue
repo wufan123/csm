@@ -79,6 +79,7 @@
 <script>
     import employeeApi from 'api/employeeApi'
     import positionApi from 'api/positionApi'
+    import loginApi from 'api/loginApi'
     export default {
         data(){
             return {
@@ -132,11 +133,13 @@
                 })
             },
             editEmployee(_index){
-                this.$emit('setType', {
-                    type: 'edit',
-                    data: this.employeeList[_index]
+                loginApi.hasPermisson(employeeApi.URL_DETAIL,()=>{
+                    this.$emit('setType', {
+                        type: 'edit',
+                        data: this.employeeList[_index]
+                    })
+                    this.$storage.setItem('curEmployeeDetail', this.employeeList[_index])
                 })
-                this.$storage.setItem('curEmployeeDetail', this.employeeList[_index])
             },
             formateDate(row){
                 return new Date(row.hireDate).format("yyyy-MM-dd")

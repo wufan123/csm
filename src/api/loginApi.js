@@ -50,5 +50,25 @@ export default {
         }
 
         return array1;
+    },
+    hasPermisson(url,callback){
+        this.info().then(res=>{
+            let siteInterfaces =res.resultData.siteInterfaces
+            if(siteInterfaces){
+                for(let i=0;i<siteInterfaces.length;i++)
+                {
+                    if(siteInterfaces[i].url ==url)
+                    {
+                        if(callback)
+                            callback()
+                        return
+                    }
+                }
+            }
+            window._vue.$message({
+                message: "无相关数据或操作接口权限",
+                type: 'error'
+            })
+        })
     }
 }
