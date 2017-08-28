@@ -97,7 +97,7 @@
             
             var validateLoginName =(rule, value, callback)=>{
                 if(value && !_vue.$util.isEnglish(value)){
-                    callback(new Error('只能输入字母及数字'));
+                    callback(new Error('只能输入字母或数字'));
                 }else{
                     callback()
                 }

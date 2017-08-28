@@ -167,6 +167,10 @@
                     if (validA && validB) {
                         workOrderApi.save(this.form).then(res => {
                             this.sendOrderChageNotify();
+                            this.$message({
+                                message: `客诉处理成功，当前状态为${res.resultData.statusName}`,
+                                type: 'info'
+                            })
                             this.$emit('view', {
                                 type: 'list'
                             })

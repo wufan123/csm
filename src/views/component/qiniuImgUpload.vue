@@ -26,18 +26,17 @@
         props: ['value', 'disabled'],
         data(){
             let qiniuHost = this.$storage.getItem(this.$storage.KEY_USER_DETAIL).qiniuHost;
-            /*let fileList = []
-             console.log(this.value)
-             for (let i = 0; i < this.value.length; i++) {
-             fileList.push({
-             name: this.value[i],
-             url: this.value[i],
-             status: 'finished'
-             })
-             }*/
+            let fileList = []
+            for (let i = 0; i < this.value.length; i++) {
+                fileList.push({
+                    name: this.value[i],
+                    url: this.value[i],
+                    status: 'finished'
+                })
+            }
             return {
                 qiniuHost: qiniuHost,
-                fileList: [],
+                fileList: fileList,
                 dialogImageUrl: '',
                 dialogVisible: false,
                 form: {
@@ -83,8 +82,7 @@
                     })
                     return false
                 }
-                if(!(file.type=='image/jpeg'||file.type=='image/png'))
-                {
+                if (!(file.type == 'image/jpeg' || file.type == 'image/png')) {
                     this.$message({
                         message: '图片只能是 JPG或PNG格式',
                         type: 'error'

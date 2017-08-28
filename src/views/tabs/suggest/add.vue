@@ -101,6 +101,10 @@
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         suggestApi.create(this.form).then(res=>{
+                            this.$message({
+                                message: `创建客诉成功，建议编号${res.resultData}`,
+                                type: 'info'
+                            })
                             this.$emit('view', {
                                 type:'list'
                             })

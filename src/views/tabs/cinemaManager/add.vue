@@ -58,10 +58,19 @@
                         { type:'number', required: true, message: '请选择来源影院组', trigger: 'change' }
                     ],
                     loginName: [
-                        {required: true, message: '请输入账号', trigger: 'blur'},{ min: 4, max: 8, message: '长度在 4 到 8 个字符', trigger: 'blur' }
+                        {required: true, message: '请输入账号', trigger: 'blur'},
+                        { min: 4, max: 8, message: '长度在 4 到 8 个字符', trigger: 'blur' },
+                        { validator: (rule, value, callback) => {
+                            if (!/[a-zA-Z0-9_]/.test(value)) {
+                                callback(new Error('只能输入字母或数字'));
+                            } else {
+                                callback();
+                            }
+                        }, trigger: 'blur' }
                     ],
                     fullName: [
-                        {required: true, message: '请输入管理人员姓名', trigger: 'blur'},{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
+                        {required: true, message: '请输入管理人员姓名', trigger: 'blur'},
+                        { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
                     ],
                     mobile: [
                         {required: true, message: '请输入手机号码', trigger: 'blur'},

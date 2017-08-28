@@ -50,7 +50,7 @@
                             <el-radio class="radio" v-model="ruleForm.enable" label="false">停用</el-radio>
                         </el-form-item>
                         <el-form-item label="接口分类" required prop="interfaceCategoryId" >
-                            <el-select v-model="ruleForm.interfaceCategoryId" placeholder="全部" >
+                            <el-select v-model="ruleForm.interfaceCategoryId" placeholder="请选择接口分类" >
                                 <el-option   v-for="item in portClassList"  :key="item.id"
                                              :label="item.name"  :value="item.id">
                                 </el-option>
@@ -101,7 +101,7 @@ export default {
                 interfaceName: null
             },
             rules:{
-               interfaceName:[{ required: true, message: '请输入接口名称', trigger: 'blur' },{ min: 3, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }] ,
+               interfaceName:[{ required: true, message: '请输入接口名称', trigger: 'blur' },{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }] ,
                interfaceCategoryId:[{ validator: validateportClassId, trigger: 'change' }],
                url:[{ required: true, message: '请输入接口地址', trigger: 'blur' }] ,
             }
