@@ -52,11 +52,11 @@ export default {
             this.$prompt('接口名称', '新建接口', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
-                inputErrorMessage: '请填写接口名称',
+                inputErrorMessage: '长度在2到25个字符',
                 inputValidator: function (value) {
-                    if (!value) {
-                        return false;
-                    }
+                    if (!value||!(value.length>2&&value.length<50)) {
+                            return false;
+                        }
                 },
             }).then(({ value }) => {
                 portApi.addPortGroup({ name: value }).then(res => {
@@ -74,12 +74,12 @@ export default {
             this.$prompt('接口名称', '编辑接口', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
-                inputErrorMessage: '请填写接口名称',
                 inputValue: row.name,
+                inputErrorMessage: '长度在2到25个字符',
                 inputValidator: function (value) {
-                    if (!value) {
-                        return false;
-                    }
+                    if (!value||!(value.length>2&&value.length<50)) {
+                            return false;
+                        }
                 },
             }).then(({ value }) => {
                 portApi.editPortGroup({ name: value, id: row.id }).then(res => {
