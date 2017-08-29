@@ -168,7 +168,7 @@
                     if (validA && validB) {
                         workOrderApi.save(this.form).then(res => {
                             this.sendOrderChageNotify();
-                            if (this.viewState.data.status != res.resultData.status&&res.resultData.status<5) {
+                            if (this.viewState.data.status != res.resultData.status && res.resultData.status < 5) {
                                 this.$refs.chat.sendtxt(`您的问题已变为${res.resultData.statusName}状态`)
                             }
                             this.$message({
@@ -272,10 +272,13 @@
                 this.lock = workOrderApi.lock(this.form.id);
                 this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL)
                 this.lock.onopen = evt => {
-                    console.log('已连接')
+                    console.log('websocket已连接')
                 };
                 this.lock.onerror = evt => {
-                    console.log('连接错误')
+                    console.log('websocket连接错误')
+                };
+                this.lock.onclose = evt => {
+                    console.log('断开websocket连接')
                 };
             }
         },

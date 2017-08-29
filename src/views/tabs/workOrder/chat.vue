@@ -1,7 +1,8 @@
 <template>
     <div class="chat">
         <div class="news-tip" v-show="!isWindowShow" v-on:click="showChatWindow">
-            <img class="icon" :src="userDetail.headImageLink?userDetail.headImageLink:' '"/><span v-if="workorder.status< 5">您有<label class="unread">{{unread<99?unread:'99+'}}</label>条未读信息</span>
+            <img class="icon" :src="userDetail.headImageLink?userDetail.headImageLink:' '"/><span
+                v-if="workorder.status< 5">您有<label class="unread">{{unread < 99 ? unread : '99+'}}</label>条未读信息</span>
             <span v-if="workorder.status>=5">查看沟通记录</span>
         </div>
         <div class="chat-window" v-show="isWindowShow">
@@ -23,7 +24,8 @@
             </div>
             <div class="chat-input-box" v-if="workorder.status<5">
                 <el-input class="chat-input" v-model="textMessage" type="textarea" :rows="6"
-                          @keyup.native.enter.prevent="sendtxt(textMessage)" placeholder="请输入回复">
+                          @keyup.native.shift.enter.prevent="sendtxt(textMessage,textMessage.length)"
+                          placeholder="请输入回复">
                 </el-input>
                 <div class="chat-button">
                     <el-upload
@@ -33,14 +35,16 @@
                     >
                         <i class="el-icon-picture"></i>
                     </el-upload>
-                    <el-button class="send-text" size="small" type="info" v-on:click="sendtxt(textMessage)">发送(shift+enter)</el-button>
+                    <el-button class="send-text" size="small" type="info" v-on:click="sendtxt(textMessage)">
+                        发送(shift+enter)
+                    </el-button>
                 </div>
             </div>
             <div class="chat-score" v-if="workorder.status>=5">
                 <i class="el-icon-check"></i> 该客诉已经解决，评价为：{{workorder.scoreName}}
             </div>
         </div>
-        <el-dialog v-model="dialogVisible" size="large">
+        <el-dialog v-model="dialogVisible" size="small">
             <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
     </div>
@@ -57,17 +61,17 @@
             return {
                 chatRec: [],
                 textMessage: '',
-                isWindowShow: this.workorder.unread>0?true:false,
-                unread: this.workorder.unread?this.workorder.unread:0,
-                dialogVisible:false,
-                dialogImageUrl:'',
-                userDetail:{
-                    headImageLink:''
+                isWindowShow: this.workorder.unread > 0 ? true : false,
+                unread: this.workorder.unread ? this.workorder.unread : 0,
+                dialogVisible: false,
+                dialogImageUrl: '',
+                userDetail: {
+                    headImageLink: ''
                 }
             }
         },
-        watch:{
-            isWindowShow:function(newValue){
+        watch: {
+            isWindowShow: function (newValue) {
                 this.unread = 0;
                 if (newValue)
                     window._nim.resetSessionUnread(this.workorder.sessionId)
@@ -75,8 +79,8 @@
         },
         methods: {
             showImg(url){
-                this.dialogVisible=true
-                this.dialogImageUrl =url
+                this.dialogVisible = true
+                this.dialogImageUrl = url
             },
             formateDate(time){
                 let now = new Date()
@@ -93,7 +97,7 @@
                 window._nim.onMsg = this.onMsg
                 this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
                 console.log(this.userDetail)
-                if(this.isWindowShow){
+                if (this.isWindowShow) {
                     window._nim.resetSessionUnread(this.workorder.sessionId)
                 }
             },
@@ -123,16 +127,16 @@
                     console.log("出错")
                 }
                 this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
-                let custom ={
-                    identity :1,
-                    headImgUrl:this.userDetail?this.userDetail.headImageLink:''
+                let custom = {
+                    identity: 1,
+                    headImgUrl: this.userDetail ? this.userDetail.headImageLink : ''
                 }
                 reader.onload = function () {
                     dataUrl = this.result;
                     this.userDetail = vm.$storage.getItem(vm.$storage.KEY_USER_DETAIL);
-                    let custom ={
-                        identity :1,
-                        headImgUrl:this.userDetail?this.userDetail.headImageLink:''
+                    let custom = {
+                        identity: 1,
+                        headImgUrl: this.userDetail ? this.userDetail.headImageLink : ''
                     }
                     window._nim.sendFile({
                         scene: 'team',
@@ -169,12 +173,12 @@
                 return false// 统一返回false,不触发element upload 的上传事件
             },
             sendtxt(textMessage){
-                if (!textMessage)
+                if(!textMessage||!textMessage.replace(/(\n*$)/g, ""))
                     return
                 this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
-                let custom ={
-                    identity :1,
-                    headImgUrl:this.userDetail?this.userDetail.headImageLink:''
+                let custom = {
+                    identity: 1,
+                    headImgUrl: this.userDetail ? this.userDetail.headImageLink : ''
                 }
                 window._nim.sendText({
                     scene: 'team',
@@ -214,7 +218,7 @@
         destroyed(){
             console.log('销毁chat')
             window._nim.onMsg = null
-            if(this.isWindowShow){
+            if (this.isWindowShow) {
                 window._nim.resetSessionUnread(this.workorder.sessionId)
             }
         }
