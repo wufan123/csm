@@ -9,7 +9,7 @@
                 </el-form-item>
                 <el-form-item label="影院名称">
                     <el-select v-model="form.cinemaId" placeholder="全部">
-                        <cinema-options :showAll="true"  ref="cinemaOp"></cinema-options>
+                        <cinema-options :showAll="true" ref="cinemaOp"></cinema-options>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="建议日期">
@@ -164,11 +164,11 @@
         },
         methods: {
             getCinemas(){
-                this.form.cinemaId=''
+                this.form.cinemaId = ''
                 this.$refs.cinemaOp.getCinemas(this.form.cinemaGroupId);
             },
             handleEdit(index, row) {
-                loginApi.hasPermisson(suggestApi.URL_DETAIL,()=>{
+                loginApi.hasPermisson(suggestApi.URL_DETAIL, () => {
                     this.$emit('view', {
                         type: 'edit',
                         data: row
@@ -176,23 +176,22 @@
                 })
             },
             handleDelete(index, row) {
-                this.$alert('确定删除该条建议么', '温馨提示', {
+                this.$confirm('确定删除该条建议么', '温馨提示', {
                     confirmButtonText: '确定',
-                    callback: action => {
-                        if (action == 'confirm') {
-                            suggestApi.delete({
-                                id: row.id
-                            }).then(res => {
-                                this.pageDatas.content = this.pageDatas.content.filter(item => {
-                                    return item.id !== row.id
-                                })
-                            })
-                        }
-                    }
-                });
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    suggestApi.delete({
+                        id: row.id
+                    }).then(res => {
+                        this.pageDatas.content = this.pageDatas.content.filter(item => {
+                            return item.id !== row.id
+                        })
+                    })
+                })
             },
             handleCheck(index, row){
-                loginApi.hasPermisson(suggestApi.URL_DETAIL,()=>{
+                loginApi.hasPermisson(suggestApi.URL_DETAIL, () => {
                     this.$emit('view', {
                         type: 'check',
                         data: row
@@ -223,7 +222,7 @@
                 })
             },
             exportReport(){
-               suggestApi.exportReport(this.form)
+                suggestApi.exportReport(this.form)
             }
         }
     }

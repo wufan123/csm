@@ -2,9 +2,9 @@
     <div>
         <el-dialog
                 title="新建管理账号"
-                :visible="dialogAdd.dialogVisible"
+                :visible.sync="dialogAdd.dialogVisible"
                 size="tiny"
-                :before-close="handleClose">
+                >
             <span>
                 <el-form ref="form" :model="dialogAdd.data" label-width="120px" :rules="rules">
                 <el-form-item label="账号" required prop="loginName">
@@ -117,14 +117,6 @@
                         return false;
                     }
                 });
-            },
-            handleClose(done) {
-                this.$confirm('确认关闭？')
-                    .then(_ => {
-                        this.dialogAdd.dialogVisible = false
-                    })
-                    .catch(_ => {
-                    });
             }
         }
 

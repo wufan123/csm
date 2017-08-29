@@ -94,6 +94,7 @@
                     </el-col>
                 </el-row>
                 <el-row :gutter="21" class="list-card">
+                    <div v-if="!ordersContent.length>0" class="page-tip">暂无数据</div>
                     <el-col :span="8" v-for="(item,index) in ordersContent" :key="index">
                         <el-card :class="getStatusClass(item.status)" @click.native="handleComplaint(item)">
                             <span v-if="item.isStar" class="star-tag"></span>
@@ -300,6 +301,7 @@
 
 </script>
 <style lang="less">
+    @import "~style/base-variables";
     @onhandleColor: #be0000;
     @onhandleBg: #ffdede;
     @processingColor: #dc6200;
@@ -335,6 +337,12 @@
         }
         .list-card {
             margin-top: 30px;
+            .page-tip{
+                text-align: center;
+                color: rgb(130, 101, 94);
+                font-size:@size-small;
+                min-height: 60px;
+            }
             .el-card {
                 height: 180px;
                 margin-bottom: 20px;

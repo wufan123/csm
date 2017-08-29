@@ -21,22 +21,10 @@
                     :picker-options="dateEndOptions">
             </el-date-picker>
             <el-select v-model="form.cinemaGroupId" filterable placeholder="请选择影院组" v-on:change="getCinemas">
-                <el-option label="全部" value=" "></el-option>
-                <el-option
-                        v-for="item in chart.cinemaGroup"
-                        :key="item.id"
-                        :label="item.name"
-                        :value="item.id">
-                </el-option>
+                <group-options showAll="true" withPermissions="true"></group-options>
             </el-select>
             <el-select v-model="form.cinemaId" filterable placeholder="请选择影院">
-                <el-option label="全部" value=" "></el-option>
-                <el-option
-                        v-for="item in cinemas"
-                        :key="item.id"
-                        :label="item.name"
-                        :value="item.id">
-                </el-option>
+                <cinema-options showAll="true"  withPermissions="true" ref="cinemaOp"></cinema-options>
             </el-select>
             <el-button type="info" v-on:click="fetchData">查询</el-button>
         </div>
@@ -121,15 +109,10 @@
                 this.myChartView.setOption(chartOpt);
             },
             getCinemas(){
-                this.form.cinemaId = ''
-                cinemaApi.listCinema({
-                    cinemaGroupId: this.form.cinemaGroupId
-                }).then(res => {
-                    this.cinemas = res.resultData.content
-                })
+                this.form.cinemaId=''
+                this.$refs.cinemaOp.getCinemas(this.form.cinemaGroupId);
             },
             fetchData(){
-
                 this.form.dateEnd = this.dateEnd ? this.dateEnd.format('yyyy-MM-dd') : '';
                 this.form.dateStart = this.dateStart ? this.dateStart.format('yyyy-MM-dd') : '';
                 httpApi.postForm(this.chart.apiUrl, this.form).then(res => {//请求图表数据

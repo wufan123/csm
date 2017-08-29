@@ -3,7 +3,7 @@
         <div class="suggest-list">
             <el-form ref="form" :model="form" label-width="85px" :inline="true">
                 <el-form-item label="影院组名称">
-                    <el-select v-model="form.cinemaGroupId" placeholder="全部" >
+                    <el-select v-model="form.cinemaGroupId" placeholder="全部">
                         <group-options :showAll="true"></group-options>
                     </el-select>
                 </el-form-item>
@@ -42,7 +42,7 @@
                         prop="cinemaGroup"
                         label="影院组名称">
                     <template scope="scope">
-                        {{scope.row.cinemaGroup?scope.row.cinemaGroup.name:''}}
+                        {{scope.row.cinemaGroup ? scope.row.cinemaGroup.name : ''}}
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -99,11 +99,11 @@
         },
         data(){
             return {
-                pageNumber:1,
+                pageNumber: 1,
                 form: {
-                    fullName:'',
-                    loginName:'',
-                    cinemaGroupId:'',
+                    fullName: '',
+                    loginName: '',
+                    cinemaGroupId: '',
                     pageSize: 20,
                     pageNumber: 0
                 },
@@ -112,11 +112,11 @@
                 },
                 dialogAdd: {
                     dialogVisible: false,
-                    data:{}
+                    data: {}
                 },
                 dialogEdit: {
                     dialogVisible: false,
-                    data:{
+                    data: {
                         password: '',
                         checkPassword: ''
                     }
@@ -126,29 +126,27 @@
         methods: {
             handleEdit(index, row) {
                 this.dialogEdit.data = JSON.parse(JSON.stringify(row))
-                this.dialogEdit.dialogVisible =true
+                this.dialogEdit.dialogVisible = true
             },
             handleDelete(index, row) {
                 console.log(row.cinemaGroup)
-                this.$alert(`确定删除${row.cinemaGroup?row.cinemaGroup.name:''}的管理账号${row.loginName}吗？删除后该账号及其创建的普通账号都将无法登陆。`, '温馨提示', {
+                this.$confirm(`确定删除${row.cinemaGroup ? row.cinemaGroup.name : ''}的管理账号${row.loginName}吗？删除后该账号及其创建的普通账号都将无法登陆。`, '温馨提示', {
                     confirmButtonText: '确定',
-                    callback: action => {
-                        if(action=='confirm')
-                        {
-                            cinemaManagerApi.delete({
-                                id: row.id
-                            }).then(res => {
-                                this.pageDatas.content = this.pageDatas.content.filter(item => {
-                                    this.$message({
-                                        type: 'success',
-                                        message: '删除成功，该账号将无法使用微信端运维管理平台'
-                                    });
-                                    return item.id !== row.id
-                                })
-                            })
-                        }
-                    }
-                });
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    cinemaManagerApi.delete({
+                        id: row.id
+                    }).then(res => {
+                        this.pageDatas.content = this.pageDatas.content.filter(item => {
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功，该账号将无法使用微信端运维管理平台'
+                            });
+                            return item.id !== row.id
+                        })
+                    })
+                })
             },
             add(){
                 this.dialogAdd.data = {
@@ -159,15 +157,7 @@
                     password: '',
                     checkPassword: ''
                 }
-                this.dialogAdd.dialogVisible =true
-            },
-            handleClose(done) {
-                this.$confirm('确认关闭？')
-                    .then(_ => {
-                        done();
-                    })
-                    .catch(_ => {
-                    });
+                this.dialogAdd.dialogVisible = true
             },
             pageCurrentChange(currentPage){
                 this.form.pageNumber = currentPage - 1
@@ -181,7 +171,7 @@
                 this.getList()
             },
             getList(){
-                cinemaManagerApi.list(this.form).then(res=>{
+                cinemaManagerApi.list(this.form).then(res => {
                     this.pageDatas = res.resultData
                 })
             }

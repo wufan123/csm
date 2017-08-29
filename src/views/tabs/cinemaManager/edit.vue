@@ -2,9 +2,9 @@
     <div>
         <el-dialog
                 title="编辑管理账号"
-                :visible="dialogEdit.dialogVisible"
+                :visible.sync="dialogEdit.dialogVisible"
                 size="tiny"
-                :before-close="handleClose">
+                >
             <span>
                 <el-form ref="form" :model="dialogEdit.data" label-width="130px" :rules="rules" >
                 <el-form-item label="账号" required prop="loginName" >
@@ -125,14 +125,6 @@
                         return false;
                     }
                 });
-            },
-            handleClose(done) {
-                this.$confirm('确认关闭？')
-                    .then(_ => {
-                        this.dialogEdit.dialogVisible = false
-                    })
-                    .catch(_ => {
-                    });
             }
         }
 

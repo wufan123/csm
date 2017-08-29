@@ -153,7 +153,7 @@
                         if (this.employee.hireDate) {
                             this.employee.hireDate = new Date(this.employee.hireDate).format("yyyy-MM-dd")
                         } else {
-                            delete this.employee.hireDate;
+                             this.employee.hireDate = new Date().format("yyyy-MM-dd");
                         }
                         this.fullscreenLoading = true;
                         employeeApi.updateEmployee(this.employee).then(res => {
