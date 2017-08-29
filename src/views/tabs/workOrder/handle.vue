@@ -1,7 +1,8 @@
 <template>
     <div>
         <div class="tab-form complaint">
-            <chat :workorder="this.viewState.data" v-if="this.viewState.data&&this.viewState.data.teamId"></chat>
+            <chat :workorder="this.viewState.data" v-if="this.viewState.data&&this.viewState.data.teamId"
+                  ref="chat"></chat>
             <el-row class="tab-pane-title">
                 处理客诉
             </el-row>
@@ -167,6 +168,9 @@
                     if (validA && validB) {
                         workOrderApi.save(this.form).then(res => {
                             this.sendOrderChageNotify();
+                            if (this.viewState.data.status != res.resultData.status&&res.resultData.status<5) {
+                                this.$refs.chat.sendtxt(`您的问题已变为${res.resultData.statusName}状态`)
+                            }
                             this.$message({
                                 message: `客诉处理成功，当前状态为${res.resultData.statusName}`,
                                 type: 'info'
@@ -195,8 +199,7 @@
                 });
             },
             sendOrderChageNotify(){
-                if(this.viewState.data.teamId)
-                {
+                if (this.viewState.data.teamId) {
                     window._nim.sendCustomSysMsg({
                         scene: 'team',
                         to: this.viewState.data.teamId,
@@ -235,9 +238,11 @@
                 workOrderApi.detail({
                     workorderId: this.form.id
                 }).then(res => {
-                    console.log(this.viewState.data)
                     if (this.viewState.data.status == '1')//判断原来的status 是不是等待处理
+                    {
                         this.sendOrderChageNotify();
+                        this.$refs.chat.sendtxt(`您好，最美运维${this.userDetail.fullName}为您服务，请稍等`)
+                    }
                     let viewData = res.resultData
                     let status;
                     if (viewData.status <= 2) {
@@ -265,6 +270,7 @@
             },
             viewReady(){
                 this.lock = workOrderApi.lock(this.form.id);
+                this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL)
                 this.lock.onopen = evt => {
                     console.log('已连接')
                 };

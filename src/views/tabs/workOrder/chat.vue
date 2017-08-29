@@ -22,8 +22,8 @@
                 </div>
             </div>
             <div class="chat-input-box" v-if="workorder.status<5">
-                <el-input class="chat-input" v-model="textMessage" type="textarea" :rows="6" @keyup.enter="sendtxt"
-                          @keyup.native.shift.enter.prevent="sendtxt()" placeholder="请输入回复">
+                <el-input class="chat-input" v-model="textMessage" type="textarea" :rows="6"
+                          @keyup.native.enter.prevent="sendtxt(textMessage)" placeholder="请输入回复">
                 </el-input>
                 <div class="chat-button">
                     <el-upload
@@ -33,7 +33,7 @@
                     >
                         <i class="el-icon-picture"></i>
                     </el-upload>
-                    <el-button class="send-text" size="small" type="info" v-on:click="sendtxt">发送(shift+enter)</el-button>
+                    <el-button class="send-text" size="small" type="info" v-on:click="sendtxt(textMessage)">发送(shift+enter)</el-button>
                 </div>
             </div>
             <div class="chat-score" v-if="workorder.status>=5">
@@ -168,8 +168,8 @@
                 reader.readAsDataURL(file);
                 return false// 统一返回false,不触发element upload 的上传事件
             },
-            sendtxt(){
-                if (!this.textMessage)
+            sendtxt(textMessage){
+                if (!textMessage)
                     return
                 this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
                 let custom ={
@@ -179,7 +179,7 @@
                 window._nim.sendText({
                     scene: 'team',
                     to: this.workorder.teamId,
-                    text: this.textMessage,
+                    text: textMessage,
                     done: this.sendMsgDone,
                     custom: JSON.stringify(custom)
                 });

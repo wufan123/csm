@@ -7,7 +7,7 @@
             <el-col :span="21" class="logo">
                 <el-menu theme="dark" mode="horizontal" default-active="0"
                          @select="topMenuSelect">
-                    <el-menu-item v-for="(item, index) in topMenus"  :index='index.toString()'
+                    <el-menu-item v-for="(item, index) in topMenus" :index='index.toString()'
                                   :key="item.name">{{item.name}}
                     </el-menu-item>
                     <el-submenu index="submenu">
@@ -95,8 +95,7 @@
             },
             logout(){
                 indexApi.workorderCount().then(res => {
-                    if (res.resultData&&res.resultData.waitingWorkorderCount)
-                    {
+                    if (res.resultData && res.resultData.waitingWorkorderCount) {
                         this.$confirm(`当前还有${res.resultData.waitingWorkorderCount}条客诉等待处理，确定要退出吗?`, '提示', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
@@ -110,7 +109,7 @@
                                 this.$router.push({path: 'login'})
                             })
                         })
-                    }else{
+                    } else {
                         loginApi.logout({
                             userId: this.userDetail.id
                         }).then((response) => {
@@ -148,10 +147,10 @@
             },
             getTabPage(item){
                 let tabPage = this.$refs['tab' + item.id]
-                if(tabPage instanceof Array){
-                    tabPage =this.$refs['tab' + item.id][0]
+                if (tabPage instanceof Array) {
+                    tabPage = this.$refs['tab' + item.id][0]
                 }
-                return tabPage?tabPage:{}
+                return tabPage ? tabPage : {}
             },
             showSelectTab(item){
                 this.currentTabId = item.id.toString();
@@ -162,12 +161,12 @@
                             tabPage.fetchData(true)
                         }
                         /*if (tabPage.changeViewState) {
-                            tabPage.changeViewState({
-                                tabForm: {
-                                    status: '1'
-                                }
-                            })
-                        }*/
+                         tabPage.changeViewState({
+                         tabForm: {
+                         status: '1'
+                         }
+                         })
+                         }*/
                         return;
                     }
                 }
@@ -214,12 +213,14 @@
                     sysMsg.content = []
                 }
                 this.destopNotifyList.push(sysMsg);
-                this.refreshTabByName({name:'客诉列表'})
+                this.refreshTabByName({name: '客诉列表'})
                 switch (sysMsg.content.type) {
                     case 'workorderChange':
+//                        this.showWaitingHandle()
                         break;
                     case 'workorderCreate':
                         this.notifyWorkorderCreate(sysMsg)
+//                        this.showWaitingHandle()
                         break;
                 }
 
@@ -261,12 +262,32 @@
             },
             viewReady(){
                 window.vm = this;
-                window.onbeforeunload = function() {
+                window.onbeforeunload = function () {
                     return false;
                 }
                 if (!this.userDetail)
                     return
                 this.showTabByName({name: '趋势查询'})
+//                this.showWaitingHandle()
+                this.initIM();
+
+            },
+            showWaitingHandle(){
+                indexApi.workorderCount().then(res => {
+                    if (res.resultData.waitingWorkorderCount) {
+                        let h = this.$createElement;
+                        if(this.waitingNotify)
+                            this.waitingNotify.close()
+                        this.waitingNotify = this.$notify({
+                            title: '消息',
+                            message: h('i', {style: 'color: teal'}, `你有${res.resultData.waitingWorkorderCount}条新客诉`),
+                            duration: 0
+                        });
+                    }
+
+                })
+            },
+            initIM(){
                 window._nim = new NIM({//初始化im
                     appKey: this.userDetail.appKey,
                     account: this.userDetail.accid,
@@ -361,6 +382,7 @@
                         type: "error"
                     });
                 }
+
                 if (Notification.permission === 'denied') {
                     notifyNoPermission();
                 }
@@ -371,14 +393,12 @@
                         }
                     });
                 }
-
             },
             clickTab(item){
-                if(!this.$refs['tab' + item.name])
+                if (!this.$refs['tab' + item.name])
                     return
                 let tabPage = this.$refs['tab' + item.name];
-                if(tabPage instanceof Array)
-                {
+                if (tabPage instanceof Array) {
                     tabPage = this.$refs['tab' + item.name][0];
                 }
                 if (tabPage.fetchData) {
@@ -405,7 +425,8 @@
             width: 24px;
             border-radius: 12px;
             vertical-align: middle;
-            background: @color-base-bg;
+            background: url("~assets/image/workorder/send_avart.png") center;
+            background-size: contain;
             margin-right: 8px;
         }
         .main-body {
