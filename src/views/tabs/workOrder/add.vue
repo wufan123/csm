@@ -7,13 +7,13 @@
             <el-row>
                 <el-form ref="form" :model="form" label-width="100px" :rules="rules">
                     <el-form-item label="来源影院组" prop="cinemaGroupId" required>
-                        <el-select v-model="form.cinemaGroupId" placeholder="请选择" v-on:change="getCinemas">
-                            <el-option v-for="(item,index) in cinemaGroupOptions" :key="index"  :label="item.name" :value="item.id"></el-option>
+                        <el-select v-model="form.cinemaGroupId" placeholder="全部"  v-on:change="getCinemas()" >
+                            <group-options  withPermissions="true"></group-options>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="来源影院" prop="cinemaId" required>
-                        <el-select v-model="form.cinemaId" placeholder="请选择">
-                            <el-option v-for="(item,index) in cinemasOptions" :key="index"  :label="item.name" :value="item.id"></el-option>
+                        <el-select v-model="form.cinemaId" placeholder="全部">
+                            <cinema-options  withPermissions="true" ref="cinemaOp"></cinema-options>
                         </el-select>
                     </el-form-item>
                     <el-form-item  prop="content" label="问题描述" required >
@@ -48,8 +48,6 @@
         data(){
 //            this.userDetail = this.
             return {
-                cinemaGroupOptions:[],
-                cinemasOptions:[],
                 form:{
                     initiatorId:this.$storage.getItem(this.$storage.KEY_USER_DETAIL).id,
                     cinemaGroupId:'',
@@ -76,14 +74,8 @@
         },
         methods: {
             getCinemas(){
-                this.cinemasOptions=[];
-                cinemaApi.listCinema({
-                    cinemaGroupId:this.form.cinemaGroupId
-                }).then(res=>{
-                    let ops =[]
-                    ops = ops.concat(res.resultData.content);
-                    this.cinemasOptions = ops
-                })
+                this.form.cinemaId=''
+                this.$refs.cinemaOp.getCinemas(this.form.cinemaGroupId);
             },
             fetchData(){
                 cinemaApi.listCinemaGroup().then(res => {

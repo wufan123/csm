@@ -5,7 +5,7 @@
                 <el-form ref="form" :model="form" label-width="85px" :inline="true">
                     <el-form-item label="影院组名称">
                         <el-select v-model="form.cinemaGroupId" placeholder="全部" v-on:change="getCinemas()">
-                            <group-options :showAll="true"></group-options>
+                            <group-options :showAll="true" ></group-options>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="影院名称">
