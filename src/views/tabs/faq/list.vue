@@ -114,7 +114,7 @@
                 })
             },
             handleDelete(index, row) {
-                this.$alert('确定删除该条建议么', '温馨提示', {
+                this.$alert('确定删除该条FAQ么', '温馨提示', {
                     confirmButtonText: '确定',
                     callback: action => {
                         if (action == 'confirm') {

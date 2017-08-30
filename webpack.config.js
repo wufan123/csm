@@ -4,6 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const path = require('path');
 const url = require('url');
 let options = process.env.NODE_ENV === 'production' ? require('./config/build.js') : require('./config/dev.js');
+console.log(options)
 let plugins = [
     new webpack.optimize.CommonsChunkPlugin({
         names: ['vendor', 'manifest']
