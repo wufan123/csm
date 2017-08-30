@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const path = require('path');
 const url = require('url');
-let options = require('./config/dev.js');
+let options = require('./config/build.js');
 let plugins = [
     new webpack.optimize.CommonsChunkPlugin({
         names: ['vendor', 'manifest']
@@ -33,7 +33,7 @@ module.exports = () => ({
                 loader: 'vue-loader',
                 options: {
                     loaders: {
-                        less: 'vue-style-loader!css-loader!less-loader'
+                        less:  'vue-style-loader!css-loader!less-loader'
                     }
                 }
             },
@@ -41,7 +41,7 @@ module.exports = () => ({
                 test: /\.js$/,
                 use: ['babel-loader'],
                 // include:['/node_modules/_element-theme@0.7.2@element-theme','/node_modules/_element-theme-default@1.4.2@element-theme-default','/node_modules/_element-ui@1.4.2@element-ui'],
-                exclude: /node_modules/
+                // exclude: /node_modules/
             },
             {
                 test: /\.css$/,

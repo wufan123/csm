@@ -122,7 +122,6 @@
 </script>
 <style lang="less">
     @import "~style/base-variables";
-
     .tab-form {
         .form-item-des {
             background: @color-base-bg;

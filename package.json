@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --hot --env.dev",
-    "build": "rimraf dist&&set NODE_ENV=production&&webpack --progress --hide-modules",
+    "build": "rimraf dist&&set NODE_ENV=production&&webpack --config webpack.config.prod.js --progress --hide-modules",
     "theme": "et -c src/style/element-variables.css -o src/style/theme"
   },
   "dependencies": {
