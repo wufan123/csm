@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 module.exports = {
     publicPath:'',
-    filename:'[name].js',
+    filename:'[name].develop.js',
     staticPath:'assets',
     plugins:[
         new webpack.DefinePlugin({//运行时变量
