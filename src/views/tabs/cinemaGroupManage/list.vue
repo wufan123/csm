@@ -1,4 +1,3 @@
-<
 <template>
     <div>
         <div class="page">
@@ -20,11 +19,13 @@
                     <el-table-column type="index" label="序号" width="100"></el-table-column>
                     <el-table-column prop="name" label="影院组" width="180"></el-table-column>
                     <el-table-column prop="hasCinemaCount" label="下属影院数量" width="180"></el-table-column>
-                    <el-table-column prop="createTime" :formatter="formateDate" label="创建时间" width="180"></el-table-column>
+                    <el-table-column prop="createTime" :formatter="formateDate" label="创建时间"
+                                     width="180"></el-table-column>
                     <el-table-column label="操作">
                         <template scope="scope">
                             <el-button type="text" class="t-info" @click="editFn(scope.$index,scope.row)">编辑</el-button>
-                            <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除</el-button>
+                            <el-button type="text" class="t-danger" @click="deleteFn(scope.$index,scope.row)">删除
+                            </el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -44,7 +45,6 @@
         </div>
     </div>
 </template>
-<
 <script>
     import employeeApi from 'api/employeeApi'
     import cinemaApi from 'api/cinemaApi'
@@ -88,7 +88,7 @@
                     cancelButtonText: '取消',
                     inputErrorMessage: '长度在2到25个字符',
                     inputValidator: function (value) {
-                        if (!value||!(value.length>2&&value.length<50)) {
+                        if (!value || !(value.length >= 2 && value.length <= 25)) {
                             return false;
                         }
                     },
@@ -111,7 +111,7 @@
                     inputErrorMessage: '长度在2到25个字符',
                     inputValue: row.name,
                     inputValidator: function (value) {
-                         if (!value||!(value.length>2&&value.length<50)) {
+                        if (!value || !(value.length > 2 && value.length < 50)) {
                             return false;
                         }
                     },
@@ -139,8 +139,8 @@
                             type: 'success',
                             message: '删除成功!'
                         });
-                     },error=>this.$message.error(error))
-                
+                    }, error => this.$message.error(error))
+
                 })
             },
             pageCurrentChange(currentPage){

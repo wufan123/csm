@@ -1,22 +1,23 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const path = require('path');
 const url = require('url');
 let options = process.env.NODE_ENV === 'production' ? require('./config/build.js') : require('./config/dev.js');
-console.log(options)
 let plugins = [
     new webpack.optimize.CommonsChunkPlugin({
         names: ['vendor', 'manifest']
     }),
     new HtmlWebpackPlugin({
         template: 'src/index.html'
-    })
+    }),
+    new ExtractTextPlugin({filename: '[name].[hash:5].css', allChunks: true})
 ]
 plugins = plugins.concat(options.plugins)
 
 module.exports = () => ({
     entry: {
-        vendor: './src/vendor',
+        vendor: ['vue','vue-router','axios','element-ui','jquery','echarts'],
         index: './src/main.js'
     },
     output: {
@@ -26,19 +27,20 @@ module.exports = () => ({
         publicPath: options.publicPath
     },
     module: {
-        rules: [{
+        rules: [
+            {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: {
                     loaders: {
-                        less: 'vue-style-loader!css-loader!less-loader'
+                        less:  ExtractTextPlugin.extract({loader:'css-loader!less-loader',fallbackLoader: 'vue-style-loader'})
                     }
-
                 }
             },
             {
                 test: /\.js$/,
                 use: ['babel-loader'],
+                // include:['/node_modules/_element-theme@0.7.2@element-theme','/node_modules/_element-theme-default@1.4.2@element-theme-default','/node_modules/_element-ui@1.4.2@element-ui'],
                 exclude: /node_modules/
             },
             {

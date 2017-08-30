@@ -9,11 +9,7 @@ module.exports =  {
             _MOCK:false,//模拟数据,
             _WEBSOCKET:'null'
         }),
-        // new webpack.optimize.UglifyJsPlugin({
-        //     compress: {
-        //         warnings: false
-        //     }
-        // }),
+        new webpack.optimize.UglifyJsPlugin(),
         new webpack.LoaderOptionsPlugin({
             minimize: true
         })

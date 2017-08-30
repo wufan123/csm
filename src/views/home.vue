@@ -236,6 +236,7 @@
                 window.vm = this
                 n.onclick = () => {
                     self.focus();
+                    document.body.click();
                     window.vm.showTabByName({name: '客诉列表'})
                     n.close()
                 }
