@@ -92,6 +92,7 @@
     import addDialog from 'views/tabs/cinemaManager/add.vue'
     import editDialog from 'views/tabs/cinemaManager/edit.vue'
     import cinemaManagerApi from 'api/cinemaManagerApi'
+    import loginApi from 'api/loginApi'
     export default {
         components: {
             'add-dialog': addDialog,
@@ -125,8 +126,11 @@
         },
         methods: {
             handleEdit(index, row) {
-                this.dialogEdit.data = JSON.parse(JSON.stringify(row))
-                this.dialogEdit.dialogVisible = true
+                loginApi.hasPermisson(cinemaManagerApi.URL_DETAIL,()=>{
+                    this.dialogEdit.data = JSON.parse(JSON.stringify(row))
+                    this.dialogEdit.dialogVisible = true
+                })
+
             },
             handleDelete(index, row) {
                 console.log(row.cinemaGroup)

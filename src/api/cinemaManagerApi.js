@@ -9,6 +9,7 @@ const _DELETE = `${prefix}/deleteManager.do`;//新建
 const _EXPORT = `${prefix}/export.do`;//导出execl
 
 export default {
+    URL_DETAIL:_DETAIL,
     list(params){
         return httpApi.postForm(_LIST, params)
     },

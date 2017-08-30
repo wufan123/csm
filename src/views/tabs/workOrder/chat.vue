@@ -173,7 +173,7 @@
                 return false// 统一返回false,不触发element upload 的上传事件
             },
             sendtxt(textMessage){
-                if(!textMessage||!textMessage.replace(/(\n*$)/g, ""))
+                if (!textMessage || !textMessage.replace(/(\n*$)/g, ""))
                     return
                 this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL);
                 let custom = {
@@ -210,8 +210,31 @@
                 chatApi.list({
                     workorderId: this.workorder.id
                 }).then(res => {
-                    this.chatRec = chatApi.processData(res.resultData)
-                    this.updateMessageUI()
+                    window._nim.getLocalMsgs({
+                        sessionId: this.workorder.sessionId,
+                        done: (error, obj) => {
+                            console.log('本地消息', obj)
+                            if (!error) {
+                                let msgs = obj.msgs;
+                                let lastRemoteMsg = res.resultData ? res.resultData[res.resultData.length - 1] : {time: 0}
+                                let newMsgs = []
+                                for (let i = 0; i < msgs.length; i++) {
+                                    if (lastRemoteMsg.time < msgs[i].time) {
+                                        msgs[i].teamId = msgs[i].to
+                                        if (msgs[i].type == 'text' || msgs[i].type == 'image')
+                                            newMsgs.push(msgs[i])
+                                    } else {
+                                        break;
+                                    }
+                                }
+                                console.log('遗漏的消息', newMsgs)
+                                res.resultData = res.resultData.concat(newMsgs.reverse())
+                            }
+                            this.chatRec = chatApi.processData(res.resultData)
+                            console.log('补全的消息', res.resultData)
+                            this.updateMessageUI()
+                        }
+                    })
                 })
             }
         },

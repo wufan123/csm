@@ -264,7 +264,11 @@
                 window.vm = this;
                 window.onbeforeunload = function () {
                     return false;
-                }
+                }//刷新阻断
+                history.pushState(null, null, document.URL);//禁止回退
+                window.addEventListener('popstate', function () {
+                    history.pushState(null, null, document.URL);
+                });
                 if (!this.userDetail)
                     return
                 this.showTabByName({name: '趋势查询'})
@@ -288,10 +292,13 @@
                 })
             },
             initIM(){
+                console.log(NIM.support.db)
                 window._nim = new NIM({//初始化im
                     appKey: this.userDetail.appKey,
                     account: this.userDetail.accid,
                     token: this.userDetail.token,
+//                    db:false,
+//                    autoMarkRead:false,
                     onconnect: () => {
                         console.log('IM连接成功');
                     },
@@ -360,6 +367,10 @@
                         if (window._nim && window._nim.updateSession) {
                             window._nim.updateSession(session)
                         }
+                    },
+//                  syncSessionUnread:true,
+                    onofflinemsgs:msgs=>{
+                        console.log(msgs)
                     },
                 })
                 if (!window._audioNotify) {
