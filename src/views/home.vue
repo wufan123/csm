@@ -61,6 +61,7 @@
     import loginApi from 'api/loginApi'
     import indexApi from 'api/indexApi'
     import rooter from  '~/rooter'//
+    import $ from 'jquery'
     export default{
         data(){
             this.userDetail = this.$storage.getItem(this.$storage.KEY_USER_DETAIL)
@@ -213,7 +214,7 @@
                     sysMsg.content = []
                 }
                 this.destopNotifyList.push(sysMsg);
-                this.refreshTabByName({name: '客诉列表'})
+                this.refreshTabByName({name: '客诉列表'})//当前默认有通知就刷新客诉列表
                 switch (sysMsg.content.type) {
                     case 'workorderChange':
 //                        this.showWaitingHandle()
@@ -236,8 +237,8 @@
                 window.vm = this
                 n.onclick = () => {
                     self.focus();
-                    document.body.click();
-                    window.vm.showTabByName({name: '客诉列表'})
+                    if (!($(".v-modal").length))  //有遮罩的时候不跳转
+                        window.vm.showTabByName({name: '客诉列表'})
                     n.close()
                 }
             },
@@ -281,7 +282,7 @@
                 indexApi.workorderCount().then(res => {
                     if (res.resultData.waitingWorkorderCount) {
                         let h = this.$createElement;
-                        if(this.waitingNotify)
+                        if (this.waitingNotify)
                             this.waitingNotify.close()
                         this.waitingNotify = this.$notify({
                             title: '消息',
@@ -370,7 +371,7 @@
                         }
                     },
 //                  syncSessionUnread:true,
-                    onofflinemsgs:msgs=>{
+                    onofflinemsgs: msgs => {
                         console.log(msgs)
                     },
                 })

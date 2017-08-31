@@ -13,6 +13,7 @@ import qiniuImg from 'views/component/qiniuImgUpload.vue'
 import froToDatePicker from 'views/component/froToDatePicker.vue'
 import baseMixin from 'utils/baseMixin'
 import * as util from 'utils'
+
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.component('group-options', cinemaGroupOptions)
