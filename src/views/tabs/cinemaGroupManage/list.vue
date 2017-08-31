@@ -111,7 +111,7 @@
                     inputErrorMessage: '长度在2到25个字符',
                     inputValue: row.name,
                     inputValidator: function (value) {
-                        if (!value || !(value.length > 2 && value.length < 50)) {
+                        if (!value || !(value.length >= 2 && value.length <= 50)) {
                             return false;
                         }
                     },
