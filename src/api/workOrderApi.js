@@ -56,7 +56,7 @@ export default {
         return httpApi.postForm(_CHAT_LIST, params)
     },
     lock(id){
-        let host = _WEBSOCKET?_WEBSOCKET:('ws://'+document.domain+':29089/')
+        let host = _WEBSOCKET?_WEBSOCKET+_WEBSOCKET_PORT:('ws://'+document.domain+_WEBSOCKET_PORT)
         let url = host+_COMMUNICATE+'?workorderId='+id;
         console.log(url)
        return new WebSocket(url);
