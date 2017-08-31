@@ -201,8 +201,7 @@
                         type: 'error'
                     })
                     if (msg.type = "text") {
-                        this.textMessage = msg.type
-
+                        this.textMessage = ''
                     }
                 }
             },

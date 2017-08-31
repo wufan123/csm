@@ -112,9 +112,9 @@
 //                this.fileList.push(file)
                 let url;
                 if (response.key) {
-                    url = `${this.qiniuHost}/${encodeURI(response.key)}`
+                    url = `${this.qiniuHost}/${encodeURI(response.key)}`+'?imageMogr/auto-orient'
                 } else {
-                    url = `${this.qiniuHost}/${encodeURI(response.hash)}`
+                    url = `${this.qiniuHost}/${encodeURI(response.hash)}`+'?imageMogr/auto-orient'
                 }
                 this.value.push(url)
                 this.$emit('input', this.value)

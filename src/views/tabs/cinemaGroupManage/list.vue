@@ -152,7 +152,7 @@
                 this.getData();
             },
             fetchData(){
-                this.getData()
+                this.getData() 
             }
         }
     }

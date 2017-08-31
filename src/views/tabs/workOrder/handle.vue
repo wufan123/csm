@@ -169,7 +169,8 @@
                         workOrderApi.save(this.form).then(res => {
                             this.sendOrderChageNotify();
                             if (this.viewState.data.status != res.resultData.status && res.resultData.status < 5) {
-                                this.$refs.chat.sendtxt(`您的问题已变为${res.resultData.statusName}状态`)
+                                if (this.$refs.chat)
+                                    this.$refs.chat.sendtxt(`您的问题已变为${res.resultData.statusName}状态`)
                             }
                             this.$message({
                                 message: `客诉处理成功，当前状态为${res.resultData.statusName}`,
@@ -241,7 +242,8 @@
                     if (this.viewState.data.status == '1')//判断原来的status 是不是等待处理
                     {
                         this.sendOrderChageNotify();
-                        this.$refs.chat.sendtxt(`您好，最美运维${this.userDetail.fullName}为您服务，请稍等`)
+                        if (this.$refs.chat)
+                            this.$refs.chat.sendtxt(`您好，最美运维${this.userDetail.fullName}为您服务，请稍等`)
                     }
                     let viewData = res.resultData
                     let status;
