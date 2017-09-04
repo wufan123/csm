@@ -4,8 +4,8 @@
   "author": "whr<357114638@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --hot --env.dev",
-    "build": "rimraf dist&&set NODE_ENV=production&&webpack --config webpack.config.prod.js --progress --hide-modules",
+    "dev": "webpack-dev-server --config webpack.dev.conf --inline --hot --env.dev",
+    "build": "rimraf dist&&set NODE_ENV=production&&webpack --config webpack.prod.conf.js --progress --hide-modules",
     "theme": "et -c src/style/element-variables.css -o src/style/theme"
   },
   "dependencies": {
@@ -41,6 +41,7 @@
     "vue-loader": "^11.1.4",
     "vue-template-compiler": "^2.1.8",
     "webpack": "^2.4.1",
-    "webpack-dev-server": "^2.4.2"
+    "webpack-dev-server": "^2.4.2",
+    "webpack-merge": "^4.1.0"
   }
 }
