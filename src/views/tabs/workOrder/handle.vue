@@ -81,6 +81,9 @@
                     <el-form-item label=" 运维备注">
                         <el-input v-model="form.operationRemark" class="remark-input" :maxlength="80"></el-input>
                     </el-form-item>
+                    <el-form-item label="项目模块">
+                        <el-input v-model="form.projectModule" class="remark-input" :maxlength="80"></el-input>
+                    </el-form-item>
                     <el-form-item label=" 运维附件">
                         <qiniu-img v-model="form.workorderAttaches"></qiniu-img>
                     </el-form-item>
@@ -103,6 +106,18 @@
                     </el-form-item>
                 </el-form>
             </el-row>
+            <el-dialog title="处理结果" :visible.sync="dialogFormVisible">
+                <el-form ref="form-d" :model="form" label-position="right" label-width="80px" :rules="rules">
+                    <el-form-item label="处理结果" required prop="handleResult">
+                        <el-input type="textarea" :autosize="{ minRows:5}" :maxlength="200" v-model="form.handleResult"
+                                  auto-complete="off" placeholder="请输入内容"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="saveByResult">确 定</el-button>
+                </div>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -120,6 +135,7 @@
         },
         data(){
             return {
+                dialogFormVisible: false,
                 form: {
                     id: this.viewState.data.id,
                     orderType: '',
@@ -130,7 +146,8 @@
                     isStar: '',
                     operationRemark: '',
                     workorderAttaches: [],
-                    otherDetail: ''
+                    otherDetail: '',
+                    handleResult: '',
                 },
                 disableStatus: true,
                 dialogImageUrl: '',
@@ -157,18 +174,20 @@
                     ],
                     bugLevel: [
                         {required: true, message: '请选择bug等级', trigger: 'change'}
+                    ],
+                    handleResult: [
+                        {required: true, message: '请输入处理结果', trigger: 'change'}
                     ]
                 }
             }
         },
         methods: {
-            save(){
-                let validA, validB = false;
-                let validSave = () => {
-                    if (validA && validB) {
+            saveByResult(){
+                this.$refs['form-d'].validate((valid) => {
+                    if (valid) {
                         workOrderApi.save(this.form).then(res => {
                             this.sendOrderChageNotify();
-                            if (this.viewState.data.status != res.resultData.status && res.resultData.status < 5) {
+                            if (this.viewState.data.status != res.resultData.status && res.resultData.status < workOrderApi.STATUS_COMPLETE) {
                                 if (this.$refs.chat)
                                     this.$refs.chat.sendtxt(`您的问题已变为${res.resultData.statusName}状态`)
                             }
@@ -180,6 +199,33 @@
                                 type: 'list'
                             })
                         })
+                    } else {
+                        return false;
+                    }
+                });
+            },
+            save(){
+                let validA, validB = false;
+                let validSave = () => {
+                    if (validA && validB) {
+                        if (this.form.status == workOrderApi.STATUS_COMPLETE && this.viewState.data.status != workOrderApi.STATUS_COMPLETE) {
+                            this.dialogFormVisible = true
+                        } else {
+                            workOrderApi.save(this.form).then(res => {
+                                this.sendOrderChageNotify();
+                                if (this.viewState.data.status != res.resultData.status && res.resultData.status < workOrderApi.STATUS_COMPLETE) {
+                                    if (this.$refs.chat)
+                                        this.$refs.chat.sendtxt(`您的问题已变为${res.resultData.statusName}状态`)
+                                }
+                                this.$message({
+                                    message: `客诉处理成功，当前状态为${res.resultData.statusName}`,
+                                    type: 'info'
+                                })
+                                this.$emit('view', {
+                                    type: 'list'
+                                })
+                            })
+                        }
                     }
                 }
                 this.$refs['form-a'].validate((valid) => {
@@ -239,7 +285,7 @@
                 workOrderApi.detail({
                     workorderId: this.form.id
                 }).then(res => {
-                    if (this.viewState.data.status == '1')//判断原来的status 是不是等待处理
+                    if (this.viewState.data.status == workOrderApi.STATUS_WAITING)//判断原来的status 是不是等待处理
                     {
                         this.sendOrderChageNotify();
                         if (this.$refs.chat)
@@ -266,7 +312,8 @@
                         isStar: viewData.isStar.toString(),
                         operationRemark: viewData.operationRemark,
                         workorderAttaches: viewData.workorderAttaches ? viewData.workorderAttaches.split(',') : [],
-                        otherDetail: viewData.otherDetail
+                        otherDetail: viewData.otherDetail,
+                        projectModule: viewData.projectModule
                     }
                 })
             },

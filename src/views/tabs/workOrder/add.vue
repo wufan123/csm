@@ -16,6 +16,13 @@
                             <cinema-options  withPermissions="true" ref="cinemaOp"></cinema-options>
                         </el-select>
                     </el-form-item>
+                    <el-form-item  prop="initiatorName" label="发起人" required  >
+                        <el-input
+                                placeholder="请输入内容"
+                                :maxlength="10"
+                                v-model="form.initiatorName">
+                        </el-input>
+                    </el-form-item>
                     <el-form-item  prop="content" label="问题描述" required >
                         <el-input
                                 type="textarea"
@@ -54,7 +61,8 @@
                     cinemaId:'',
                     content:'',
                     isStar:'false',
-                    workorderAttaches:[]
+                    workorderAttaches:[],
+                    initiatorName:''
                 },
                 dialogImageUrl: '',
                 dialogVisible: false,
@@ -64,6 +72,9 @@
                     ],
                     cinemaId:[
                         { type:'number', required: true, message: '请输入来源影院', trigger: 'change' }
+                    ],
+                    initiatorName:[
+                        { required: true, message: '请输入发起人', trigger: 'blur' }
                     ],
                     content:[
                         { required: true, message: '请描述问题', trigger: 'blur' },

@@ -25,7 +25,7 @@ module.exports = merge.smart(baseWebpackConfig, {
         port: 8010,
         proxy: {
             '/api': {
-                target: 'http://192.168.10.26:8080',
+                target: 'http://192.168.10.26:29088',
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api': ''
